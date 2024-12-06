@@ -297,6 +297,135 @@ export const flightProperties: INodeProperties[] = [
   },
 ];
 
+export const activityProperties: INodeProperties[] = [
+  {
+    displayName: "Trip ID",
+    name: "tripId",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The ID of the trip to add the activity to",
+  },
+  {
+    displayName: "Display Name",
+    name: "displayName",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The name of the activity",
+  },
+  {
+    displayName: "Start Date",
+    name: "startDate",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The start date of the activity (YYYY-MM-DD)",
+  },
+  {
+    displayName: "Start Time",
+    name: "startTime",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The start time of the activity (HH:mm:ss)",
+  },
+  {
+    displayName: "End Date",
+    name: "endDate",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The end date of the activity (YYYY-MM-DD)",
+  },
+  {
+    displayName: "End Time",
+    name: "endTime",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The end time of the activity (HH:mm:ss)",
+  },
+  {
+    displayName: "Timezone",
+    name: "timezone",
+    type: "string",
+    required: true,
+    default: "UTC",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The timezone of the activity",
+  },
+  {
+    displayName: "Location Name",
+    name: "locationName",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The name of the activity location",
+  },
+  {
+    displayName: "Address",
+    name: "address",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The address of the activity location",
+  },
+];
+
 export const hotelProperties: INodeProperties[] = [
   {
     displayName: "Hotel Name",
@@ -742,6 +871,10 @@ export const resourceOptions: INodeProperties = {
       name: "Hotel",
       value: "hotel",
     },
+    {
+      name: "Activity",
+      value: "activity",
+    },
   ],
   default: "trip",
 };
@@ -815,6 +948,26 @@ export const operationOptions: INodeProperties[] = [
         value: "addToTrip",
         description: "Add a hotel to an existing trip",
         action: "Add a hotel to a trip",
+      },
+    ],
+    default: "addToTrip",
+  },
+  {
+    displayName: "Operation",
+    name: "operation",
+    type: "options",
+    noDataExpression: true,
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+      },
+    },
+    options: [
+      {
+        name: "Add to Trip",
+        value: "addToTrip",
+        description: "Add a activity to an existing trip",
+        action: "Add a activity to a trip",
       },
     ],
     default: "addToTrip",

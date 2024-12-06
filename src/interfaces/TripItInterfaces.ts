@@ -224,3 +224,81 @@ export interface IFlightInfoResponse {
   num_bytes: string;
   FlightInfo: IFlightInfo;
 }
+
+export const ACTIVITY_FIELD_ORDER = [
+  ...RESERVATION_FIELD_ORDER,
+  "display_name",
+  "StartDateTime",
+  "EndDateTime",
+  "end_time",
+  "Address",
+  "participant",
+  "location_name",
+] as const;
+
+export interface IActivityObject extends IReservationBase {
+  trip_id: string;
+  display_name: string;
+  booking_site_conf_num?: string;
+  notes?: string;
+  StartDateTime?: IDateTime;
+  EndDateTime?: IDateTime;
+  end_time?: string;
+  Address?: IAddress;
+  participant?: ITraveler[];
+  detail_type_code?: string;
+  location_name?: string;
+}
+
+export interface ICreateActivityRequest {
+  ActivityObject: {
+    trip_id: string;
+    is_client_traveler: string;
+    display_name: string;
+    supplier_phone?: string;
+    supplier_url?: string;
+    is_purchased: string;
+    is_tripit_booking: string;
+    has_possible_cancellation?: string;
+    StartDateTime: IDateTime;
+    EndDateTime: IDateTime;
+    Address: {
+      longitude: string;
+      latitude: string;
+      address: string;
+    };
+    detail_type_code: string;
+    location_name: string;
+  };
+}
+
+export interface ICreateActivityResponse {
+  timestamp: string;
+  num_bytes: string;
+  Warning?: Array<{
+    description: string;
+    entity_type: string;
+    timestamp: string;
+  }>;
+  ActivityObject: {
+    id: string;
+    trip_id: string;
+    is_client_traveler: string;
+    relative_url: string;
+    display_name: string;
+    is_display_name_auto_generated: string;
+    last_modified: string;
+    is_purchased: string;
+    is_tripit_booking: string;
+    is_concur_booked: string;
+    StartDateTime: IDateTime;
+    EndDateTime: IDateTime;
+    end_time: string;
+    Address: IAddress & {
+      latitude: string;
+      longitude: string;
+    };
+    detail_type_code: string;
+    location_name: string;
+  };
+}
