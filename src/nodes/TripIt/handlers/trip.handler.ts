@@ -74,6 +74,11 @@ export async function handleTripOperation(
 
     const tripListResponse = response.data as ITripListResponse;
 
+    // when only one trip is returned, the response is not an array
+    if (!Array.isArray(tripListResponse.Trip)) {
+      tripListResponse.Trip = [tripListResponse.Trip];
+    }
+
     // Transform the response to include only the relevant trip data
     const trips = tripListResponse.Trip.map((trip) => ({
       id: trip.id,
