@@ -3,8 +3,8 @@ import { IDataObject } from "n8n-workflow";
 export interface ITripItCredentials {
   clientId: string;
   clientSecret: string;
-  refreshToken: string;
-  accessToken: string;
+  username: string;
+  password: string;
 }
 
 export interface IDateTime {
@@ -99,7 +99,7 @@ export interface ITrip {
   image_url: string;
   is_private: string;
   primary_location: string;
-  PrimaryLocationAddress: IPrimaryLocationAddress;
+  PrimaryLocationAddress?: IPrimaryLocationAddress;
   TripInvitees: ITripInvitees;
   is_pro_enabled: string;
   TripPurposes?: {

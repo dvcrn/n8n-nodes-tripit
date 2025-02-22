@@ -1,41 +1,11 @@
 import axios, { AxiosResponse } from "axios";
 import { ITripItCredentials } from "./types/ITripItTypes";
+import { TripItAuth } from "../../util/auth";
 
 export class TripItApi {
   private baseUrl = "https://api.tripit.com";
-
-  async refreshAccessToken(credentials: ITripItCredentials): Promise<string> {
-    const tokenEndpoint = "/oauth2/token";
-    const data = {
-      grant_type: "refresh_token",
-      client_id: credentials.clientId,
-      client_secret: credentials.clientSecret,
-      refresh_token: credentials.refreshToken,
-    };
-
-    try {
-      const response = await axios.post(
-        `${this.baseUrl}${tokenEndpoint}`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      );
-
-      if (response.data && response.data.access_token) {
-        return response.data.access_token;
-      }
-      throw new Error("Failed to refresh access token: No token in response");
-    } catch (error) {
-      throw new Error(
-        `Failed to refresh access token: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`
-      );
-    }
-  }
+  private retryCount = 0;
+  private maxRetries = 3;
 
   async makeApiRequest(
     method: string,
@@ -44,29 +14,47 @@ export class TripItApi {
     data?: any,
     params?: any
   ): Promise<AxiosResponse> {
-    console.log("making api request");
-    const newAccessToken = await this.refreshAccessToken(credentials);
-    const headers = {
-      Authorization: `Bearer ${newAccessToken}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    };
-
-    console.debug("endpoint", endpoint);
-    console.debug("method", method);
-    console.debug("headers", headers);
-    console.debug("data", data);
-    console.debug("params", params);
-
     try {
-      const response = await axios({
+      const auth = new TripItAuth(
+        {
+          clientId: credentials.clientId,
+          clientSecret: credentials.clientSecret,
+          username: credentials.username,
+          password: credentials.password,
+        },
+        this.retryCount > 0
+      );
+
+      const { access_token } = await auth.getAccessToken();
+
+      return await axios({
         method,
         url: `${this.baseUrl}${endpoint}`,
-        headers,
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          "Content-Type": "application/x-www-form-urlencoded",
+          Accept: "application/json",
+        },
         data,
-        params,
+        params: {
+          ...params,
+          format: "json",
+        },
+        maxRedirects: 5,
+        validateStatus: (status) => status < 400,
       });
-      return response;
     } catch (error) {
+      if (this.retryCount < this.maxRetries) {
+        this.retryCount++;
+        console.log(
+          `Request failed, retrying with debug mode (attempt ${this.retryCount})`
+        );
+        // Add exponential backoff
+        await new Promise((resolve) =>
+          setTimeout(resolve, Math.pow(2, this.retryCount) * 1000)
+        );
+        return this.makeApiRequest(method, endpoint, credentials, data, params);
+      }
       throw error;
     }
   }

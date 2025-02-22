@@ -88,14 +88,16 @@ export async function handleTripOperation(
       primaryLocation: trip.primary_location,
       imageUrl: trip.image_url,
       isPrivate: trip.is_private === "true",
-      location: {
-        address: trip.PrimaryLocationAddress.address,
-        city: trip.PrimaryLocationAddress.city,
-        state: trip.PrimaryLocationAddress.state,
-        country: trip.PrimaryLocationAddress.country,
-        latitude: trip.PrimaryLocationAddress.latitude,
-        longitude: trip.PrimaryLocationAddress.longitude,
-      },
+      location: trip.PrimaryLocationAddress
+        ? {
+            address: trip.PrimaryLocationAddress.address,
+            city: trip.PrimaryLocationAddress.city,
+            state: trip.PrimaryLocationAddress.state,
+            country: trip.PrimaryLocationAddress.country,
+            latitude: trip.PrimaryLocationAddress.latitude,
+            longitude: trip.PrimaryLocationAddress.longitude,
+          }
+        : undefined,
       lastModified: trip.last_modified,
       publicGuid: trip.public_guid,
     }));

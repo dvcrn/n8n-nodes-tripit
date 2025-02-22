@@ -4,6 +4,7 @@ import {
   ICredentialDataDecryptedObject,
   IHttpRequestOptions,
 } from "n8n-workflow";
+import { TripItAuth } from "../util/auth";
 
 export class TripItApi implements ICredentialType {
   name = "tripitApi";
@@ -26,15 +27,18 @@ export class TripItApi implements ICredentialType {
       default: "",
     },
     {
-      displayName: "Access Token",
-      name: "accessToken",
+      displayName: "Username",
+      name: "username",
       type: "string",
       default: "",
     },
     {
-      displayName: "Refresh Token",
-      name: "refreshToken",
+      displayName: "Password",
+      name: "password",
       type: "string",
+      typeOptions: {
+        password: true,
+      },
       default: "",
     },
   ];
@@ -43,10 +47,19 @@ export class TripItApi implements ICredentialType {
     credentials: ICredentialDataDecryptedObject,
     requestOptions: IHttpRequestOptions
   ): Promise<IHttpRequestOptions> {
-    const { accessToken } = credentials;
+    const auth = new TripItAuth({
+      clientId: credentials.clientId as string,
+      clientSecret: credentials.clientSecret as string,
+      username: credentials.username as string,
+      password: credentials.password as string,
+    });
+
+    // Get a fresh access token
+    const { access_token } = await auth.getAccessToken();
+
     requestOptions.headers = {
       ...requestOptions.headers,
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${access_token}`,
     };
     return requestOptions;
   }
