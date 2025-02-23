@@ -59,6 +59,22 @@ export const tripProperties: INodeProperties[] = [
     description: "Primary Location of the trip",
   },
 
+  // getWithObjects operation properties
+  {
+    displayName: "Trip UUID",
+    name: "tripUuid",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["trip"],
+        operation: ["getWithObjects"],
+      },
+    },
+    description: "UUID of the trip to retrieve",
+  },
+
   // list operation properties
   {
     displayName: "Include Past Trips",
@@ -902,6 +918,12 @@ export const operationOptions: INodeProperties[] = [
         value: "list",
         description: "List all trips",
         action: "List all trips",
+      },
+      {
+        name: "Get With Objects",
+        value: "getWithObjects",
+        description: "Get a trip with all its objects",
+        action: "Get a trip with all its objects",
       },
     ],
     default: "create",

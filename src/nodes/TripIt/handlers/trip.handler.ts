@@ -115,5 +115,11 @@ export async function handleTripOperation(
     });
   }
 
+  if (operation === "getWithObjects") {
+    const tripUuid = this.getNodeParameter("tripUuid", 0) as string;
+    const response = await tripIt.getTripWithObjects(credentials, tripUuid);
+    returnData.push({ json: response.data });
+  }
+
   return returnData;
 }

@@ -58,4 +58,17 @@ export class TripItApi {
       throw error;
     }
   }
+
+  async getTripWithObjects(
+    credentials: ITripItCredentials,
+    tripUuid: string
+  ): Promise<AxiosResponse> {
+    const endpoint = "/v2/get/trip";
+    const params = {
+      uuid: tripUuid,
+      include_objects: "true",
+      exclude_types: "weather",
+    };
+    return this.makeApiRequest("GET", endpoint, credentials, undefined, params);
+  }
 }
