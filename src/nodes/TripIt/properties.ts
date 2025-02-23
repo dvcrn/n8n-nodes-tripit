@@ -183,6 +183,261 @@ export const tripProperties: INodeProperties[] = [
   },
 ];
 
+export const transportProperties: INodeProperties[] = [
+  {
+    displayName: "Trip ID",
+    name: "tripId",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The ID of the trip to add the transport to",
+  },
+  {
+    displayName: "Is Client Traveler",
+    name: "isClientTraveler",
+    type: "string",
+    required: true,
+    default: "true",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "Whether this is for the client traveler",
+  },
+  {
+    displayName: "Is Purchased",
+    name: "isPurchased",
+    type: "string",
+    required: true,
+    default: "true",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "Whether the transport has been purchased",
+  },
+  {
+    displayName: "Is TripIt Booking",
+    name: "isTripitBooking",
+    type: "string",
+    required: true,
+    default: "false",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "Whether this was booked through TripIt",
+  },
+  {
+    displayName: "Has Possible Cancellation",
+    name: "hasPossibleCancellation",
+    type: "string",
+    required: true,
+    default: "false",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "Whether the transport can be cancelled",
+  },
+  {
+    displayName: "Start Address",
+    name: "startAddress",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The starting address",
+  },
+  {
+    displayName: "Start Date",
+    name: "startDate",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The start date (YYYY-MM-DD)",
+  },
+  {
+    displayName: "Start Time",
+    name: "startTime",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The start time (HH:mm:ss)",
+  },
+  {
+    displayName: "End Address",
+    name: "endAddress",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The ending address",
+  },
+  {
+    displayName: "End Date",
+    name: "endDate",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The end date (YYYY-MM-DD)",
+  },
+  {
+    displayName: "End Time",
+    name: "endTime",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The end time (HH:mm:ss)",
+  },
+  {
+    displayName: "Timezone",
+    name: "timezone",
+    type: "string",
+    required: true,
+    default: "UTC",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The timezone",
+  },
+  {
+    displayName: "Start Location Name",
+    name: "startLocationName",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "Name of the start location",
+  },
+  {
+    displayName: "End Location Name",
+    name: "endLocationName",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "Name of the end location",
+  },
+  {
+    displayName: "Vehicle Description",
+    name: "vehicleDescription",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "Description of the vehicle",
+  },
+  {
+    displayName: "Confirmation Number",
+    name: "confirmationNum",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The confirmation number",
+  },
+  {
+    displayName: "Carrier Name",
+    name: "carrierName",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "Name of the carrier",
+  },
+  {
+    displayName: "Number of Passengers",
+    name: "numberPassengers",
+    type: "string",
+    required: true,
+    default: "1",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "Number of passengers",
+  },
+];
+
 export const flightProperties: INodeProperties[] = [
   {
     displayName: "Departure Airport",
@@ -891,6 +1146,10 @@ export const resourceOptions: INodeProperties = {
       name: "Activity",
       value: "activity",
     },
+    {
+      name: "Transport",
+      value: "transport",
+    },
   ],
   default: "trip",
 };
@@ -990,6 +1249,26 @@ export const operationOptions: INodeProperties[] = [
         value: "addToTrip",
         description: "Add a activity to an existing trip",
         action: "Add a activity to a trip",
+      },
+    ],
+    default: "addToTrip",
+  },
+  {
+    displayName: "Operation",
+    name: "operation",
+    type: "options",
+    noDataExpression: true,
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+      },
+    },
+    options: [
+      {
+        name: "Add to Trip",
+        value: "addToTrip",
+        description: "Add a transport to an existing trip",
+        action: "Add a transport to a trip",
       },
     ],
     default: "addToTrip",

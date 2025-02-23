@@ -19,8 +19,10 @@ import {
   hotelProperties,
   commonReservationProperties,
   activityProperties,
+  transportProperties,
 } from "./properties";
 import { handleActivityOperation } from "./handlers/activity.handler";
+import { handleTransportOperation } from "./handlers/transport.handler";
 
 export class TripIt implements INodeType {
   description: INodeTypeDescription = {
@@ -51,6 +53,7 @@ export class TripIt implements INodeType {
       ...hotelProperties,
       ...activityProperties,
       ...commonReservationProperties,
+      ...transportProperties,
     ],
   };
 
@@ -96,6 +99,15 @@ export class TripIt implements INodeType {
 
       if (resource === "activity") {
         returnData = await handleActivityOperation.call(
+          this,
+          tripIt,
+          operation,
+          credentials
+        );
+      }
+
+      if (resource === "transport") {
+        returnData = await handleTransportOperation.call(
           this,
           tripIt,
           operation,
