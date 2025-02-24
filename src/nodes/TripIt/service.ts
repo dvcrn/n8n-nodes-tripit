@@ -342,8 +342,42 @@ export class TripItService {
     credentials: ITripItCredentials,
     params: ICreateTransportParams
   ) {
-    const transportObj = {
-      trip_uuid: params.tripId,
+    const transportObj: {
+      trip_uuid?: string;
+      id?: string;
+      is_client_traveler: string;
+      is_purchased: string;
+      is_tripit_booking: string;
+      has_possible_cancellation: string;
+      Segment: Array<{
+        StartLocationAddress: {
+          address: string;
+          longitude: string;
+          latitude: string;
+        };
+        StartDateTime: {
+          date: string;
+          time: string | undefined;
+          timezone: string;
+        };
+        EndLocationAddress: {
+          address: string;
+          longitude: string;
+          latitude: string;
+        };
+        EndDateTime: {
+          date: string;
+          time: string | undefined;
+          timezone: string;
+        };
+        vehicle_description: string;
+        start_location_name: string;
+        number_passengers: string;
+        end_location_name: string;
+        confirmation_num: string;
+        carrier_name: string;
+      }>;
+    } = {
       is_client_traveler: params.isClientTraveler,
       is_purchased: params.isPurchased,
       is_tripit_booking: params.isTripitBooking,
@@ -379,6 +413,12 @@ export class TripItService {
         },
       ],
     };
+
+    if (params.tripId.includes("-")) {
+      transportObj.trip_uuid = params.tripId;
+    } else {
+      transportObj.id = params.tripId;
+    }
 
     const endpoint = "/v2/create/transport/format/json";
     const data = new URLSearchParams({

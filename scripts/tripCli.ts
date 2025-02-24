@@ -33,17 +33,39 @@ async function main() {
   const service = new TripItService(api);
 
   try {
-    // // Example: Create a new trip
-    // console.log("Creating a new trip...");
-    // const tripResponse = await service.createTrip(credentials, {
-    //   displayName: "Test Trip",
-    //   startDate: "2024-03-01",
-    //   endDate: "2024-03-05",
-    //   primaryLocation: "San Francisco, CA",
-    // });
-    // console.log("Trip created:", tripResponse);
+    // Example: Create a new trip
+    console.log("Creating a new trip...");
+    const tripResponse = await service.createTrip(credentials, {
+      displayName: "Test Trip",
+      startDate: "2024-03-01",
+      endDate: "2024-03-05",
+      primaryLocation: "San Francisco, CA",
+    });
+    console.log("Trip created:", tripResponse);
 
-    // const tripId = tripResponse.Trip.id;
+    const tripId = tripResponse.Trip.id;
+
+    // Add a 'transport'
+    const transportResponse = await service.createTransport(credentials, {
+      tripId,
+      isClientTraveler: "true",
+      isPurchased: "true",
+      isTripitBooking: "false",
+      hasPossibleCancellation: "false",
+      timezone: "America/Los_Angeles",
+      startAddress: "123 Pickup St, San Francisco, CA",
+      startDate: "2024-03-02",
+      startTime: "09:00",
+      endAddress: "456 Dropoff St, San Francisco, CA",
+      endDate: "2024-03-02",
+      endTime: "10:00",
+      startLocationName: "Hotel Pickup",
+      endLocationName: "Airport Dropoff",
+      vehicleDescription: "Black SUV",
+      confirmationNum: "TR123456",
+      carrierName: "Example Transport Co",
+      numberPassengers: "2",
+    });
 
     // // Example: Add a flight to the trip
     // console.log("\nAdding a flight...");
@@ -96,32 +118,32 @@ async function main() {
     // console.log("Activity added:", activityResponse);
 
     // Example: List all trips
-    console.log("\nListing all trips...");
-    const tripsResponse = await service.listTrips(credentials, {
-      past: false,
-      pageSize: 5,
-      pageNum: 1,
-      modifiedSince: 0,
-      includeObjects: true,
-      excludeTypes: "",
-      traveler: "all",
-    });
-    console.log("Trips:", JSON.stringify(tripsResponse, null, 2));
+    // console.log("\nListing all trips...");
+    // const tripsResponse = await service.listTrips(credentials, {
+    //   past: false,
+    //   pageSize: 5,
+    //   pageNum: 1,
+    //   modifiedSince: 0,
+    //   includeObjects: true,
+    //   excludeTypes: "",
+    //   traveler: "all",
+    // });
+    // console.log("Trips:", JSON.stringify(tripsResponse, null, 2));
 
-    console.log("Getting detail from trip...");
-    const trip = tripsResponse.Trip[0];
+    // console.log("Getting detail from trip...");
+    // const trip = tripsResponse.Trip[0];
 
-    console.log(JSON.stringify(trip, null, 2));
+    // console.log(JSON.stringify(trip, null, 2));
 
-    const tripId = trip.id;
-    console.log("trip id -- ", tripId);
-    const tripDetailResponse = await service.getTripWithObjects(
-      credentials,
-      tripId
-    );
+    // const tripId = trip.id;
+    // console.log("trip id -- ", tripId);
+    // const tripDetailResponse = await service.getTripWithObjects(
+    //   credentials,
+    //   tripId
+    // );
 
-    console.log(tripDetailResponse);
-    console.log("Trip detail:", JSON.stringify(tripDetailResponse, null, 2));
+    // console.log(tripDetailResponse);
+    // console.log("Trip detail:", JSON.stringify(tripDetailResponse, null, 2));
   } catch (error) {
     console.error("Error:", error);
   }
