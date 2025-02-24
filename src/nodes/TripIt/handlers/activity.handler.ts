@@ -1,13 +1,7 @@
 import { IExecuteFunctions, INodeExecutionData } from "n8n-workflow";
 import { TripItApi } from "../api";
 import { ITripItCredentials } from "../types/ITripItTypes";
-import orderObjectByKeys from "../../../util/orderObjectByKeys";
-import {
-  ACTIVITY_FIELD_ORDER,
-  IActivityObject,
-  ICreateActivityRequest,
-} from "../../../interfaces/TripItInterfaces";
-import normalizeTime from "../../../util/normalizeTime";
+import { TripItService } from "../service";
 
 export async function handleActivityOperation(
   this: IExecuteFunctions,
@@ -16,51 +10,23 @@ export async function handleActivityOperation(
   credentials: ITripItCredentials
 ): Promise<INodeExecutionData[]> {
   const returnData: INodeExecutionData[] = [];
+  const tripItService = new TripItService(tripIt);
 
   if (operation === "addToTrip") {
-    const tripId = this.getNodeParameter("tripId", 0) as string;
-    const displayName = this.getNodeParameter("displayName", 0) as string;
-    const startDate = this.getNodeParameter("startDate", 0) as string;
-    const startTime = this.getNodeParameter("startTime", 0) as string;
-    const timezone = this.getNodeParameter("timezone", 0) as string;
-    const endDate = this.getNodeParameter("endDate", 0) as string;
-    const endTime = this.getNodeParameter("endTime", 0) as string;
-    const locationName = this.getNodeParameter("locationName", 0) as string;
-    const address = this.getNodeParameter("address", 0) as string;
-
-    const activityObj: IActivityObject = {
-      trip_id: tripId,
-      display_name: displayName,
-      StartDateTime: {
-        date: startDate,
-        time: normalizeTime(startTime),
-        timezone: timezone,
-      },
-      EndDateTime: {
-        date: endDate,
-        time: normalizeTime(endTime),
-        timezone: timezone,
-      },
-      Address: {
-        address: address,
-      },
-      location_name: locationName,
+    const params = {
+      tripId: this.getNodeParameter("tripId", 0) as string,
+      displayName: this.getNodeParameter("displayName", 0) as string,
+      startDate: this.getNodeParameter("startDate", 0) as string,
+      startTime: this.getNodeParameter("startTime", 0) as string,
+      timezone: this.getNodeParameter("timezone", 0) as string,
+      endDate: this.getNodeParameter("endDate", 0) as string,
+      endTime: this.getNodeParameter("endTime", 0) as string,
+      locationName: this.getNodeParameter("locationName", 0) as string,
+      address: this.getNodeParameter("address", 0) as string,
     };
 
-    const endpoint = "/v1/create/activity/format/json";
-    const data = new URLSearchParams({
-      json: JSON.stringify({
-        ActivityObject: orderObjectByKeys(activityObj, ACTIVITY_FIELD_ORDER),
-      }),
-    });
-
-    const response = await tripIt.makeApiRequest(
-      "POST",
-      endpoint,
-      credentials,
-      data.toString()
-    );
-    returnData.push({ json: response.data });
+    const response = await tripItService.createActivity(credentials, params);
+    returnData.push({ json: response });
   }
 
   return returnData;

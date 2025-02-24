@@ -1,6 +1,7 @@
 import { IExecuteFunctions, INodeExecutionData } from "n8n-workflow";
 import { TripItApi } from "../api";
 import { ITripItCredentials, ITripListResponse } from "../types/ITripItTypes";
+import { TripItService } from "../service";
 
 export async function handleTripOperation(
   this: IExecuteFunctions,
@@ -9,78 +10,53 @@ export async function handleTripOperation(
   credentials: ITripItCredentials
 ): Promise<INodeExecutionData[]> {
   const returnData: INodeExecutionData[] = [];
+  const tripItService = new TripItService(tripIt);
 
   if (operation === "create") {
-    const displayName = this.getNodeParameter("displayName", 0) as string;
-    const startDate = this.getNodeParameter("startDate", 0) as string;
-    const endDate = this.getNodeParameter("endDate", 0) as string;
-    const primaryLocation = this.getNodeParameter(
-      "primaryLocation",
-      0
-    ) as string;
-
-    const endpoint = "/v1/create/trip/format/json";
-    const data = {
-      json: JSON.stringify({
-        Trip: {
-          display_name: displayName,
-          start_date: startDate,
-          end_date: endDate,
-          primary_location: primaryLocation,
-        },
-      }),
+    const params = {
+      displayName: this.getNodeParameter("displayName", 0) as string,
+      startDate: this.getNodeParameter("startDate", 0) as string,
+      endDate: this.getNodeParameter("endDate", 0) as string,
+      primaryLocation: this.getNodeParameter("primaryLocation", 0) as string,
     };
 
-    const response = await tripIt.makeApiRequest(
-      "POST",
-      endpoint,
-      credentials,
-      data
-    );
-    returnData.push({ json: response.data });
+    const response = await tripItService.createTrip(credentials, params);
+    returnData.push({ json: response });
   }
 
   if (operation === "list") {
-    const past = this.getNodeParameter("past", 0) as boolean;
-    const pageSize = this.getNodeParameter("pageSize", 0) as number;
-    const pageNum = this.getNodeParameter("pageNum", 0) as number;
-    const modifiedSince = this.getNodeParameter("modifiedSince", 0) as number;
-    const includeObjects = this.getNodeParameter(
-      "includeObjects",
-      0
-    ) as boolean;
-    const excludeTypes = this.getNodeParameter("excludeTypes", 0) as string;
-    const traveler = this.getNodeParameter("traveler", 0) as string;
-
-    const endpoint = "/v1/list/trip";
     const params = {
-      format: "json",
-      page_size: pageSize,
-      page_num: pageNum,
-      past: past.toString(),
-      modified_since: modifiedSince,
-      include_objects: includeObjects.toString(),
-      exclude_types: excludeTypes,
-      traveler,
+      past: this.getNodeParameter("past", 0) as boolean,
+      pageSize: this.getNodeParameter("pageSize", 0) as number,
+      pageNum: this.getNodeParameter("pageNum", 0) as number,
+      modifiedSince: this.getNodeParameter("modifiedSince", 0) as number,
+      includeObjects: this.getNodeParameter("includeObjects", 0) as boolean,
+      excludeTypes: this.getNodeParameter("excludeTypes", 0) as string,
+      traveler: this.getNodeParameter("traveler", 0) as string,
     };
 
-    const response = await tripIt.makeApiRequest(
-      "GET",
-      endpoint,
-      credentials,
-      undefined,
-      params
-    );
+    if (
+      params.traveler !== "all" &&
+      params.traveler !== "true" &&
+      params.traveler !== "false"
+    ) {
+      throw new Error(
+        "Invalid traveler parameter. Must be 'all', 'true', or 'false'"
+      );
+    }
 
-    const tripListResponse = response.data as ITripListResponse;
+    const response = (await tripItService.listTrips(
+      credentials,
+      params
+    )) as ITripListResponse;
 
     // when only one trip is returned, the response is not an array
-    if (!Array.isArray(tripListResponse.Trip)) {
-      tripListResponse.Trip = [tripListResponse.Trip];
+    if (!Array.isArray(response.Trip)) {
+      response.Trip = [response.Trip];
     }
 
     // Transform the response to include only the relevant trip data
-    const trips = tripListResponse.Trip.map((trip) => ({
+    const trips = response.Trip.map((trip) => ({
       id: trip.id,
       displayName: trip.display_name,
       startDate: trip.start_date,
@@ -106,9 +82,9 @@ export async function handleTripOperation(
       json: {
         trips,
         pageInfo: {
-          currentPage: tripListResponse.page_num,
-          pageSize: tripListResponse.page_size,
-          maxPage: tripListResponse.max_page,
+          currentPage: response.page_num,
+          pageSize: response.page_size,
+          maxPage: response.max_page,
           totalTrips: trips.length,
         },
       },
@@ -117,8 +93,11 @@ export async function handleTripOperation(
 
   if (operation === "getWithObjects") {
     const tripUuid = this.getNodeParameter("tripUuid", 0) as string;
-    const response = await tripIt.getTripWithObjects(credentials, tripUuid);
-    returnData.push({ json: response.data });
+    const response = await tripItService.getTripWithObjects(
+      credentials,
+      tripUuid
+    );
+    returnData.push({ json: response });
   }
 
   return returnData;
