@@ -183,8 +183,7 @@ export class TripItService {
     credentials: ITripItCredentials,
     params: ICreateActivityParams
   ) {
-    const activityObj = {
-      trip_id: params.tripId,
+    const activityObj: any = {
       display_name: params.displayName,
       StartDateTime: {
         date: params.startDate,
@@ -201,6 +200,12 @@ export class TripItService {
       },
       location_name: params.locationName,
     };
+
+    if (params.tripId.includes('-')) {
+      activityObj.trip_uuid = params.tripId;
+    } else {
+      activityObj.trip_id = params.tripId;
+    }
 
     const endpoint = "/v1/create/activity/format/json";
     const data = new URLSearchParams({
@@ -222,8 +227,7 @@ export class TripItService {
     credentials: ITripItCredentials,
     params: ICreateFlightParams
   ) {
-    const airObj = {
-      trip_id: params.tripId,
+    const airObj: any = {
       booking_rate: params.bookingRate,
       booking_site_conf_num: params.bookingSiteConfNum,
       booking_site_name: params.bookingSiteName,
@@ -261,6 +265,12 @@ export class TripItService {
       ],
     };
 
+    if (params.tripId.includes('-')) {
+      airObj.trip_uuid = params.tripId;
+    } else {
+      airObj.trip_id = params.tripId;
+    }
+
     const endpoint = "/v1/create/air/format/json";
     const data = new URLSearchParams({
       json: JSON.stringify({
@@ -281,8 +291,7 @@ export class TripItService {
     credentials: ITripItCredentials,
     params: ICreateHotelParams
   ) {
-    const lodgingObject = {
-      trip_id: params.tripId,
+    const lodgingObject: any = {
       supplier_name: params.hotelName,
       supplier_conf_num: params.supplierConfNum,
       supplier_phone: params.supplierPhone,
@@ -321,6 +330,12 @@ export class TripItService {
         country: params.country,
       },
     };
+
+    if (params.tripId.includes('-')) {
+      lodgingObject.trip_uuid = params.tripId;
+    } else {
+      lodgingObject.trip_id = params.tripId;
+    }
 
     const endpoint = "/v1/create/lodging/format/json";
     const data = new URLSearchParams({
