@@ -269,8 +269,8 @@ export const transportProperties: INodeProperties[] = [
     description: "The starting address",
   },
   {
-    displayName: "Start Date",
-    name: "startDate",
+    displayName: "Start Date Time",
+    name: "startDateTime",
     type: "string",
     required: true,
     default: "",
@@ -280,21 +280,34 @@ export const transportProperties: INodeProperties[] = [
         operation: ["addToTrip"],
       },
     },
-    description: "The start date (YYYY-MM-DD)",
+    description: "The start date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
   },
   {
-    displayName: "Start Time",
-    name: "startTime",
+    displayName: "Update Start Date Time",
+    name: "update_startDateTime",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the start date and time",
+  },
+  {
+    displayName: "Start Date Time",
+    name: "startDateTime",
     type: "string",
-    required: true,
     default: "",
     displayOptions: {
       show: {
         resource: ["transport"],
-        operation: ["addToTrip"],
+        operation: ["update"],
+        update_startDateTime: [true],
       },
     },
-    description: "The start time (HH:mm:ss)",
+    description: "The new start date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
   },
   {
     displayName: "End Address",
@@ -311,8 +324,8 @@ export const transportProperties: INodeProperties[] = [
     description: "The ending address",
   },
   {
-    displayName: "End Date",
-    name: "endDate",
+    displayName: "End Date Time",
+    name: "endDateTime",
     type: "string",
     required: true,
     default: "",
@@ -322,21 +335,34 @@ export const transportProperties: INodeProperties[] = [
         operation: ["addToTrip"],
       },
     },
-    description: "The end date (YYYY-MM-DD)",
+    description: "The end date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
   },
   {
-    displayName: "End Time",
-    name: "endTime",
+    displayName: "Update End Date Time",
+    name: "update_endDateTime",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the end date and time",
+  },
+  {
+    displayName: "End Date Time",
+    name: "endDateTime",
     type: "string",
-    required: true,
     default: "",
     displayOptions: {
       show: {
         resource: ["transport"],
-        operation: ["addToTrip"],
+        operation: ["update"],
+        update_endDateTime: [true],
       },
     },
-    description: "The end time (HH:mm:ss)",
+    description: "The new end date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
   },
   {
     displayName: "Timezone",
@@ -381,6 +407,88 @@ export const transportProperties: INodeProperties[] = [
     description: "Name of the end location",
   },
   {
+    displayName: "Start Location",
+    name: "startLocation",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The start location",
+  },
+  {
+    displayName: "Update Start Location",
+    name: "update_startLocation",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the start location",
+  },
+  {
+    displayName: "Start Location",
+    name: "startLocation",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["update"],
+        update_startLocation: [true],
+      },
+    },
+    description: "The new start location",
+  },
+  {
+    displayName: "End Location",
+    name: "endLocation",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The end location",
+  },
+  {
+    displayName: "Update End Location",
+    name: "update_endLocation",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the end location",
+  },
+  {
+    displayName: "End Location",
+    name: "endLocation",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["update"],
+        update_endLocation: [true],
+      },
+    },
+    description: "The new end location",
+  },
+  {
     displayName: "Vehicle Description",
     name: "vehicleDescription",
     type: "string",
@@ -393,6 +501,33 @@ export const transportProperties: INodeProperties[] = [
       },
     },
     description: "Description of the vehicle",
+  },
+  {
+    displayName: "Update Vehicle Description",
+    name: "update_vehicleDescription",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the vehicle description",
+  },
+  {
+    displayName: "Vehicle Description",
+    name: "vehicleDescription",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["update"],
+        update_vehicleDescription: [true],
+      },
+    },
+    description: "The new vehicle description",
   },
   {
     displayName: "Confirmation Number",
@@ -436,6 +571,91 @@ export const transportProperties: INodeProperties[] = [
     },
     description: "Number of passengers",
   },
+  {
+    displayName: "Transport Type",
+    name: "transportType",
+    type: "options",
+    required: true,
+    default: "car",
+    options: [
+      {
+        name: "Car",
+        value: "car",
+      },
+      {
+        name: "Train",
+        value: "train",
+      },
+      {
+        name: "Bus",
+        value: "bus",
+      },
+      {
+        name: "Boat",
+        value: "boat",
+      },
+      {
+        name: "Other",
+        value: "other",
+      },
+    ],
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The type of transport",
+  },
+  {
+    displayName: "Update Transport Type",
+    name: "update_transportType",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the transport type",
+  },
+  {
+    displayName: "Transport Type",
+    name: "transportType",
+    type: "options",
+    default: "car",
+    options: [
+      {
+        name: "Car",
+        value: "car",
+      },
+      {
+        name: "Train",
+        value: "train",
+      },
+      {
+        name: "Bus",
+        value: "bus",
+      },
+      {
+        name: "Boat",
+        value: "boat",
+      },
+      {
+        name: "Other",
+        value: "other",
+      },
+    ],
+    displayOptions: {
+      show: {
+        resource: ["transport"],
+        operation: ["update"],
+        update_transportType: [true],
+      },
+    },
+    description: "The new type of transport",
+  },
 ];
 
 export const flightProperties: INodeProperties[] = [
@@ -451,7 +671,34 @@ export const flightProperties: INodeProperties[] = [
         operation: ["addToTrip"],
       },
     },
-    description: "The departure airport code (e.g., LAX)",
+    description: "The departure airport code (e.g., SFO)",
+  },
+  {
+    displayName: "Update Departure Airport",
+    name: "update_departureAirport",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the departure airport",
+  },
+  {
+    displayName: "Departure Airport",
+    name: "departureAirport",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["update"],
+        update_departureAirport: [true],
+      },
+    },
+    description: "The new departure airport code (e.g., SFO)",
   },
   {
     displayName: "Arrival Airport",
@@ -468,22 +715,35 @@ export const flightProperties: INodeProperties[] = [
     description: "The arrival airport code (e.g., JFK)",
   },
   {
-    displayName: "Departure Time",
-    name: "departureTime",
-    type: "string",
-    required: true,
-    default: "",
+    displayName: "Update Arrival Airport",
+    name: "update_arrivalAirport",
+    type: "boolean",
+    default: false,
     displayOptions: {
       show: {
         resource: ["flight"],
-        operation: ["addToTrip"],
+        operation: ["update"],
       },
     },
-    description: "The departure time (YYYY-MM-DDTHH:mm:ss)",
+    description: "Whether to update the arrival airport",
   },
   {
-    displayName: "Arrival Time",
-    name: "arrivalTime",
+    displayName: "Arrival Airport",
+    name: "arrivalAirport",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["update"],
+        update_arrivalAirport: [true],
+      },
+    },
+    description: "The new arrival airport code (e.g., JFK)",
+  },
+  {
+    displayName: "Departure Date Time",
+    name: "departureDateTime",
     type: "string",
     required: true,
     default: "",
@@ -493,7 +753,75 @@ export const flightProperties: INodeProperties[] = [
         operation: ["addToTrip"],
       },
     },
-    description: "The arrival time (YYYY-MM-DDTHH:mm:ss)",
+    description: "The departure date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
+  },
+  {
+    displayName: "Update Departure Date Time",
+    name: "update_departureDateTime",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the departure date and time",
+  },
+  {
+    displayName: "Departure Date Time",
+    name: "departureDateTime",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["update"],
+        update_departureDateTime: [true],
+      },
+    },
+    description: "The new departure date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
+  },
+  {
+    displayName: "Arrival Date Time",
+    name: "arrivalDateTime",
+    type: "string",
+    required: true,
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["addToTrip"],
+      },
+    },
+    description: "The arrival date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
+  },
+  {
+    displayName: "Update Arrival Date Time",
+    name: "update_arrivalDateTime",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the arrival date and time",
+  },
+  {
+    displayName: "Arrival Date Time",
+    name: "arrivalDateTime",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["update"],
+        update_arrivalDateTime: [true],
+      },
+    },
+    description: "The new arrival date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
   },
   {
     displayName: "Flight Number",
@@ -510,6 +838,60 @@ export const flightProperties: INodeProperties[] = [
     description: "The flight number",
   },
   {
+    displayName: "Update Flight Number",
+    name: "update_flightNumber",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the flight number",
+  },
+  {
+    displayName: "Flight Number",
+    name: "flightNumber",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["update"],
+        update_flightNumber: [true],
+      },
+    },
+    description: "The new flight number",
+  },
+  {
+    displayName: "Update Trip ID",
+    name: "update_tripId",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the trip ID",
+  },
+  {
+    displayName: "Trip ID",
+    name: "tripId",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["update"],
+        update_tripId: [true],
+      },
+    },
+    description: "The new trip ID for the flight",
+  },
+  {
     displayName: "Marketing Airline",
     name: "marketingAirline",
     type: "string",
@@ -524,6 +906,33 @@ export const flightProperties: INodeProperties[] = [
     description: "The marketing airline code",
   },
   {
+    displayName: "Update Marketing Airline",
+    name: "update_marketingAirline",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the marketing airline",
+  },
+  {
+    displayName: "Marketing Airline",
+    name: "marketingAirline",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["update"],
+        update_marketingAirline: [true],
+      },
+    },
+    description: "The new marketing airline code",
+  },
+  {
     displayName: "Operating Airline",
     name: "operatingAirline",
     type: "string",
@@ -535,8 +944,34 @@ export const flightProperties: INodeProperties[] = [
         operation: ["addToTrip"],
       },
     },
-    description:
-      "The operating airline code (if different from marketing airline)",
+    description: "The operating airline code (if different from marketing airline)",
+  },
+  {
+    displayName: "Update Operating Airline",
+    name: "update_operatingAirline",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the operating airline",
+  },
+  {
+    displayName: "Operating Airline",
+    name: "operatingAirline",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["flight"],
+        operation: ["update"],
+        update_operatingAirline: [true],
+      },
+    },
+    description: "The new operating airline code",
   },
   {
     displayName: "Seat Assignment",
@@ -584,6 +1019,33 @@ export const activityProperties: INodeProperties[] = [
     description: "The ID of the trip to add the activity to",
   },
   {
+    displayName: "Update Trip ID",
+    name: "update_tripId",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the trip ID",
+  },
+  {
+    displayName: "Trip ID",
+    name: "tripId",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+        update_tripId: [true],
+      },
+    },
+    description: "The new trip ID for the activity",
+  },
+  {
     displayName: "Display Name",
     name: "displayName",
     type: "string",
@@ -596,6 +1058,33 @@ export const activityProperties: INodeProperties[] = [
       },
     },
     description: "The name of the activity",
+  },
+  {
+    displayName: "Update Display Name",
+    name: "update_displayName",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the display name",
+  },
+  {
+    displayName: "Display Name",
+    name: "displayName",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+        update_displayName: [true],
+      },
+    },
+    description: "The new display name for the activity",
   },
   {
     displayName: "Start Date",
@@ -612,6 +1101,33 @@ export const activityProperties: INodeProperties[] = [
     description: "The start date of the activity (YYYY-MM-DD)",
   },
   {
+    displayName: "Update Start Date",
+    name: "update_startDate",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the start date",
+  },
+  {
+    displayName: "Start Date",
+    name: "startDate",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+        update_startDate: [true],
+      },
+    },
+    description: "The new start date for the activity (YYYY-MM-DD)",
+  },
+  {
     displayName: "Start Time",
     name: "startTime",
     type: "string",
@@ -624,6 +1140,33 @@ export const activityProperties: INodeProperties[] = [
       },
     },
     description: "The start time of the activity (HH:mm:ss)",
+  },
+  {
+    displayName: "Update Start Time",
+    name: "update_startTime",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the start time",
+  },
+  {
+    displayName: "Start Time",
+    name: "startTime",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+        update_startTime: [true],
+      },
+    },
+    description: "The new start time for the activity (HH:mm:ss)",
   },
   {
     displayName: "End Date",
@@ -640,6 +1183,33 @@ export const activityProperties: INodeProperties[] = [
     description: "The end date of the activity (YYYY-MM-DD)",
   },
   {
+    displayName: "Update End Date",
+    name: "update_endDate",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the end date",
+  },
+  {
+    displayName: "End Date",
+    name: "endDate",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+        update_endDate: [true],
+      },
+    },
+    description: "The new end date for the activity (YYYY-MM-DD)",
+  },
+  {
     displayName: "End Time",
     name: "endTime",
     type: "string",
@@ -652,6 +1222,33 @@ export const activityProperties: INodeProperties[] = [
       },
     },
     description: "The end time of the activity (HH:mm:ss)",
+  },
+  {
+    displayName: "Update End Time",
+    name: "update_endTime",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the end time",
+  },
+  {
+    displayName: "End Time",
+    name: "endTime",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+        update_endTime: [true],
+      },
+    },
+    description: "The new end time for the activity (HH:mm:ss)",
   },
   {
     displayName: "Timezone",
@@ -668,6 +1265,33 @@ export const activityProperties: INodeProperties[] = [
     description: "The timezone of the activity",
   },
   {
+    displayName: "Update Timezone",
+    name: "update_timezone",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the timezone",
+  },
+  {
+    displayName: "Timezone",
+    name: "timezone",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+        update_timezone: [true],
+      },
+    },
+    description: "The new timezone for the activity",
+  },
+  {
     displayName: "Location Name",
     name: "locationName",
     type: "string",
@@ -682,6 +1306,33 @@ export const activityProperties: INodeProperties[] = [
     description: "The name of the activity location",
   },
   {
+    displayName: "Update Location Name",
+    name: "update_locationName",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the location name",
+  },
+  {
+    displayName: "Location Name",
+    name: "locationName",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+        update_locationName: [true],
+      },
+    },
+    description: "The new location name for the activity",
+  },
+  {
     displayName: "Address",
     name: "address",
     type: "string",
@@ -694,6 +1345,33 @@ export const activityProperties: INodeProperties[] = [
       },
     },
     description: "The address of the activity location",
+  },
+  {
+    displayName: "Update Address",
+    name: "update_address",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the address",
+  },
+  {
+    displayName: "Address",
+    name: "address",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["activity"],
+        operation: ["update"],
+        update_address: [true],
+      },
+    },
+    description: "The new address for the activity",
   },
 ];
 
@@ -713,6 +1391,33 @@ export const hotelProperties: INodeProperties[] = [
     description: "The name of the hotel",
   },
   {
+    displayName: "Update Hotel Name",
+    name: "update_hotelName",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["hotel"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the hotel name",
+  },
+  {
+    displayName: "Hotel Name",
+    name: "hotelName",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["hotel"],
+        operation: ["update"],
+        update_hotelName: [true],
+      },
+    },
+    description: "The new name of the hotel",
+  },
+  {
     displayName: "Check-in Date",
     name: "checkInDate",
     type: "string",
@@ -725,6 +1430,33 @@ export const hotelProperties: INodeProperties[] = [
       },
     },
     description: "The check-in date (YYYY-MM-DD)",
+  },
+  {
+    displayName: "Update Check-in Date",
+    name: "update_checkInDate",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["hotel"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the check-in date",
+  },
+  {
+    displayName: "Check-in Date",
+    name: "checkInDate",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["hotel"],
+        operation: ["update"],
+        update_checkInDate: [true],
+      },
+    },
+    description: "The new check-in date (YYYY-MM-DD)",
   },
   {
     displayName: "Check-out Date",
@@ -741,30 +1473,113 @@ export const hotelProperties: INodeProperties[] = [
     description: "The check-out date (YYYY-MM-DD)",
   },
   {
+    displayName: "Update Check-out Date",
+    name: "update_checkOutDate",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["hotel"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the check-out date",
+  },
+  {
+    displayName: "Check-out Date",
+    name: "checkOutDate",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["hotel"],
+        operation: ["update"],
+        update_checkOutDate: [true],
+      },
+    },
+    description: "The new check-out date (YYYY-MM-DD)",
+  },
+  {
     displayName: "Check-in Time",
     name: "checkInTime",
     type: "string",
-    default: "15:00:00",
+    required: true,
+    default: "",
     displayOptions: {
       show: {
         resource: ["hotel"],
         operation: ["addToTrip"],
       },
     },
-    description: "The check-in time (HH:mm:ss)",
+    description: "The check-in time (HH:MM)",
+  },
+  {
+    displayName: "Update Check-in Time",
+    name: "update_checkInTime",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["hotel"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the check-in time",
+  },
+  {
+    displayName: "Check-in Time",
+    name: "checkInTime",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["hotel"],
+        operation: ["update"],
+        update_checkInTime: [true],
+      },
+    },
+    description: "The new check-in time (HH:MM)",
   },
   {
     displayName: "Check-out Time",
     name: "checkOutTime",
     type: "string",
-    default: "11:00:00",
+    required: true,
+    default: "",
     displayOptions: {
       show: {
         resource: ["hotel"],
         operation: ["addToTrip"],
       },
     },
-    description: "The check-out time (HH:mm:ss)",
+    description: "The check-out time (HH:MM)",
+  },
+  {
+    displayName: "Update Check-out Time",
+    name: "update_checkOutTime",
+    type: "boolean",
+    default: false,
+    displayOptions: {
+      show: {
+        resource: ["hotel"],
+        operation: ["update"],
+      },
+    },
+    description: "Whether to update the check-out time",
+  },
+  {
+    displayName: "Check-out Time",
+    name: "checkOutTime",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        resource: ["hotel"],
+        operation: ["update"],
+        update_checkOutTime: [true],
+      },
+    },
+    description: "The new check-out time (HH:MM)",
   },
   {
     displayName: "Timezone",
@@ -891,15 +1706,61 @@ export const commonReservationProperties: INodeProperties[] = [
     displayName: "Trip ID",
     name: "tripId",
     type: "string",
-    required: true,
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
-    description: "The ID of the trip to add the flight/hotel to",
+    description: "The ID of the trip to add the reservation to",
+  },
+  {
+    displayName: "UUID",
+    name: "uuid",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        operation: ["update", "attachDocument"],
+      },
+    },
+    description: "The UUID of the object to update or attach document to",
+  },
+  {
+    displayName: "Document Name",
+    name: "documentName",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        operation: ["attachDocument"],
+      },
+    },
+    description: "The name of the document to attach",
+  },
+  {
+    displayName: "Document Content",
+    name: "documentContent",
+    type: "string",
+    default: "",
+    displayOptions: {
+      show: {
+        operation: ["attachDocument"],
+      },
+    },
+    description: "The content of the document to attach (base64 encoded)",
+  },
+  {
+    displayName: "Document Type",
+    name: "documentType",
+    type: "string",
+    default: "application/pdf",
+    displayOptions: {
+      show: {
+        operation: ["attachDocument"],
+      },
+    },
+    description: "The MIME type of the document to attach",
   },
   {
     displayName: "Booking Rate",
@@ -908,7 +1769,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -921,7 +1781,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -934,7 +1793,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -947,7 +1805,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -960,7 +1817,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -973,7 +1829,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -986,7 +1841,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -999,7 +1853,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -1012,7 +1865,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -1025,7 +1877,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -1038,7 +1889,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -1051,7 +1901,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -1064,7 +1913,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -1077,7 +1925,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -1090,7 +1937,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -1103,7 +1949,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -1116,7 +1961,6 @@ export const commonReservationProperties: INodeProperties[] = [
     default: true,
     displayOptions: {
       show: {
-        resource: ["flight", "hotel"],
         operation: ["addToTrip"],
       },
     },
@@ -1184,6 +2028,18 @@ export const operationOptions: INodeProperties[] = [
         description: "Get a trip with all its objects",
         action: "Get a trip with all its objects",
       },
+      {
+        name: "Update",
+        value: "update",
+        description: "Update a trip",
+        action: "Update a trip",
+      },
+      {
+        name: "Attach Document",
+        value: "attachDocument",
+        description: "Attach a document to a trip",
+        action: "Attach a document to a trip",
+      },
     ],
     default: "create",
   },
@@ -1210,6 +2066,18 @@ export const operationOptions: INodeProperties[] = [
         description: "Get flight information",
         action: "Get flight information",
       },
+      {
+        name: "Update",
+        value: "update",
+        description: "Update a flight",
+        action: "Update a flight",
+      },
+      {
+        name: "Attach Document",
+        value: "attachDocument",
+        description: "Attach a document to a flight",
+        action: "Attach a document to a flight",
+      },
     ],
     default: "addToTrip",
   },
@@ -1229,6 +2097,18 @@ export const operationOptions: INodeProperties[] = [
         value: "addToTrip",
         description: "Add a hotel to an existing trip",
         action: "Add a hotel to a trip",
+      },
+      {
+        name: "Update",
+        value: "update",
+        description: "Update a hotel",
+        action: "Update a hotel",
+      },
+      {
+        name: "Attach Document",
+        value: "attachDocument",
+        description: "Attach a document to a hotel",
+        action: "Attach a document to a hotel",
       },
     ],
     default: "addToTrip",
@@ -1250,6 +2130,18 @@ export const operationOptions: INodeProperties[] = [
         description: "Add a activity to an existing trip",
         action: "Add a activity to a trip",
       },
+      {
+        name: "Update",
+        value: "update",
+        description: "Update an activity",
+        action: "Update an activity",
+      },
+      {
+        name: "Attach Document",
+        value: "attachDocument",
+        description: "Attach a document to an activity",
+        action: "Attach a document to an activity",
+      },
     ],
     default: "addToTrip",
   },
@@ -1269,6 +2161,18 @@ export const operationOptions: INodeProperties[] = [
         value: "addToTrip",
         description: "Add a transport to an existing trip",
         action: "Add a transport to a trip",
+      },
+      {
+        name: "Update",
+        value: "update",
+        description: "Update a transport",
+        action: "Update a transport",
+      },
+      {
+        name: "Attach Document",
+        value: "attachDocument",
+        description: "Attach a document to a transport",
+        action: "Attach a document to a transport",
       },
     ],
     default: "addToTrip",

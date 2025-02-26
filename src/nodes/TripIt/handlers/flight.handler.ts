@@ -70,5 +70,50 @@ export async function handleFlightOperation(
     returnData.push({ json: response.data });
   }
 
+  if (operation === "update") {
+    const params = {
+      uuid: this.getNodeParameter("uuid", 0) as string,
+    };
+
+    // Add optional parameters
+    const optionalFields = [
+      "tripId", "departureAirport", "arrivalAirport", "departureTime", "arrivalTime", 
+      "flightNumber", "marketingAirline", "operatingAirline", "seatAssignment", 
+      "aircraft", "bookingRate", "bookingSiteConfNum", "bookingSiteName", 
+      "bookingSitePhone", "bookingSiteUrl", "recordLocator", "supplierConfNum", 
+      "supplierContact", "supplierEmailAddress", "supplierPhone", "supplierUrl", 
+      "notes", "restrictions", "totalCost", "bookingDate", "isPurchased"
+    ];
+
+    // Add each field that is provided by the user
+    for (const field of optionalFields) {
+      const hasField = this.getNodeParameter(`update_${field}`, 0, false);
+      if (hasField) {
+        params[field] = this.getNodeParameter(field, 0);
+      }
+    }
+
+    const response = await tripItService.updateFlight(credentials, params);
+    returnData.push({ json: response });
+  }
+
+  if (operation === "attachDocument") {
+    const flightUuid = this.getNodeParameter("uuid", 0) as string;
+    const documentName = this.getNodeParameter("documentName", 0) as string;
+    const documentContent = this.getNodeParameter("documentContent", 0) as string;
+    const documentType = this.getNodeParameter("documentType", 0, "application/pdf") as string;
+    
+    const response = await tripItService.attachDocument(
+      credentials, 
+      "air", 
+      flightUuid, 
+      documentName,
+      documentContent,
+      documentType
+    );
+    
+    returnData.push({ json: response });
+  }
+
   return returnData;
 }

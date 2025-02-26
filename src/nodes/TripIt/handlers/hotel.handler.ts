@@ -15,45 +15,73 @@ export async function handleHotelOperation(
   if (operation === "addToTrip") {
     const params = {
       tripId: this.getNodeParameter("tripId", 0) as string,
-      hotelName: this.getNodeParameter("hotelName", 0) as string,
-      checkInDate: this.getNodeParameter("checkInDate", 0) as string,
-      checkOutDate: this.getNodeParameter("checkOutDate", 0) as string,
-      checkInTime: this.getNodeParameter("checkInTime", 0) as string,
-      checkOutTime: this.getNodeParameter("checkOutTime", 0) as string,
-      timezone: this.getNodeParameter("timezone", 0) as string,
-      numberGuests: this.getNodeParameter("numberGuests", 0) as number,
-      numberRooms: this.getNodeParameter("numberRooms", 0) as number,
+      displayName: this.getNodeParameter("displayName", 0) as string,
+      address: this.getNodeParameter("address", 0) as string,
+      startDate: this.getNodeParameter("startDate", 0) as string,
+      endDate: this.getNodeParameter("endDate", 0) as string,
       roomType: this.getNodeParameter("roomType", 0) as string,
-      street: this.getNodeParameter("street", 0) as string,
-      city: this.getNodeParameter("city", 0) as string,
-      state: this.getNodeParameter("state", 0) as string,
-      zip: this.getNodeParameter("zip", 0) as string,
-      country: this.getNodeParameter("country", 0) as string,
-      bookingRate: this.getNodeParameter("bookingRate", 0) as string,
-      bookingSiteConfNum: this.getNodeParameter(
-        "bookingSiteConfNum",
-        0
-      ) as string,
-      bookingSiteName: this.getNodeParameter("bookingSiteName", 0) as string,
-      bookingSitePhone: this.getNodeParameter("bookingSitePhone", 0) as string,
-      bookingSiteUrl: this.getNodeParameter("bookingSiteUrl", 0) as string,
-      recordLocator: this.getNodeParameter("recordLocator", 0) as string,
-      supplierConfNum: this.getNodeParameter("supplierConfNum", 0) as string,
-      supplierContact: this.getNodeParameter("supplierContact", 0) as string,
+      numberOfGuests: this.getNodeParameter("numberOfGuests", 0) as string,
+      numberOfRooms: this.getNodeParameter("numberOfRooms", 0) as string,
+      roomRate: this.getNodeParameter("roomRate", 0) as string,
+      currency: this.getNodeParameter("currency", 0) as string,
+      cancellationDate: this.getNodeParameter("cancellationDate", 0) as string,
+      cancellationTime: this.getNodeParameter("cancellationTime", 0) as string,
+      timezone: this.getNodeParameter("timezone", 0) as string,
+      notes: this.getNodeParameter("notes", 0) as string,
+      supplierName: this.getNodeParameter("supplierName", 0) as string,
+      supplierPhone: this.getNodeParameter("supplierPhone", 0) as string,
+      supplierUrl: this.getNodeParameter("supplierUrl", 0) as string,
       supplierEmailAddress: this.getNodeParameter(
         "supplierEmailAddress",
         0
       ) as string,
-      supplierPhone: this.getNodeParameter("supplierPhone", 0) as string,
-      supplierUrl: this.getNodeParameter("supplierUrl", 0) as string,
-      notes: this.getNodeParameter("notes", 0) as string,
-      restrictions: this.getNodeParameter("restrictions", 0) as string,
-      totalCost: this.getNodeParameter("totalCost", 0) as string,
-      bookingDate: this.getNodeParameter("bookingDate", 0) as string,
-      isPurchased: this.getNodeParameter("isPurchased", 0) as boolean,
+      supplierConfNum: this.getNodeParameter("supplierConfNum", 0) as string,
     };
 
     const response = await tripItService.createHotel(credentials, params);
+    returnData.push({ json: response });
+  }
+
+  if (operation === "update") {
+    const params = {
+      uuid: this.getNodeParameter("uuid", 0) as string,
+    };
+
+    // Add optional parameters
+    const optionalFields = [
+      "tripId", "displayName", "address", "startDate", "endDate", "roomType", 
+      "numberOfGuests", "numberOfRooms", "roomRate", "currency", "cancellationDate", 
+      "cancellationTime", "timezone", "notes", "supplierName", "supplierPhone", 
+      "supplierUrl", "supplierEmailAddress", "supplierConfNum"
+    ];
+
+    // Add each field that is provided by the user
+    for (const field of optionalFields) {
+      const hasField = this.getNodeParameter(`update_${field}`, 0, false);
+      if (hasField) {
+        params[field] = this.getNodeParameter(field, 0);
+      }
+    }
+
+    const response = await tripItService.updateHotel(credentials, params);
+    returnData.push({ json: response });
+  }
+
+  if (operation === "attachDocument") {
+    const hotelUuid = this.getNodeParameter("uuid", 0) as string;
+    const documentName = this.getNodeParameter("documentName", 0) as string;
+    const documentContent = this.getNodeParameter("documentContent", 0) as string;
+    const documentType = this.getNodeParameter("documentType", 0, "application/pdf") as string;
+    
+    const response = await tripItService.attachDocument(
+      credentials, 
+      "lodging", 
+      hotelUuid, 
+      documentName,
+      documentContent,
+      documentType
+    );
+    
     returnData.push({ json: response });
   }
 

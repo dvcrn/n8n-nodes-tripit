@@ -56,5 +56,49 @@ export async function handleTransportOperation(
     returnData.push({ json: response });
   }
 
+  if (operation === "update") {
+    const params = {
+      uuid: this.getNodeParameter("uuid", 0) as string,
+    };
+
+    // Add optional parameters
+    const optionalFields = [
+      "tripId", "isClientTraveler", "isPurchased", "isTripitBooking", 
+      "hasPossibleCancellation", "timezone", "startAddress", "startDate", 
+      "startTime", "endAddress", "endDate", "endTime", "startLocationName", 
+      "endLocationName", "vehicleDescription", "confirmationNum", 
+      "carrierName", "numberPassengers"
+    ];
+
+    // Add each field that is provided by the user
+    for (const field of optionalFields) {
+      const hasField = this.getNodeParameter(`update_${field}`, 0, false);
+      if (hasField) {
+        params[field] = this.getNodeParameter(field, 0);
+      }
+    }
+
+    const response = await tripItService.updateTransport(credentials, params);
+    returnData.push({ json: response });
+  }
+
+  if (operation === "attachDocument") {
+    const transportUuid = this.getNodeParameter("uuid", 0) as string;
+    const documentName = this.getNodeParameter("documentName", 0) as string;
+    const documentContent = this.getNodeParameter("documentContent", 0) as string;
+    const documentType = this.getNodeParameter("documentType", 0, "application/pdf") as string;
+    
+    const response = await tripItService.attachDocument(
+      credentials, 
+      "transport", 
+      transportUuid, 
+      documentName,
+      documentContent,
+      documentType
+    );
+    
+    returnData.push({ json: response });
+  }
+
   return returnData;
 }
