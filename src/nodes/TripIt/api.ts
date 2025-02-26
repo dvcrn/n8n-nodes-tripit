@@ -83,12 +83,22 @@ export class TripItApi {
   async getObject(
     credentials: ITripItCredentials,
     objectType: string,
-    objectUuid: string
+    objectUuid: string,
+    includeObjects: boolean = false,
+    excludeTypes: string = "weather"
   ): Promise<AxiosResponse> {
-    const endpoint = `/v2/get/${objectType}/uuid/${objectUuid}`;
+    let endpoint = `/v2/get/${objectType}/uuid/${objectUuid}`;
+
+    // Add path-based parameters if including all objects
+    if (includeObjects) {
+      endpoint += `/include_objects/true`;
+      if (excludeTypes) {
+        endpoint += `/exclude_types/${excludeTypes}`;
+      }
+    }
+
     return this.makeApiRequest("GET", endpoint, credentials);
   }
-
   async getActivity(
     credentials: ITripItCredentials,
     objectUuid: string

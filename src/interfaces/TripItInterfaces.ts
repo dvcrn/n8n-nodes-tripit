@@ -1,4 +1,5 @@
 export const RESERVATION_FIELD_ORDER = [
+  "Image",
   "cancellation_date_time",
   "booking_date",
   "booking_rate",

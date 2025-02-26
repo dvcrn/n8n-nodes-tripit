@@ -698,6 +698,10 @@ export class TripItService {
     if (params.Image) {
       lodgingObject.Image = params.Image;
     }
+    console.log(
+      "lodgingObject with Image",
+      JSON.stringify(lodgingObject, null, 2)
+    );
 
     console.log("lodgingObject", lodgingObject);
 
@@ -1092,9 +1096,8 @@ export class TripItService {
     documentContent: string,
     documentType: string = "application/pdf"
   ) {
-    // First, get the existing object to ensure we have all the necessary data
+    // Fetch the existing object as before
     let existingObject;
-
     switch (objectType) {
       case "lodging":
         existingObject = await this.api.getHotel(credentials, objectUuid);
@@ -1122,8 +1125,8 @@ export class TripItService {
     const objectKey = `${objectTypeCapitalized}Object`;
     const objectData = existingObject.data[objectKey];
 
-    // Create the Image data
-    const imageData = {
+    // Create the new Image data
+    const newImageData = {
       caption: documentName,
       ImageData: {
         content: documentContent,
@@ -1131,37 +1134,35 @@ export class TripItService {
       },
     };
 
-    // Use the appropriate update method based on object type
-    let response;
-    switch (objectType) {
-      case "lodging":
-        // Create a params object with only the uuid and explicitly add the Image property
-        response = await this.updateHotel(credentials, {
-          uuid: objectUuid,
-          // We don't spread the entire objectData as that might override our Image
-          Image: imageData,
-        });
-        break;
-      case "activity":
-        response = await this.updateActivity(credentials, {
-          uuid: objectUuid,
-          Image: imageData,
-        });
-        break;
-      case "air":
-        response = await this.updateFlight(credentials, {
-          uuid: objectUuid,
-          Image: imageData,
-        });
-        break;
-      case "transport":
-        response = await this.updateTransport(credentials, {
-          uuid: objectUuid,
-          Image: imageData,
-        });
-        break;
+    // Prepare the update params with uuid
+    const updateParams: any = { uuid: objectUuid };
+
+    // Handle Image differently - append to array if it exists, or create new array
+    if (objectData.Image) {
+      // If Image already exists as array
+      if (Array.isArray(objectData.Image)) {
+        updateParams.Image = [...objectData.Image, newImageData];
+      }
+      // If Image exists but is not an array (single object)
+      else {
+        updateParams.Image = [objectData.Image, newImageData];
+      }
+    }
+    // If no Image exists yet
+    else {
+      updateParams.Image = [newImageData];
     }
 
-    return response;
+    // Call the appropriate update method
+    switch (objectType) {
+      case "lodging":
+        return await this.updateHotel(credentials, updateParams);
+      case "activity":
+        return await this.updateActivity(credentials, updateParams);
+      case "air":
+        return await this.updateFlight(credentials, updateParams);
+      case "transport":
+        return await this.updateTransport(credentials, updateParams);
+    }
   }
 }
