@@ -13,7 +13,7 @@ export class TripItApi {
     credentials: ITripItCredentials,
     data?: any,
     params?: any,
-    contentType: string = 'application/x-www-form-urlencoded'
+    contentType: string = "application/x-www-form-urlencoded"
   ): Promise<AxiosResponse> {
     try {
       const auth = new TripItAuth(
@@ -54,7 +54,14 @@ export class TripItApi {
         await new Promise((resolve) =>
           setTimeout(resolve, Math.pow(2, this.retryCount) * 1000)
         );
-        return this.makeApiRequest(method, endpoint, credentials, data, params, contentType);
+        return this.makeApiRequest(
+          method,
+          endpoint,
+          credentials,
+          data,
+          params,
+          contentType
+        );
       }
       throw error;
     }
@@ -71,5 +78,42 @@ export class TripItApi {
       exclude_types: "weather",
     };
     return this.makeApiRequest("GET", endpoint, credentials, undefined, params);
+  }
+
+  async getObject(
+    credentials: ITripItCredentials,
+    objectType: string,
+    objectUuid: string
+  ): Promise<AxiosResponse> {
+    const endpoint = `/v2/get/${objectType}/uuid/${objectUuid}`;
+    return this.makeApiRequest("GET", endpoint, credentials);
+  }
+
+  async getActivity(
+    credentials: ITripItCredentials,
+    objectUuid: string
+  ): Promise<AxiosResponse> {
+    return this.getObject(credentials, "activity", objectUuid);
+  }
+
+  async getFlight(
+    credentials: ITripItCredentials,
+    objectUuid: string
+  ): Promise<AxiosResponse> {
+    return this.getObject(credentials, "air", objectUuid);
+  }
+
+  async getHotel(
+    credentials: ITripItCredentials,
+    objectUuid: string
+  ): Promise<AxiosResponse> {
+    return this.getObject(credentials, "lodging", objectUuid);
+  }
+
+  async getTransport(
+    credentials: ITripItCredentials,
+    objectUuid: string
+  ): Promise<AxiosResponse> {
+    return this.getObject(credentials, "transport", objectUuid);
   }
 }
