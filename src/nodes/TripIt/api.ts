@@ -12,7 +12,8 @@ export class TripItApi {
     endpoint: string,
     credentials: ITripItCredentials,
     data?: any,
-    params?: any
+    params?: any,
+    contentType: string = 'application/x-www-form-urlencoded'
   ): Promise<AxiosResponse> {
     try {
       const auth = new TripItAuth(
@@ -32,7 +33,7 @@ export class TripItApi {
         url: `${this.baseUrl}${endpoint}`,
         headers: {
           Authorization: `Bearer ${access_token}`,
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": contentType,
           Accept: "application/json",
         },
         data,
@@ -53,7 +54,7 @@ export class TripItApi {
         await new Promise((resolve) =>
           setTimeout(resolve, Math.pow(2, this.retryCount) * 1000)
         );
-        return this.makeApiRequest(method, endpoint, credentials, data, params);
+        return this.makeApiRequest(method, endpoint, credentials, data, params, contentType);
       }
       throw error;
     }

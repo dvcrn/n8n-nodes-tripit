@@ -1,7 +1,7 @@
 import { IExecuteFunctions, INodeExecutionData } from "n8n-workflow";
 import { TripItApi } from "../api";
+import { TripItService, ICreateTransportParams, IUpdateTransportParams } from "../service";
 import { ITripItCredentials } from "../types/ITripItTypes";
-import { TripItService } from "../service";
 
 export const TRANSPORT_FIELD_ORDER = [
   "trip_uuid",
@@ -57,11 +57,13 @@ export async function handleTransportOperation(
   }
 
   if (operation === "update") {
-    const params = {
-      uuid: this.getNodeParameter("uuid", 0) as string,
+    const transportUuid = this.getNodeParameter("uuid", 0) as string;
+    
+    // Create params object with index signature to allow string indexing
+    const params: IUpdateTransportParams & { [key: string]: any } = {
+      uuid: transportUuid,
     };
 
-    // Add optional parameters
     const optionalFields = [
       "tripId", "isClientTraveler", "isPurchased", "isTripitBooking", 
       "hasPossibleCancellation", "timezone", "startAddress", "startDate", 

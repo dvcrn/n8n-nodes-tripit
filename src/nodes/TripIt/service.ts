@@ -301,7 +301,7 @@ export class TripItService {
       location_name: params.locationName,
     };
 
-    if (params.tripId.includes('-')) {
+    if (params.tripId.includes("-")) {
       activityObj.trip_uuid = params.tripId;
     } else {
       activityObj.trip_id = params.tripId;
@@ -365,7 +365,7 @@ export class TripItService {
       ],
     };
 
-    if (params.tripId.includes('-')) {
+    if (params.tripId.includes("-")) {
       airObj.trip_uuid = params.tripId;
     } else {
       airObj.trip_id = params.tripId;
@@ -431,7 +431,7 @@ export class TripItService {
       },
     };
 
-    if (params.tripId.includes('-')) {
+    if (params.tripId.includes("-")) {
       lodgingObject.trip_uuid = params.tripId;
     } else {
       lodgingObject.trip_id = params.tripId;
@@ -559,23 +559,43 @@ export class TripItService {
       uuid: params.uuid,
     };
 
+    if (!params.tripId) {
+      throw new Error("tripId is required");
+    }
+
+    if (params.tripId.includes("-")) {
+      lodgingObject.trip_uuid = params.tripId;
+    } else {
+      lodgingObject.trip_id = params.tripId;
+    }
+
     if (params.hotelName) lodgingObject.supplier_name = params.hotelName;
-    if (params.supplierConfNum) lodgingObject.supplier_conf_num = params.supplierConfNum;
-    if (params.supplierPhone) lodgingObject.supplier_phone = params.supplierPhone;
+    if (params.supplierConfNum)
+      lodgingObject.supplier_conf_num = params.supplierConfNum;
+    if (params.supplierPhone)
+      lodgingObject.supplier_phone = params.supplierPhone;
     if (params.supplierUrl) lodgingObject.supplier_url = params.supplierUrl;
     if (params.bookingRate) lodgingObject.booking_rate = params.bookingRate;
-    if (params.bookingSiteConfNum) lodgingObject.booking_site_conf_num = params.bookingSiteConfNum;
-    if (params.bookingSiteName) lodgingObject.booking_site_name = params.bookingSiteName;
-    if (params.bookingSitePhone) lodgingObject.booking_site_phone = params.bookingSitePhone;
-    if (params.bookingSiteUrl) lodgingObject.booking_site_url = params.bookingSiteUrl;
-    if (params.recordLocator) lodgingObject.record_locator = params.recordLocator;
-    if (params.supplierContact) lodgingObject.supplier_contact = params.supplierContact;
-    if (params.supplierEmailAddress) lodgingObject.supplier_email_address = params.supplierEmailAddress;
+    if (params.bookingSiteConfNum)
+      lodgingObject.booking_site_conf_num = params.bookingSiteConfNum;
+    if (params.bookingSiteName)
+      lodgingObject.booking_site_name = params.bookingSiteName;
+    if (params.bookingSitePhone)
+      lodgingObject.booking_site_phone = params.bookingSitePhone;
+    if (params.bookingSiteUrl)
+      lodgingObject.booking_site_url = params.bookingSiteUrl;
+    if (params.recordLocator)
+      lodgingObject.record_locator = params.recordLocator;
+    if (params.supplierContact)
+      lodgingObject.supplier_contact = params.supplierContact;
+    if (params.supplierEmailAddress)
+      lodgingObject.supplier_email_address = params.supplierEmailAddress;
     if (params.notes) lodgingObject.notes = params.notes;
     if (params.restrictions) lodgingObject.restrictions = params.restrictions;
     if (params.totalCost) lodgingObject.total_cost = params.totalCost;
     if (params.bookingDate) lodgingObject.booking_date = params.bookingDate;
-    if (params.isPurchased !== undefined) lodgingObject.is_purchased = params.isPurchased;
+    if (params.isPurchased !== undefined)
+      lodgingObject.is_purchased = params.isPurchased;
 
     if (params.checkInDate || params.checkInTime || params.timezone) {
       lodgingObject.StartDateTime = {
@@ -588,16 +608,26 @@ export class TripItService {
     if (params.checkOutDate || params.checkOutTime || params.timezone) {
       lodgingObject.EndDateTime = {
         ...(params.checkOutDate && { date: params.checkOutDate }),
-        ...(params.checkOutTime && { time: normalizeTime(params.checkOutTime) }),
+        ...(params.checkOutTime && {
+          time: normalizeTime(params.checkOutTime),
+        }),
         ...(params.timezone && { timezone: params.timezone }),
       };
     }
 
-    if (params.numberGuests !== undefined) lodgingObject.number_guests = params.numberGuests;
-    if (params.numberRooms !== undefined) lodgingObject.number_rooms = params.numberRooms;
+    if (params.numberGuests !== undefined)
+      lodgingObject.number_guests = params.numberGuests;
+    if (params.numberRooms !== undefined)
+      lodgingObject.number_rooms = params.numberRooms;
     if (params.roomType) lodgingObject.room_type = params.roomType;
-    
-    if (params.street || params.city || params.state || params.zip || params.country) {
+
+    if (
+      params.street ||
+      params.city ||
+      params.state ||
+      params.zip ||
+      params.country
+    ) {
       lodgingObject.Address = {
         ...(params.street && { address: params.street }),
         ...(params.city && { city: params.city }),
@@ -607,13 +637,7 @@ export class TripItService {
       };
     }
 
-    if (params.tripId) {
-      if (params.tripId.includes('-')) {
-        lodgingObject.trip_uuid = params.tripId;
-      } else {
-        lodgingObject.trip_id = params.tripId;
-      }
-    }
+    console.log(lodgingObject);
 
     const endpoint = "/v2/replace/lodging/uuid/" + params.uuid + "/format/json";
     const data = new URLSearchParams({
@@ -661,14 +685,15 @@ export class TripItService {
     if (params.locationName) activityObj.location_name = params.locationName;
 
     if (params.tripId) {
-      if (params.tripId.includes('-')) {
+      if (params.tripId.includes("-")) {
         activityObj.trip_uuid = params.tripId;
       } else {
         activityObj.trip_id = params.tripId;
       }
     }
 
-    const endpoint = "/v2/replace/activity/uuid/" + params.uuid + "/format/json";
+    const endpoint =
+      "/v2/replace/activity/uuid/" + params.uuid + "/format/json";
     const data = new URLSearchParams({
       json: JSON.stringify({
         ActivityObject: orderObjectByKeys(activityObj, ACTIVITY_FIELD_ORDER),
@@ -693,33 +718,54 @@ export class TripItService {
     };
 
     if (params.bookingRate) airObj.booking_rate = params.bookingRate;
-    if (params.bookingSiteConfNum) airObj.booking_site_conf_num = params.bookingSiteConfNum;
-    if (params.bookingSiteName) airObj.booking_site_name = params.bookingSiteName;
-    if (params.bookingSitePhone) airObj.booking_site_phone = params.bookingSitePhone;
+    if (params.bookingSiteConfNum)
+      airObj.booking_site_conf_num = params.bookingSiteConfNum;
+    if (params.bookingSiteName)
+      airObj.booking_site_name = params.bookingSiteName;
+    if (params.bookingSitePhone)
+      airObj.booking_site_phone = params.bookingSitePhone;
     if (params.bookingSiteUrl) airObj.booking_site_url = params.bookingSiteUrl;
     if (params.recordLocator) airObj.record_locator = params.recordLocator;
-    if (params.supplierConfNum) airObj.supplier_conf_num = params.supplierConfNum;
-    if (params.supplierContact) airObj.supplier_contact = params.supplierContact;
-    if (params.supplierEmailAddress) airObj.supplier_email_address = params.supplierEmailAddress;
+    if (params.supplierConfNum)
+      airObj.supplier_conf_num = params.supplierConfNum;
+    if (params.supplierContact)
+      airObj.supplier_contact = params.supplierContact;
+    if (params.supplierEmailAddress)
+      airObj.supplier_email_address = params.supplierEmailAddress;
     if (params.supplierPhone) airObj.supplier_phone = params.supplierPhone;
     if (params.supplierUrl) airObj.supplier_url = params.supplierUrl;
     if (params.notes) airObj.notes = params.notes;
     if (params.restrictions) airObj.restrictions = params.restrictions;
     if (params.totalCost) airObj.total_cost = params.totalCost;
     if (params.bookingDate) airObj.booking_date = params.bookingDate;
-    if (params.isPurchased !== undefined) airObj.is_purchased = params.isPurchased;
+    if (params.isPurchased !== undefined)
+      airObj.is_purchased = params.isPurchased;
 
-    if (params.departureTime || params.departureAirport || params.arrivalTime || params.arrivalAirport ||
-        params.marketingAirline || params.flightNumber || params.operatingAirline || params.aircraft || params.seatAssignment) {
-      
+    if (
+      params.departureTime ||
+      params.departureAirport ||
+      params.arrivalTime ||
+      params.arrivalAirport ||
+      params.marketingAirline ||
+      params.flightNumber ||
+      params.operatingAirline ||
+      params.aircraft ||
+      params.seatAssignment
+    ) {
       airObj.Segment = [
         {
-          ...(params.marketingAirline && { marketing_airline: params.marketingAirline }),
-          ...(params.flightNumber && { marketing_flight_number: params.flightNumber }),
-          ...(params.operatingAirline && { operating_airline: params.operatingAirline }),
+          ...(params.marketingAirline && {
+            marketing_airline: params.marketingAirline,
+          }),
+          ...(params.flightNumber && {
+            marketing_flight_number: params.flightNumber,
+          }),
+          ...(params.operatingAirline && {
+            operating_airline: params.operatingAirline,
+          }),
           ...(params.aircraft && { aircraft: params.aircraft }),
           ...(params.seatAssignment && { seats: params.seatAssignment }),
-        }
+        },
       ];
 
       if (params.departureTime) {
@@ -736,12 +782,14 @@ export class TripItService {
         };
       }
 
-      if (params.departureAirport) airObj.Segment[0].start_airport_code = params.departureAirport;
-      if (params.arrivalAirport) airObj.Segment[0].end_airport_code = params.arrivalAirport;
+      if (params.departureAirport)
+        airObj.Segment[0].start_airport_code = params.departureAirport;
+      if (params.arrivalAirport)
+        airObj.Segment[0].end_airport_code = params.arrivalAirport;
     }
 
     if (params.tripId) {
-      if (params.tripId.includes('-')) {
+      if (params.tripId.includes("-")) {
         airObj.trip_uuid = params.tripId;
       } else {
         airObj.trip_id = params.tripId;
@@ -772,20 +820,31 @@ export class TripItService {
       uuid: params.uuid,
     };
 
-    if (params.isClientTraveler) transportObj.is_client_traveler = params.isClientTraveler;
+    if (params.isClientTraveler)
+      transportObj.is_client_traveler = params.isClientTraveler;
     if (params.isPurchased) transportObj.is_purchased = params.isPurchased;
-    if (params.isTripitBooking) transportObj.is_tripit_booking = params.isTripitBooking;
-    if (params.hasPossibleCancellation) transportObj.has_possible_cancellation = params.hasPossibleCancellation;
+    if (params.isTripitBooking)
+      transportObj.is_tripit_booking = params.isTripitBooking;
+    if (params.hasPossibleCancellation)
+      transportObj.has_possible_cancellation = params.hasPossibleCancellation;
 
-    const segmentUpdated = params.startAddress || params.startDate || params.startTime || 
-                          params.endAddress || params.endDate || params.endTime || 
-                          params.startLocationName || params.endLocationName ||
-                          params.vehicleDescription || params.confirmationNum || 
-                          params.carrierName || params.numberPassengers;
+    const segmentUpdated =
+      params.startAddress ||
+      params.startDate ||
+      params.startTime ||
+      params.endAddress ||
+      params.endDate ||
+      params.endTime ||
+      params.startLocationName ||
+      params.endLocationName ||
+      params.vehicleDescription ||
+      params.confirmationNum ||
+      params.carrierName ||
+      params.numberPassengers;
 
     if (segmentUpdated) {
       transportObj.Segment = [{}];
-      
+
       if (params.startAddress) {
         transportObj.Segment[0].StartLocationAddress = {
           address: params.startAddress,
@@ -793,7 +852,7 @@ export class TripItService {
           latitude: "0",
         };
       }
-      
+
       if (params.startDate || params.startTime || params.timezone) {
         transportObj.Segment[0].StartDateTime = {
           ...(params.startDate && { date: params.startDate }),
@@ -801,7 +860,7 @@ export class TripItService {
           ...(params.timezone && { timezone: params.timezone }),
         };
       }
-      
+
       if (params.endAddress) {
         transportObj.Segment[0].EndLocationAddress = {
           address: params.endAddress,
@@ -809,7 +868,7 @@ export class TripItService {
           latitude: "0",
         };
       }
-      
+
       if (params.endDate || params.endTime || params.timezone) {
         transportObj.Segment[0].EndDateTime = {
           ...(params.endDate && { date: params.endDate }),
@@ -817,13 +876,19 @@ export class TripItService {
           ...(params.timezone && { timezone: params.timezone }),
         };
       }
-      
-      if (params.vehicleDescription) transportObj.Segment[0].vehicle_description = params.vehicleDescription;
-      if (params.startLocationName) transportObj.Segment[0].start_location_name = params.startLocationName;
-      if (params.numberPassengers) transportObj.Segment[0].number_passengers = params.numberPassengers;
-      if (params.endLocationName) transportObj.Segment[0].end_location_name = params.endLocationName;
-      if (params.confirmationNum) transportObj.Segment[0].confirmation_num = params.confirmationNum;
-      if (params.carrierName) transportObj.Segment[0].carrier_name = params.carrierName;
+
+      if (params.vehicleDescription)
+        transportObj.Segment[0].vehicle_description = params.vehicleDescription;
+      if (params.startLocationName)
+        transportObj.Segment[0].start_location_name = params.startLocationName;
+      if (params.numberPassengers)
+        transportObj.Segment[0].number_passengers = params.numberPassengers;
+      if (params.endLocationName)
+        transportObj.Segment[0].end_location_name = params.endLocationName;
+      if (params.confirmationNum)
+        transportObj.Segment[0].confirmation_num = params.confirmationNum;
+      if (params.carrierName)
+        transportObj.Segment[0].carrier_name = params.carrierName;
     }
 
     if (params.tripId) {
@@ -834,7 +899,8 @@ export class TripItService {
       }
     }
 
-    const endpoint = "/v2/replace/transport/uuid/" + params.uuid + "/format/json";
+    const endpoint =
+      "/v2/replace/transport/uuid/" + params.uuid + "/format/json";
     const data = new URLSearchParams({
       json: JSON.stringify({
         TransportObject: orderObjectByKeys(transportObj, TRANSPORT_FIELD_ORDER),
@@ -856,23 +922,103 @@ export class TripItService {
     objectUuid: string,
     documentName: string,
     documentContent: string,
-    documentType: string = 'application/pdf'
+    documentType: string = "application/pdf"
   ) {
-    const endpoint = `/v2/object/${objectType}/${objectUuid}/attach`;
-    
-    // Create form data
-    const formData = new URLSearchParams();
-    formData.append('name', documentName);
-    formData.append('type', documentType);
-    formData.append('data', documentContent);
+    // Construct the endpoint for the replace API
+    const endpoint = `/v2/replace/${objectType}/uuid/${objectUuid}/format/json`;
 
+    // Create the JSON payload
+    const objectTypeCapitalized =
+      objectType.charAt(0).toUpperCase() + objectType.slice(1);
+    const objectKey = `${objectTypeCapitalized}Object`;
+
+    // {"LodgingObject":{"uuid":"0450e8bf-b92a-9000-0004-00004ee5619e","trip_uuid":"921c6656-9e4b-9000-0001-0000159404a0","is_client_traveler":"true","relative_url":"/reservation/show/uuid/0450e8bf-b92a-9000-0004-00004ee5619e","display_name":"The Bridge Club","Image":{"caption":"e-Ticket Customer Copy01 (1).pdf","ImageData":{"content":"JVBERi0xLjQNJeLjz9MNMyAwIG9iag0KPDwNCi9DcmVhdG9yIDxGRUZGMDA1MzAwNTYwMDQ2MDAyMDAwNjYwMDZGMDA3MjAwMjAwMDRBMDA2MTAwNzYwMDYxMDAyMDAwNTAwMDcyMDA2OTAwNkUwMDc0MDAyMDAwMzkwMDJFMDAzMTAwMjAwMDI4MDA1MjAwNjUwMDc2MDA2OTAwNzMwMDY5MDA2RjAwNkUwMDIwMDAzOTAwMkUwMDMxMDAyRTAwMzEwMDM1MDAyRTAwMzAwMDIwMDA2MjAwNzUwMDY5MDA2QzAwNjQwMDIwMDAzMjAwMzAwMDMxMDAzMzAwMzAwMDMzMDAzMDAwMzgwMDMxMDAzMDAwMzMwMDMwMDAyOT4gL1Byb2R1Y2VyIDxGRUZGMDA1MzAwNTYwMDQ2MDAyMDAwNjYwMDZGMDA3MjAwMjAwMDRBMDA2MTAwNzYwMDYxMDAyMDAwNTAwMDcyMDA2OTAwNkUwMDc0PiAvQXV0aG9yIDxGRUZGMDA2MzAwNjEwMDcwMDA3MzAwNzYwMDY2MDAzMDAwMzE
+
+    const payload: any = {
+      [objectKey]: {
+        uuid: objectUuid,
+        trip_uuid: "",
+        is_client_traveler: "true",
+        relative_url: `/reservation/show/uuid/${objectUuid}`,
+        display_name: "",
+        // Image: {
+        //   caption: documentName,
+        //   ImageData: {
+        //     content: documentContent,
+        //     mime_type: documentType,
+        //   },
+        // },
+        is_display_name_auto_generated: "true",
+        last_modified: Math.floor(Date.now() / 1000).toString(),
+        booking_site_conf_num: "",
+        booking_site_name: "",
+        supplier_conf_num: "",
+        supplier_name: "",
+        supplier_url: "",
+        is_purchased: "true",
+        total_cost: "",
+        is_tripit_booking: "false",
+        EstimatedStartDateTime: {
+          date: "",
+          time: "",
+          timezone: "",
+          utc_offset: "",
+        },
+        StartDateTime: {
+          date: "",
+          time: "",
+          timezone: "",
+          utc_offset: "",
+          is_timezone_manual: "false",
+        },
+        EndDateTime: {
+          date: "",
+          time: "",
+          timezone: "",
+          utc_offset: "",
+          is_timezone_manual: "false",
+        },
+        Address: {
+          address: "",
+          city: "",
+          state: "",
+          country: "",
+          latitude: "",
+          longitude: "",
+        },
+        number_guests: "",
+        number_rooms: "",
+      },
+    };
+    // Convert the payload to JSON string and then URL encode it
+    const jsonPayload = JSON.stringify(payload);
+    const formData = new URLSearchParams();
+    formData.append("json", jsonPayload);
+
+    console.log("Endpoint:", endpoint);
+    console.log("Object Type:", objectType);
+    console.log("Object UUID:", objectUuid);
+    console.log("Document Name:", documentName);
+    console.log(
+      "Payload Structure:",
+      JSON.stringify(
+        payload,
+        (key, value) => (key === "content" ? "[BASE64_CONTENT]" : value),
+        2
+      )
+    );
+    console.log(formData.toString());
+
+    // Make the API request
     const response = await this.api.makeApiRequest(
       "POST",
       endpoint,
       credentials,
-      formData.toString()
+      formData.toString(),
+      undefined,
+      "application/x-www-form-urlencoded"
     );
-    
+
     return response.data;
   }
 }
