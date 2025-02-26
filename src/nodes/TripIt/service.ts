@@ -155,6 +155,13 @@ export interface IUpdateHotelParams {
   totalCost?: string;
   bookingDate?: string;
   isPurchased?: boolean;
+  Image?: {
+    caption: string;
+    ImageData: {
+      content: string;
+      mime_type: string;
+    };
+  };
 }
 
 export interface IUpdateActivityParams {
@@ -168,6 +175,13 @@ export interface IUpdateActivityParams {
   endTime?: string;
   locationName?: string;
   address?: string;
+  Image?: {
+    caption: string;
+    ImageData: {
+      content: string;
+      mime_type: string;
+    };
+  };
 }
 
 export interface IUpdateFlightParams {
@@ -198,6 +212,13 @@ export interface IUpdateFlightParams {
   totalCost?: string;
   bookingDate?: string;
   isPurchased?: boolean;
+  Image?: {
+    caption: string;
+    ImageData: {
+      content: string;
+      mime_type: string;
+    };
+  };
 }
 
 export interface IUpdateTransportParams {
@@ -220,6 +241,13 @@ export interface IUpdateTransportParams {
   confirmationNum?: string;
   carrierName?: string;
   numberPassengers?: string;
+  Image?: {
+    caption: string;
+    ImageData: {
+      content: string;
+      mime_type: string;
+    };
+  };
 }
 
 export class TripItService {
@@ -556,9 +584,12 @@ export class TripItService {
     params: IUpdateHotelParams
   ) {
     // First, fetch the existing hotel object
-    const existingHotelResponse = await this.api.getHotel(credentials, params.uuid);
+    const existingHotelResponse = await this.api.getHotel(
+      credentials,
+      params.uuid
+    );
     const existingHotel = existingHotelResponse.data.LodgingObject;
-    
+
     if (!existingHotel) {
       throw new Error(`Hotel with UUID ${params.uuid} not found`);
     }
@@ -568,28 +599,28 @@ export class TripItService {
 
     // Map param keys to API object keys for top-level properties
     const paramMapping: Record<string, string> = {
-      hotelName: 'supplier_name',
-      supplierConfNum: 'supplier_conf_num',
-      supplierPhone: 'supplier_phone',
-      supplierUrl: 'supplier_url',
-      bookingRate: 'booking_rate',
-      bookingSiteConfNum: 'booking_site_conf_num',
-      bookingSiteName: 'booking_site_name',
-      bookingSitePhone: 'booking_site_phone',
-      bookingSiteUrl: 'booking_site_url',
-      recordLocator: 'record_locator',
-      supplierContact: 'supplier_contact',
-      supplierEmailAddress: 'supplier_email_address',
-      notes: 'notes',
-      restrictions: 'restrictions',
-      totalCost: 'total_cost',
-      bookingDate: 'booking_date',
-      isPurchased: 'is_purchased',
-      numberGuests: 'number_guests',
-      numberRooms: 'number_rooms',
-      roomType: 'room_type'
+      hotelName: "supplier_name",
+      supplierConfNum: "supplier_conf_num",
+      supplierPhone: "supplier_phone",
+      supplierUrl: "supplier_url",
+      bookingRate: "booking_rate",
+      bookingSiteConfNum: "booking_site_conf_num",
+      bookingSiteName: "booking_site_name",
+      bookingSitePhone: "booking_site_phone",
+      bookingSiteUrl: "booking_site_url",
+      recordLocator: "record_locator",
+      supplierContact: "supplier_contact",
+      supplierEmailAddress: "supplier_email_address",
+      notes: "notes",
+      restrictions: "restrictions",
+      totalCost: "total_cost",
+      bookingDate: "booking_date",
+      isPurchased: "is_purchased",
+      numberGuests: "number_guests",
+      numberRooms: "number_rooms",
+      roomType: "room_type",
     };
-    
+
     // Update object properties from params using the mapping
     Object.entries(paramMapping).forEach(([paramKey, objectKey]) => {
       const value = params[paramKey as keyof IUpdateHotelParams];
@@ -603,38 +634,49 @@ export class TripItService {
       if (!lodgingObject.StartDateTime) {
         lodgingObject.StartDateTime = {};
       }
-      
-      if (params.checkInDate) lodgingObject.StartDateTime.date = params.checkInDate;
-      if (params.checkInTime) lodgingObject.StartDateTime.time = normalizeTime(params.checkInTime);
-      if (params.timezone) lodgingObject.StartDateTime.timezone = params.timezone;
+
+      if (params.checkInDate)
+        lodgingObject.StartDateTime.date = params.checkInDate;
+      if (params.checkInTime)
+        lodgingObject.StartDateTime.time = normalizeTime(params.checkInTime);
+      if (params.timezone)
+        lodgingObject.StartDateTime.timezone = params.timezone;
     }
-    
+
     // Handle EndDateTime updates
     if (params.checkOutDate || params.checkOutTime || params.timezone) {
       if (!lodgingObject.EndDateTime) {
         lodgingObject.EndDateTime = {};
       }
-      
-      if (params.checkOutDate) lodgingObject.EndDateTime.date = params.checkOutDate;
-      if (params.checkOutTime) lodgingObject.EndDateTime.time = normalizeTime(params.checkOutTime);
+
+      if (params.checkOutDate)
+        lodgingObject.EndDateTime.date = params.checkOutDate;
+      if (params.checkOutTime)
+        lodgingObject.EndDateTime.time = normalizeTime(params.checkOutTime);
       if (params.timezone) lodgingObject.EndDateTime.timezone = params.timezone;
     }
-    
+
     // Handle Address updates
-    if (params.street || params.city || params.state || params.zip || params.country) {
+    if (
+      params.street ||
+      params.city ||
+      params.state ||
+      params.zip ||
+      params.country
+    ) {
       if (!lodgingObject.Address) {
         lodgingObject.Address = {};
       }
-      
+
       // Map Address parameters
       const addressMapping: Record<string, string> = {
-        street: 'address',
-        city: 'city',
-        state: 'state',
-        zip: 'zip',
-        country: 'country'
+        street: "address",
+        city: "city",
+        state: "state",
+        zip: "zip",
+        country: "country",
       };
-      
+
       Object.entries(addressMapping).forEach(([paramKey, objectKey]) => {
         const value = params[paramKey as keyof IUpdateHotelParams];
         if (value !== undefined) {
@@ -642,7 +684,7 @@ export class TripItService {
         }
       });
     }
-    
+
     // Update trip ID if provided
     if (params.tripId) {
       if (params.tripId.includes("-")) {
@@ -651,6 +693,13 @@ export class TripItService {
         lodgingObject.trip_id = params.tripId;
       }
     }
+
+    // Handle Image if provided
+    if (params.Image) {
+      lodgingObject.Image = params.Image;
+    }
+
+    console.log("lodgingObject", lodgingObject);
 
     const endpoint = "/v2/replace/lodging/uuid/" + params.uuid + "/format/json";
     const data = new URLSearchParams({
@@ -673,9 +722,12 @@ export class TripItService {
     params: IUpdateActivityParams
   ) {
     // First, fetch the existing activity object
-    const existingActivityResponse = await this.api.getActivity(credentials, params.uuid);
+    const existingActivityResponse = await this.api.getActivity(
+      credentials,
+      params.uuid
+    );
     const existingActivity = existingActivityResponse.data.ActivityObject;
-    
+
     if (!existingActivity) {
       throw new Error(`Activity with UUID ${params.uuid} not found`);
     }
@@ -685,10 +737,10 @@ export class TripItService {
 
     // Map param keys to API object keys for top-level properties
     const paramMapping: Record<string, string> = {
-      displayName: 'display_name',
-      locationName: 'location_name',
+      displayName: "display_name",
+      locationName: "location_name",
     };
-    
+
     // Update object properties from params using the mapping
     Object.entries(paramMapping).forEach(([paramKey, objectKey]) => {
       const value = params[paramKey as keyof IUpdateActivityParams];
@@ -702,9 +754,10 @@ export class TripItService {
       if (!activityObj.StartDateTime) {
         activityObj.StartDateTime = {};
       }
-      
+
       if (params.startDate) activityObj.StartDateTime.date = params.startDate;
-      if (params.startTime) activityObj.StartDateTime.time = normalizeTime(params.startTime);
+      if (params.startTime)
+        activityObj.StartDateTime.time = normalizeTime(params.startTime);
       if (params.timezone) activityObj.StartDateTime.timezone = params.timezone;
     }
 
@@ -713,9 +766,10 @@ export class TripItService {
       if (!activityObj.EndDateTime) {
         activityObj.EndDateTime = {};
       }
-      
+
       if (params.endDate) activityObj.EndDateTime.date = params.endDate;
-      if (params.endTime) activityObj.EndDateTime.time = normalizeTime(params.endTime);
+      if (params.endTime)
+        activityObj.EndDateTime.time = normalizeTime(params.endTime);
       if (params.timezone) activityObj.EndDateTime.timezone = params.timezone;
     }
 
@@ -726,7 +780,7 @@ export class TripItService {
       }
       activityObj.Address.address = params.address;
     }
-    
+
     // Update trip ID if provided
     if (params.tripId) {
       if (params.tripId.includes("-")) {
@@ -736,7 +790,13 @@ export class TripItService {
       }
     }
 
-    const endpoint = "/v2/replace/activity/uuid/" + params.uuid + "/format/json";
+    // Handle Image if provided
+    if (params.Image) {
+      activityObj.Image = params.Image;
+    }
+
+    const endpoint =
+      "/v2/replace/activity/uuid/" + params.uuid + "/format/json";
     const data = new URLSearchParams({
       json: JSON.stringify({
         ActivityObject: orderObjectByKeys(activityObj, ACTIVITY_FIELD_ORDER),
@@ -757,9 +817,12 @@ export class TripItService {
     params: IUpdateFlightParams
   ) {
     // First, fetch the existing flight object
-    const existingFlightResponse = await this.api.getFlight(credentials, params.uuid);
+    const existingFlightResponse = await this.api.getFlight(
+      credentials,
+      params.uuid
+    );
     const existingFlight = existingFlightResponse.data.AirObject;
-    
+
     if (!existingFlight) {
       throw new Error(`Flight with UUID ${params.uuid} not found`);
     }
@@ -769,33 +832,44 @@ export class TripItService {
 
     // Update top-level fields that were provided
     const topLevelFields = [
-      'booking_rate', 'booking_site_conf_num', 'booking_site_name', 
-      'booking_site_phone', 'booking_site_url', 'record_locator', 
-      'supplier_conf_num', 'supplier_contact', 'supplier_email_address', 
-      'supplier_phone', 'supplier_url', 'notes', 'restrictions', 
-      'total_cost', 'booking_date', 'is_purchased'
+      "booking_rate",
+      "booking_site_conf_num",
+      "booking_site_name",
+      "booking_site_phone",
+      "booking_site_url",
+      "record_locator",
+      "supplier_conf_num",
+      "supplier_contact",
+      "supplier_email_address",
+      "supplier_phone",
+      "supplier_url",
+      "notes",
+      "restrictions",
+      "total_cost",
+      "booking_date",
+      "is_purchased",
     ];
-    
+
     // Map param keys to API object keys
     const paramMapping: Record<string, string> = {
-      bookingRate: 'booking_rate',
-      bookingSiteConfNum: 'booking_site_conf_num',
-      bookingSiteName: 'booking_site_name',
-      bookingSitePhone: 'booking_site_phone',
-      bookingSiteUrl: 'booking_site_url',
-      recordLocator: 'record_locator',
-      supplierConfNum: 'supplier_conf_num',
-      supplierContact: 'supplier_contact',
-      supplierEmailAddress: 'supplier_email_address',
-      supplierPhone: 'supplier_phone',
-      supplierUrl: 'supplier_url',
-      notes: 'notes',
-      restrictions: 'restrictions',
-      totalCost: 'total_cost',
-      bookingDate: 'booking_date',
-      isPurchased: 'is_purchased',
+      bookingRate: "booking_rate",
+      bookingSiteConfNum: "booking_site_conf_num",
+      bookingSiteName: "booking_site_name",
+      bookingSitePhone: "booking_site_phone",
+      bookingSiteUrl: "booking_site_url",
+      recordLocator: "record_locator",
+      supplierConfNum: "supplier_conf_num",
+      supplierContact: "supplier_contact",
+      supplierEmailAddress: "supplier_email_address",
+      supplierPhone: "supplier_phone",
+      supplierUrl: "supplier_url",
+      notes: "notes",
+      restrictions: "restrictions",
+      totalCost: "total_cost",
+      bookingDate: "booking_date",
+      isPurchased: "is_purchased",
     };
-    
+
     // Update object properties from params using the mapping
     Object.entries(paramMapping).forEach(([paramKey, objectKey]) => {
       const value = params[paramKey as keyof IUpdateFlightParams];
@@ -803,40 +877,40 @@ export class TripItService {
         airObj[objectKey] = value;
       }
     });
-    
+
     // Handle segment properties
     if (airObj.Segment && airObj.Segment.length > 0) {
       // Update segment-specific fields
       const segmentParamMapping: Record<string, string> = {
-        marketingAirline: 'marketing_airline',
-        flightNumber: 'marketing_flight_number',
-        operatingAirline: 'operating_airline',
-        aircraft: 'aircraft',
-        seatAssignment: 'seats',
-        departureAirport: 'start_airport_code',
-        arrivalAirport: 'end_airport_code',
+        marketingAirline: "marketing_airline",
+        flightNumber: "marketing_flight_number",
+        operatingAirline: "operating_airline",
+        aircraft: "aircraft",
+        seatAssignment: "seats",
+        departureAirport: "start_airport_code",
+        arrivalAirport: "end_airport_code",
       };
-      
+
       Object.entries(segmentParamMapping).forEach(([paramKey, objectKey]) => {
         const value = params[paramKey as keyof IUpdateFlightParams];
         if (value !== undefined) {
           airObj.Segment[0][objectKey] = value;
         }
       });
-      
+
       // Handle departure date/time
       if (params.departureTime) {
-        const [date, time] = params.departureTime.split('T');
+        const [date, time] = params.departureTime.split("T");
         if (!airObj.Segment[0].StartDateTime) {
           airObj.Segment[0].StartDateTime = {};
         }
         airObj.Segment[0].StartDateTime.date = date;
         airObj.Segment[0].StartDateTime.time = normalizeTime(time);
       }
-      
+
       // Handle arrival date/time
       if (params.arrivalTime) {
-        const [date, time] = params.arrivalTime.split('T');
+        const [date, time] = params.arrivalTime.split("T");
         if (!airObj.Segment[0].EndDateTime) {
           airObj.Segment[0].EndDateTime = {};
         }
@@ -852,6 +926,11 @@ export class TripItService {
       } else {
         airObj.trip_id = params.tripId;
       }
+    }
+
+    // Handle Image if provided
+    if (params.Image) {
+      airObj.Image = params.Image;
     }
 
     const endpoint = "/v2/replace/air/uuid/" + params.uuid + "/format/json";
@@ -875,24 +954,27 @@ export class TripItService {
     params: IUpdateTransportParams
   ) {
     // First, fetch the existing transport object
-    const existingTransportResponse = await this.api.getTransport(credentials, params.uuid);
+    const existingTransportResponse = await this.api.getTransport(
+      credentials,
+      params.uuid
+    );
     const existingTransport = existingTransportResponse.data.TransportObject;
-    
+
     if (!existingTransport) {
       throw new Error(`Transport with UUID ${params.uuid} not found`);
     }
-    
+
     // Create a merged object with existing data
     const transportObj: any = { ...existingTransport };
-    
+
     // Map param keys to API object keys for top-level properties
     const paramMapping: Record<string, string> = {
-      isClientTraveler: 'is_client_traveler',
-      isPurchased: 'is_purchased',
-      isTripitBooking: 'is_tripit_booking',
-      hasPossibleCancellation: 'has_possible_cancellation'
+      isClientTraveler: "is_client_traveler",
+      isPurchased: "is_purchased",
+      isTripitBooking: "is_tripit_booking",
+      hasPossibleCancellation: "has_possible_cancellation",
     };
-    
+
     // Update object properties from params using the mapping
     Object.entries(paramMapping).forEach(([paramKey, objectKey]) => {
       const value = params[paramKey as keyof IUpdateTransportParams];
@@ -900,71 +982,82 @@ export class TripItService {
         transportObj[objectKey] = value;
       }
     });
-    
+
     // Handle segment properties if they exist
     if (transportObj.Segment && transportObj.Segment.length > 0) {
       // Update segment-specific fields
       const segmentParamMapping: Record<string, string> = {
-        vehicleDescription: 'vehicle_description',
-        startLocationName: 'start_location_name',
-        numberPassengers: 'number_passengers',
-        endLocationName: 'end_location_name',
-        confirmationNum: 'confirmation_num',
-        carrierName: 'carrier_name'
+        vehicleDescription: "vehicle_description",
+        startLocationName: "start_location_name",
+        numberPassengers: "number_passengers",
+        endLocationName: "end_location_name",
+        confirmationNum: "confirmation_num",
+        carrierName: "carrier_name",
       };
-      
+
       Object.entries(segmentParamMapping).forEach(([paramKey, objectKey]) => {
         const value = params[paramKey as keyof IUpdateTransportParams];
         if (value !== undefined) {
           transportObj.Segment[0][objectKey] = value;
         }
       });
-      
+
       // Handle start location address
       if (params.startAddress) {
         if (!transportObj.Segment[0].StartLocationAddress) {
           transportObj.Segment[0].StartLocationAddress = {
             longitude: "0",
-            latitude: "0"
+            latitude: "0",
           };
         }
-        transportObj.Segment[0].StartLocationAddress.address = params.startAddress;
+        transportObj.Segment[0].StartLocationAddress.address =
+          params.startAddress;
       }
-      
+
       // Handle end location address
       if (params.endAddress) {
         if (!transportObj.Segment[0].EndLocationAddress) {
           transportObj.Segment[0].EndLocationAddress = {
             longitude: "0",
-            latitude: "0"
+            latitude: "0",
           };
         }
         transportObj.Segment[0].EndLocationAddress.address = params.endAddress;
       }
-      
+
       // Handle StartDateTime updates
       if (params.startDate || params.startTime || params.timezone) {
         if (!transportObj.Segment[0].StartDateTime) {
           transportObj.Segment[0].StartDateTime = {};
         }
-        
-        if (params.startDate) transportObj.Segment[0].StartDateTime.date = params.startDate;
-        if (params.startTime) transportObj.Segment[0].StartDateTime.time = normalizeTime(params.startTime);
-        if (params.timezone) transportObj.Segment[0].StartDateTime.timezone = params.timezone;
+
+        if (params.startDate)
+          transportObj.Segment[0].StartDateTime.date = params.startDate;
+        if (params.startTime)
+          transportObj.Segment[0].StartDateTime.time = normalizeTime(
+            params.startTime
+          );
+        if (params.timezone)
+          transportObj.Segment[0].StartDateTime.timezone = params.timezone;
       }
-      
+
       // Handle EndDateTime updates
       if (params.endDate || params.endTime || params.timezone) {
         if (!transportObj.Segment[0].EndDateTime) {
           transportObj.Segment[0].EndDateTime = {};
         }
-        
-        if (params.endDate) transportObj.Segment[0].EndDateTime.date = params.endDate;
-        if (params.endTime) transportObj.Segment[0].EndDateTime.time = normalizeTime(params.endTime);
-        if (params.timezone) transportObj.Segment[0].EndDateTime.timezone = params.timezone;
+
+        if (params.endDate)
+          transportObj.Segment[0].EndDateTime.date = params.endDate;
+        if (params.endTime)
+          transportObj.Segment[0].EndDateTime.time = normalizeTime(
+            params.endTime
+          );
+        if (params.timezone)
+          transportObj.Segment[0].EndDateTime.timezone = params.timezone;
       }
     }
-    
+
     // Update trip ID if provided
     if (params.tripId) {
       if (params.tripId.includes("-")) {
@@ -974,7 +1067,8 @@ export class TripItService {
       }
     }
 
-    const endpoint = "/v2/replace/transport/uuid/" + params.uuid + "/format/json";
+    const endpoint =
+      "/v2/replace/transport/uuid/" + params.uuid + "/format/json";
     const data = new URLSearchParams({
       json: JSON.stringify({
         TransportObject: orderObjectByKeys(transportObj, TRANSPORT_FIELD_ORDER),
@@ -998,101 +1092,76 @@ export class TripItService {
     documentContent: string,
     documentType: string = "application/pdf"
   ) {
-    // Construct the endpoint for the replace API
-    const endpoint = `/v2/replace/${objectType}/uuid/${objectUuid}/format/json`;
+    // First, get the existing object to ensure we have all the necessary data
+    let existingObject;
 
-    // Create the JSON payload
+    switch (objectType) {
+      case "lodging":
+        existingObject = await this.api.getHotel(credentials, objectUuid);
+        break;
+      case "activity":
+        existingObject = await this.api.getActivity(credentials, objectUuid);
+        break;
+      case "air":
+        existingObject = await this.api.getFlight(credentials, objectUuid);
+        break;
+      case "transport":
+        existingObject = await this.api.getTransport(credentials, objectUuid);
+        break;
+      default:
+        throw new Error(`Unsupported object type: ${objectType}`);
+    }
+
+    if (!existingObject || !existingObject.data) {
+      throw new Error(`Object ${objectType} with UUID ${objectUuid} not found`);
+    }
+
+    // Extract the object data
     const objectTypeCapitalized =
       objectType.charAt(0).toUpperCase() + objectType.slice(1);
     const objectKey = `${objectTypeCapitalized}Object`;
+    const objectData = existingObject.data[objectKey];
 
-    // {"LodgingObject":{"uuid":"0450e8bf-b92a-9000-0004-00004ee5619e","trip_uuid":"921c6656-9e4b-9000-0001-0000159404a0","is_client_traveler":"true","relative_url":"/reservation/show/uuid/0450e8bf-b92a-9000-0004-00004ee5619e","display_name":"The Bridge Club","Image":{"caption":"e-Ticket Customer Copy01 (1).pdf","ImageData":{"content":"JVBERi0xLjQNJeLjz9MNMyAwIG9iag0KPDwNCi9DcmVhdG9yIDxGRUZGMDA1MzAwNTYwMDQ2MDAyMDAwNjYwMDZGMDA3MjAwMjAwMDRBMDA2MTAwNzYwMDYxMDAyMDAwNTAwMDcyMDA2OTAwNkUwMDc0MDAyMDAwMzkwMDJFMDAzMTAwMjAwMDI4MDA1MjAwNjUwMDc2MDA2OTAwNzMwMDY5MDA2RjAwNkUwMDIwMDAzOTAwMkUwMDMxMDAyRTAwMzEwMDM1MDAyRTAwMzAwMDIwMDA2MjAwNzUwMDY5MDA2QzAwNjQwMDIwMDAzMjAwMzAwMDMxMDAzMzAwMzAwMDMzMDAzMDAwMzgwMDMxMDAzMDAwMzMwMDMwMDAyOT4gL1Byb2R1Y2VyIDxGRUZGMDA1MzAwNTYwMDQ2MDAyMDAwNjYwMDZGMDA3MjAwMjAwMDRBMDA2MTAwNzYwMDYxMDAyMDAwNTAwMDcyMDA2OTAwNkUwMDc0PiAvQXV0aG9yIDxGRUZGMDA2MzAwNjEwMDcwMDA3MzAwNzYwMDY2MDAzMDAwMzE
-
-    const payload: any = {
-      [objectKey]: {
-        uuid: objectUuid,
-        trip_uuid: "",
-        is_client_traveler: "true",
-        relative_url: `/reservation/show/uuid/${objectUuid}`,
-        display_name: "",
-        // Image: {
-        //   caption: documentName,
-        //   ImageData: {
-        //     content: documentContent,
-        //     mime_type: documentType,
-        //   },
-        // },
-        is_display_name_auto_generated: "true",
-        last_modified: Math.floor(Date.now() / 1000).toString(),
-        booking_site_conf_num: "",
-        booking_site_name: "",
-        supplier_conf_num: "",
-        supplier_name: "",
-        supplier_url: "",
-        is_purchased: "true",
-        total_cost: "",
-        is_tripit_booking: "false",
-        EstimatedStartDateTime: {
-          date: "",
-          time: "",
-          timezone: "",
-          utc_offset: "",
-        },
-        StartDateTime: {
-          date: "",
-          time: "",
-          timezone: "",
-          utc_offset: "",
-          is_timezone_manual: "false",
-        },
-        EndDateTime: {
-          date: "",
-          time: "",
-          timezone: "",
-          utc_offset: "",
-          is_timezone_manual: "false",
-        },
-        Address: {
-          address: "",
-          city: "",
-          state: "",
-          country: "",
-          latitude: "",
-          longitude: "",
-        },
-        number_guests: "",
-        number_rooms: "",
+    // Create the Image data
+    const imageData = {
+      caption: documentName,
+      ImageData: {
+        content: documentContent,
+        mime_type: documentType,
       },
     };
-    // Convert the payload to JSON string and then URL encode it
-    const jsonPayload = JSON.stringify(payload);
-    const formData = new URLSearchParams();
-    formData.append("json", jsonPayload);
 
-    console.log("Endpoint:", endpoint);
-    console.log("Object Type:", objectType);
-    console.log("Object UUID:", objectUuid);
-    console.log("Document Name:", documentName);
-    console.log(
-      "Payload Structure:",
-      JSON.stringify(
-        payload,
-        (key, value) => (key === "content" ? "[BASE64_CONTENT]" : value),
-        2
-      )
-    );
-    console.log(formData.toString());
+    // Use the appropriate update method based on object type
+    let response;
+    switch (objectType) {
+      case "lodging":
+        // Create a params object with only the uuid and explicitly add the Image property
+        response = await this.updateHotel(credentials, {
+          uuid: objectUuid,
+          // We don't spread the entire objectData as that might override our Image
+          Image: imageData,
+        });
+        break;
+      case "activity":
+        response = await this.updateActivity(credentials, {
+          uuid: objectUuid,
+          Image: imageData,
+        });
+        break;
+      case "air":
+        response = await this.updateFlight(credentials, {
+          uuid: objectUuid,
+          Image: imageData,
+        });
+        break;
+      case "transport":
+        response = await this.updateTransport(credentials, {
+          uuid: objectUuid,
+          Image: imageData,
+        });
+        break;
+    }
 
-    // Make the API request
-    const response = await this.api.makeApiRequest(
-      "POST",
-      endpoint,
-      credentials,
-      formData.toString(),
-      undefined,
-      "application/x-www-form-urlencoded"
-    );
-
-    return response.data;
+    return response;
   }
 }
