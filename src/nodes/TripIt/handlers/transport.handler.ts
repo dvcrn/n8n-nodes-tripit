@@ -61,13 +61,13 @@ export async function handleTransportOperation(
   if (operation === "addToTrip") {
     const params = {
       tripId: this.getNodeParameter("tripId", 0) as string,
-      isClientTraveler: this.getNodeParameter("isClientTraveler", 0) as string,
-      isPurchased: this.getNodeParameter("isPurchased", 0) as string,
-      isTripitBooking: this.getNodeParameter("isTripitBooking", 0) as string,
+      isClientTraveler: this.getNodeParameter("isClientTraveler", 0) as boolean,
+      isPurchased: this.getNodeParameter("isPurchased", 0) as boolean,
+      isTripitBooking: this.getNodeParameter("isTripitBooking", 0) as boolean,
       hasPossibleCancellation: this.getNodeParameter(
         "hasPossibleCancellation",
         0
-      ) as string,
+      ) as boolean,
       timezone: this.getNodeParameter("timezone", 0) as string,
       startAddress: this.getNodeParameter("startAddress", 0) as string,
       startDate: this.getNodeParameter("startDate", 0) as string,

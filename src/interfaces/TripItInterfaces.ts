@@ -313,7 +313,7 @@ export interface ICreateActivityRequest {
     supplier_url?: string;
     is_purchased: string;
     is_tripit_booking: string;
-    has_possible_cancellation?: string;
+    has_possible_cancellation?: boolean;
     StartDateTime: IDateTime;
     EndDateTime: IDateTime;
     Address: {
