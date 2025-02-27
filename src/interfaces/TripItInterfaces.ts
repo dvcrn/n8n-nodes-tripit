@@ -1,5 +1,12 @@
 export const RESERVATION_FIELD_ORDER = [
+  "uuid",
+  "trip_uuid",
+  "is_client_traveler",
+  "relative_url",
+  "display_name",
   "Image",
+  "is_display_name_auto_generated",
+  "last_modified",
   "cancellation_date_time",
   "booking_date",
   "booking_rate",
@@ -31,6 +38,12 @@ export const DATE_TIME_FIELD_ORDER = [
   "is_timezone_manual",
 ] as const;
 
+export const IMAGE_FIELD_ORDER = [
+  "caption",
+  "segment_uuid",
+  "ImageData",
+] as const;
+
 export const ADDRESS_FIELD_ORDER = [
   "street",
   "city",
@@ -41,12 +54,15 @@ export const ADDRESS_FIELD_ORDER = [
 
 export const LODGING_FIELD_ORDER = [
   ...RESERVATION_FIELD_ORDER,
+  "is_tripit_booking",
+  "has_possible_cancellation",
+  "is_concur_booked",
+  "EstimatedStartDateTime",
   "StartDateTime",
   "EndDateTime",
   "Address",
   "number_guests",
   "number_rooms",
-  "room_type",
 ] as const;
 
 export const AIR_FIELD_ORDER = [
@@ -55,6 +71,44 @@ export const AIR_FIELD_ORDER = [
   "Traveler",
 ] as const;
 
+export const AIR_SEGMENT_FIELD_ORDER = [
+  "Status",
+  "StartDateTime",
+  "EndDateTime",
+  "start_airport_code",
+  "start_airport_name",
+  "start_airport_latitude",
+  "start_airport_longitude",
+  "start_city_name",
+  "start_country_code",
+  "end_airport_code",
+  "end_airport_name",
+  "end_airport_latitude",
+  "end_airport_longitude",
+  "end_city_name",
+  "end_country_code",
+  "marketing_airline",
+  "marketing_airline_code",
+  "marketing_flight_number",
+  "alternate_flights_url",
+  "aircraft",
+  "aircraft_display_name",
+  "distance",
+  "duration",
+  "service_class",
+  "stops",
+  "check_in_url",
+  "mobile_check_in_url",
+  "refund_info_url",
+  "change_reservation_url",
+  "customer_support_url",
+  "web_home_url",
+  "is_eligible_seattracker",
+  "is_hidden",
+  "uuid",
+  "is_international",
+  "does_cross_idl",
+] as const;
 export interface ITraveler {
   name: string;
   email?: string;

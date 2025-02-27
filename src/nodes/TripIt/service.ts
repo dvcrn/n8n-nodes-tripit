@@ -5,6 +5,8 @@ import normalizeTime from "../../util/normalizeTime";
 import {
   ACTIVITY_FIELD_ORDER,
   AIR_FIELD_ORDER,
+  AIR_SEGMENT_FIELD_ORDER,
+  IMAGE_FIELD_ORDER,
   LODGING_FIELD_ORDER,
 } from "../../interfaces/TripItInterfaces";
 import {
@@ -699,9 +701,27 @@ export class TripItService {
     }
 
     // Handle Image if provided
+    // Handle Image if provided
     if (params.Image) {
       lodgingObject.Image = params.Image;
+
+      if (Array.isArray(lodgingObject.Image)) {
+        lodgingObject.Image = lodgingObject.Image.map((img) => {
+          if (!img.ImageData) {
+            return img;
+          }
+
+          return orderObjectByKeys(img, IMAGE_FIELD_ORDER);
+        });
+      } else {
+        lodgingObject.Image = orderObjectByKeys(
+          lodgingObject.Image,
+          IMAGE_FIELD_ORDER
+        );
+      }
     }
+
+    console.log(orderObjectByKeys(lodgingObject, LODGING_FIELD_ORDER));
 
     const endpoint = "/v2/replace/lodging/uuid/" + params.uuid + "/format/json";
     const data = new URLSearchParams({
@@ -933,7 +953,25 @@ export class TripItService {
     // Handle Image if provided
     if (params.Image) {
       airObj.Image = params.Image;
+
+      if (Array.isArray(airObj.Image)) {
+        airObj.Image = airObj.Image.map((img) => {
+          if (img.segment_uuid) {
+            return img;
+          }
+
+          img.segment_uuid = img.segment_uuid || airObj.Segment.uuid;
+          return orderObjectByKeys(img, IMAGE_FIELD_ORDER);
+        });
+      } else {
+        airObj.Image.segment_uuid = airObj.Segment.uuid;
+        airObj.Image = orderObjectByKeys(airObj.Image, IMAGE_FIELD_ORDER);
+      }
     }
+
+    airObj.Segment = orderObjectByKeys(airObj.Segment, AIR_SEGMENT_FIELD_ORDER);
+
+    console.log(orderObjectByKeys(airObj, AIR_FIELD_ORDER));
 
     const endpoint = "/v2/replace/air/uuid/" + params.uuid + "/format/json";
     const data = new URLSearchParams({
@@ -1072,7 +1110,13 @@ export class TripItService {
     // Handle Image if provided
     if (params.Image) {
       transportObj.Image = params.Image;
-      transportObj.Image.segment_uuid = transportObj.Segment.uuid;
+
+      if (
+        typeof transportObj.Image === "object" &&
+        !Array.isArray(transportObj.Image)
+      ) {
+        transportObj.Image.segment_uuid = transportObj.Segment.uuid;
+      }
     }
 
     const orderedTransportObj = orderObjectByKeys(
@@ -1083,6 +1127,8 @@ export class TripItService {
       orderedTransportObj.Segment,
       TRANSPORT_SEGMENT_FIELD_ORDER
     );
+
+    console.log(orderedTransportObj);
 
     const endpoint =
       "/v2/replace/transport/uuid/" + params.uuid + "/format/json";
