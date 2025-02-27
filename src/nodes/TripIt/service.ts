@@ -7,7 +7,11 @@ import {
   AIR_FIELD_ORDER,
   LODGING_FIELD_ORDER,
 } from "../../interfaces/TripItInterfaces";
-import { TRANSPORT_FIELD_ORDER } from "./handlers/transport.handler";
+import {
+  TRANSPORT_FIELD_ORDER,
+  TRANSPORT_FIELD_UPDATE_ORDER,
+  TRANSPORT_SEGMENT_FIELD_ORDER,
+} from "./handlers/transport.handler";
 
 export interface ICreateTripParams {
   displayName: string;
@@ -698,12 +702,6 @@ export class TripItService {
     if (params.Image) {
       lodgingObject.Image = params.Image;
     }
-    console.log(
-      "lodgingObject with Image",
-      JSON.stringify(lodgingObject, null, 2)
-    );
-
-    console.log("lodgingObject", lodgingObject);
 
     const endpoint = "/v2/replace/lodging/uuid/" + params.uuid + "/format/json";
     const data = new URLSearchParams({
@@ -1071,11 +1069,26 @@ export class TripItService {
       }
     }
 
+    // Handle Image if provided
+    if (params.Image) {
+      transportObj.Image = params.Image;
+      transportObj.Image.segment_uuid = transportObj.Segment.uuid;
+    }
+
+    const orderedTransportObj = orderObjectByKeys(
+      transportObj,
+      TRANSPORT_FIELD_UPDATE_ORDER
+    );
+    orderedTransportObj.Segment = orderObjectByKeys(
+      orderedTransportObj.Segment,
+      TRANSPORT_SEGMENT_FIELD_ORDER
+    );
+
     const endpoint =
       "/v2/replace/transport/uuid/" + params.uuid + "/format/json";
     const data = new URLSearchParams({
       json: JSON.stringify({
-        TransportObject: orderObjectByKeys(transportObj, TRANSPORT_FIELD_ORDER),
+        TransportObject: orderedTransportObj,
       }),
     });
 
@@ -1143,6 +1156,7 @@ export class TripItService {
       if (Array.isArray(objectData.Image)) {
         updateParams.Image = [...objectData.Image, newImageData];
       }
+
       // If Image exists but is not an array (single object)
       else {
         updateParams.Image = [objectData.Image, newImageData];
@@ -1150,8 +1164,10 @@ export class TripItService {
     }
     // If no Image exists yet
     else {
-      updateParams.Image = [newImageData];
+      updateParams.Image = newImageData;
     }
+
+    console.log("update called -- params", updateParams);
 
     // Call the appropriate update method
     switch (objectType) {

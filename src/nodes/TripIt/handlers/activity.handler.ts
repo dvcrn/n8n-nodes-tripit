@@ -1,7 +1,7 @@
 import { IExecuteFunctions, INodeExecutionData } from "n8n-workflow";
 import { TripItApi } from "../api";
 import { ITripItCredentials } from "../types/ITripItTypes";
-import { TripItService } from "../service";
+import { TripItService, IUpdateActivityParams } from "../service";
 
 export async function handleActivityOperation(
   this: IExecuteFunctions,
@@ -30,21 +30,29 @@ export async function handleActivityOperation(
   }
 
   if (operation === "update") {
-    const params = {
+    // Create the params object with the appropriate type
+    const params: IUpdateActivityParams = {
       uuid: this.getNodeParameter("uuid", 0) as string,
     };
 
     // Add optional parameters
     const optionalFields = [
-      "tripId", "displayName", "startDate", "startTime", "timezone", 
-      "endDate", "endTime", "locationName", "address"
-    ];
+      "tripId",
+      "displayName",
+      "startDate",
+      "startTime",
+      "timezone",
+      "endDate",
+      "endTime",
+      "locationName",
+      "address",
+    ] as const;
 
     // Add each field that is provided by the user
     for (const field of optionalFields) {
       const hasField = this.getNodeParameter(`update_${field}`, 0, false);
       if (hasField) {
-        params[field] = this.getNodeParameter(field, 0);
+        params[field] = this.getNodeParameter(field, 0) as string;
       }
     }
 
@@ -55,18 +63,26 @@ export async function handleActivityOperation(
   if (operation === "attachDocument") {
     const activityUuid = this.getNodeParameter("uuid", 0) as string;
     const documentName = this.getNodeParameter("documentName", 0) as string;
-    const documentContent = this.getNodeParameter("documentContent", 0) as string;
-    const documentType = this.getNodeParameter("documentType", 0, "application/pdf") as string;
-    
+    const documentContent = this.getNodeParameter(
+      "documentContent",
+      0
+    ) as string;
+
+    const documentType = this.getNodeParameter(
+      "documentType",
+      0,
+      "application/pdf"
+    ) as string;
+
     const response = await tripItService.attachDocument(
-      credentials, 
-      "activity", 
-      activityUuid, 
+      credentials,
+      "activity",
+      activityUuid,
       documentName,
       documentContent,
       documentType
     );
-    
+
     returnData.push({ json: response });
   }
 

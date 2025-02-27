@@ -1,15 +1,52 @@
 import { IExecuteFunctions, INodeExecutionData } from "n8n-workflow";
 import { TripItApi } from "../api";
-import { TripItService, ICreateTransportParams, IUpdateTransportParams } from "../service";
+import {
+  TripItService,
+  ICreateTransportParams,
+  IUpdateTransportParams,
+} from "../service";
 import { ITripItCredentials } from "../types/ITripItTypes";
+import { RESERVATION_FIELD_ORDER } from "../../../interfaces/TripItInterfaces";
 
-export const TRANSPORT_FIELD_ORDER = [
+export const TRANSPORT_FIELD_UPDATE_ORDER = [
+  "uuid",
   "trip_uuid",
   "is_client_traveler",
+  "relative_url",
+  "display_name",
+  "Image",
   "is_purchased",
   "is_tripit_booking",
   "has_possible_cancellation",
   "Segment",
+];
+
+export const TRANSPORT_FIELD_ORDER = [
+  "uuid",
+  "trip_uuid",
+  "is_client_traveler",
+  "relative_url",
+  "display_name",
+  "Image",
+  "is_display_name_auto_generated",
+  "last_modified",
+  "is_purchased",
+  "is_tripit_booking",
+  "Segment",
+];
+
+export const TRANSPORT_SEGMENT_FIELD_ORDER = [
+  "uuid",
+  "StartLocationAddress",
+  "StartDateTime",
+  "EndLocationAddress",
+  "EndDateTime",
+  "vehicle_description",
+  "start_location_name",
+  "number_passengers",
+  "end_location_name",
+  "confirmation_num",
+  "carrier_name",
 ];
 
 export async function handleTransportOperation(
@@ -52,24 +89,39 @@ export async function handleTransportOperation(
       numberPassengers: this.getNodeParameter("numberPassengers", 0) as string,
     };
 
+    console.log("params", params);
+
     const response = await tripItService.createTransport(credentials, params);
     returnData.push({ json: response });
   }
 
   if (operation === "update") {
     const transportUuid = this.getNodeParameter("uuid", 0) as string;
-    
+
     // Create params object with index signature to allow string indexing
     const params: IUpdateTransportParams & { [key: string]: any } = {
       uuid: transportUuid,
     };
 
     const optionalFields = [
-      "tripId", "isClientTraveler", "isPurchased", "isTripitBooking", 
-      "hasPossibleCancellation", "timezone", "startAddress", "startDate", 
-      "startTime", "endAddress", "endDate", "endTime", "startLocationName", 
-      "endLocationName", "vehicleDescription", "confirmationNum", 
-      "carrierName", "numberPassengers"
+      "tripId",
+      "isClientTraveler",
+      "isPurchased",
+      "isTripitBooking",
+      "hasPossibleCancellation",
+      "timezone",
+      "startAddress",
+      "startDate",
+      "startTime",
+      "endAddress",
+      "endDate",
+      "endTime",
+      "startLocationName",
+      "endLocationName",
+      "vehicleDescription",
+      "confirmationNum",
+      "carrierName",
+      "numberPassengers",
     ];
 
     // Add each field that is provided by the user
@@ -87,18 +139,25 @@ export async function handleTransportOperation(
   if (operation === "attachDocument") {
     const transportUuid = this.getNodeParameter("uuid", 0) as string;
     const documentName = this.getNodeParameter("documentName", 0) as string;
-    const documentContent = this.getNodeParameter("documentContent", 0) as string;
-    const documentType = this.getNodeParameter("documentType", 0, "application/pdf") as string;
-    
+    const documentContent = this.getNodeParameter(
+      "documentContent",
+      0
+    ) as string;
+    const documentType = this.getNodeParameter(
+      "documentType",
+      0,
+      "application/pdf"
+    ) as string;
+
     const response = await tripItService.attachDocument(
-      credentials, 
-      "transport", 
-      transportUuid, 
+      credentials,
+      "transport",
+      transportUuid,
       documentName,
       documentContent,
       documentType
     );
-    
+
     returnData.push({ json: response });
   }
 

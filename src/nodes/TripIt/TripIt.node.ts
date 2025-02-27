@@ -4,6 +4,9 @@ import {
   INodeType,
   INodeTypeDescription,
   NodeOperationError,
+  NodeConnectionType,
+  ISupplyDataFunctions,
+  SupplyData,
 } from "n8n-workflow";
 import { AxiosError } from "axios";
 import { TripItApi } from "./api";
@@ -29,6 +32,7 @@ export class TripIt implements INodeType {
     displayName: "TripIt",
     name: "tripIt",
     icon: "file:tripit.svg",
+    usableAsTool: true,
     group: ["transform"],
     version: 1,
     subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
@@ -36,9 +40,8 @@ export class TripIt implements INodeType {
     defaults: {
       name: "TripIt",
     },
-    inputs: ["main"],
-    outputs: ["main"],
-    // usableAsTool: true,
+    inputs: [NodeConnectionType.Main],
+    outputs: [NodeConnectionType.Main],
     credentials: [
       {
         name: "tripitApi",
