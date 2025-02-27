@@ -307,7 +307,8 @@ export const transportProperties: INodeProperties[] = [
         update_startDateTime: [true],
       },
     },
-    description: "The new start date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
+    description:
+      "The new start date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
   },
   {
     displayName: "End Address",
@@ -571,91 +572,6 @@ export const transportProperties: INodeProperties[] = [
     },
     description: "Number of passengers",
   },
-  {
-    displayName: "Transport Type",
-    name: "transportType",
-    type: "options",
-    required: true,
-    default: "car",
-    options: [
-      {
-        name: "Car",
-        value: "car",
-      },
-      {
-        name: "Train",
-        value: "train",
-      },
-      {
-        name: "Bus",
-        value: "bus",
-      },
-      {
-        name: "Boat",
-        value: "boat",
-      },
-      {
-        name: "Other",
-        value: "other",
-      },
-    ],
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The type of transport",
-  },
-  {
-    displayName: "Update Transport Type",
-    name: "update_transportType",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the transport type",
-  },
-  {
-    displayName: "Transport Type",
-    name: "transportType",
-    type: "options",
-    default: "car",
-    options: [
-      {
-        name: "Car",
-        value: "car",
-      },
-      {
-        name: "Train",
-        value: "train",
-      },
-      {
-        name: "Bus",
-        value: "bus",
-      },
-      {
-        name: "Boat",
-        value: "boat",
-      },
-      {
-        name: "Other",
-        value: "other",
-      },
-    ],
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["update"],
-        update_transportType: [true],
-      },
-    },
-    description: "The new type of transport",
-  },
 ];
 
 export const flightProperties: INodeProperties[] = [
@@ -753,7 +669,8 @@ export const flightProperties: INodeProperties[] = [
         operation: ["addToTrip"],
       },
     },
-    description: "The departure date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
+    description:
+      "The departure date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
   },
   {
     displayName: "Update Departure Date Time",
@@ -780,7 +697,8 @@ export const flightProperties: INodeProperties[] = [
         update_departureDateTime: [true],
       },
     },
-    description: "The new departure date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
+    description:
+      "The new departure date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
   },
   {
     displayName: "Arrival Date Time",
@@ -821,7 +739,8 @@ export const flightProperties: INodeProperties[] = [
         update_arrivalDateTime: [true],
       },
     },
-    description: "The new arrival date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
+    description:
+      "The new arrival date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
   },
   {
     displayName: "Flight Number",
@@ -944,7 +863,8 @@ export const flightProperties: INodeProperties[] = [
         operation: ["addToTrip"],
       },
     },
-    description: "The operating airline code (if different from marketing airline)",
+    description:
+      "The operating airline code (if different from marketing airline)",
   },
   {
     displayName: "Update Operating Airline",
