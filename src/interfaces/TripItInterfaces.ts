@@ -5,8 +5,8 @@ export const RESERVATION_FIELD_ORDER = [
   "relative_url",
   "display_name",
   "Image",
-  "is_display_name_auto_generated",
-  "last_modified",
+  // "is_display_name_auto_generated",
+  // "last_modified",
   "cancellation_date_time",
   "booking_date",
   "booking_rate",
@@ -14,7 +14,7 @@ export const RESERVATION_FIELD_ORDER = [
   "booking_site_name",
   "booking_site_phone",
   "booking_site_url",
-  "record_locator",
+  // "record_locator",
   "supplier_conf_num",
   "supplier_contact",
   "supplier_email_address",
@@ -54,10 +54,10 @@ export const ADDRESS_FIELD_ORDER = [
 
 export const LODGING_FIELD_ORDER = [
   ...RESERVATION_FIELD_ORDER,
-  "is_tripit_booking",
-  "has_possible_cancellation",
-  "is_concur_booked",
-  "EstimatedStartDateTime",
+  // "is_tripit_booking",
+  // "has_possible_cancellation",
+  // "is_concur_booked",
+  // "EstimatedStartDateTime",
   "StartDateTime",
   "EndDateTime",
   "Address",
@@ -282,12 +282,11 @@ export interface IFlightInfoResponse {
 
 export const ACTIVITY_FIELD_ORDER = [
   ...RESERVATION_FIELD_ORDER,
-  "display_name",
   "StartDateTime",
   "EndDateTime",
   "end_time",
   "Address",
-  "participant",
+  "Participant",
   "location_name",
 ] as const;
 

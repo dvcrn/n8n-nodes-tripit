@@ -4,6 +4,7 @@ import orderObjectByKeys from "../../util/orderObjectByKeys";
 import normalizeTime from "../../util/normalizeTime";
 import {
   ACTIVITY_FIELD_ORDER,
+  ADDRESS_FIELD_ORDER,
   AIR_FIELD_ORDER,
   AIR_SEGMENT_FIELD_ORDER,
   IMAGE_FIELD_ORDER,
@@ -813,9 +814,34 @@ export class TripItService {
     }
 
     // Handle Image if provided
+    // Handle Image if provided
     if (params.Image) {
       activityObj.Image = params.Image;
+
+      if (Array.isArray(activityObj.Image)) {
+        activityObj.Image = activityObj.Image.map((img) => {
+          if (!img.ImageData) {
+            return img;
+          }
+
+          return orderObjectByKeys(img, IMAGE_FIELD_ORDER);
+        });
+      } else {
+        activityObj.Image = orderObjectByKeys(
+          activityObj.Image,
+          IMAGE_FIELD_ORDER
+        );
+      }
     }
+
+    if (activityObj.Address) {
+      activityObj.Address = orderObjectByKeys(
+        activityObj.Address,
+        ADDRESS_FIELD_ORDER
+      );
+    }
+
+    console.log(orderObjectByKeys(activityObj, ACTIVITY_FIELD_ORDER));
 
     const endpoint =
       "/v2/replace/activity/uuid/" + params.uuid + "/format/json";

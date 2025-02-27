@@ -15,6 +15,7 @@ export class TripItApi {
     params?: any,
     contentType: string = "application/x-www-form-urlencoded"
   ): Promise<AxiosResponse> {
+    console.log("requesting", endpoint);
     try {
       const auth = new TripItAuth(
         {
