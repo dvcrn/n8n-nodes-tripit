@@ -1,6 +1,11 @@
 import { BaseService } from "./base.service";
 import { ITripItCredentials } from "../types/ITripItTypes";
-import { ICreateTripParams, IListTripsParams } from "../interfaces";
+import {
+  ICreateTripParams,
+  IListTripsParams,
+  ITrip,
+  ITripResponse,
+} from "../interfaces";
 import { ITripWithObjectsResponse } from "../types/responses";
 
 export class TripService extends BaseService {
@@ -20,12 +25,7 @@ export class TripService extends BaseService {
       }),
     };
 
-    return this.makeRequest<{ Trip: { id: string } }>(
-      "POST",
-      endpoint,
-      credentials,
-      data
-    );
+    return this.makeRequest<ITripResponse>("POST", endpoint, credentials, data);
   }
 
   /**

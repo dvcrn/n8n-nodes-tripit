@@ -19,6 +19,33 @@ export interface ITrip {
   relative_url?: string;
   start_date_display?: string;
   end_date_display?: string;
+  TripInvitees?: {
+    Invitee: {
+      "@attributes": {
+        profile_ref: string;
+      };
+      is_read_only: string;
+      is_traveler: string;
+      is_owner: string;
+    };
+  };
+  PrimaryLocationAddress?: {
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    latitude: string;
+    longitude: string;
+  };
+  is_pro_enabled?: string;
+  TripPurposes?: {
+    purpose_type_code: string;
+    is_auto_generated: string;
+  };
+  last_modified?: string;
+  is_concur_linked?: string;
+  public_guid?: string;
+  is_trip_owner_inner_circle_sharer?: string;
 }
 
 /**

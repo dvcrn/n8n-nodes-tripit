@@ -36,6 +36,6 @@ export abstract class BaseService {
     if (uuid) {
       return `/v2/replace/${objectType}/uuid/${uuid}/format/${format}`;
     }
-    return `/v1/create/${objectType}/format/${format}`;
+    return `/v2/create/${objectType}/format/${format}`;
   }
 }

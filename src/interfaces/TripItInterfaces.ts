@@ -2,7 +2,7 @@ export const RESERVATION_FIELD_ORDER = [
   "uuid",
   "trip_uuid",
   "is_client_traveler",
-  "relative_url",
+  // "relative_url",
   "display_name",
   "Image",
   // "is_display_name_auto_generated",
@@ -72,42 +72,42 @@ export const AIR_FIELD_ORDER = [
 ] as const;
 
 export const AIR_SEGMENT_FIELD_ORDER = [
-  "Status",
+  // "Status",
   "StartDateTime",
   "EndDateTime",
-  "start_airport_code",
-  "start_airport_name",
-  "start_airport_latitude",
-  "start_airport_longitude",
+  // "start_airport_code",
+  // "start_airport_name",
+  // "start_airport_latitude",
+  // "start_airport_longitude",
   "start_city_name",
   "start_country_code",
   "end_airport_code",
-  "end_airport_name",
-  "end_airport_latitude",
-  "end_airport_longitude",
+  // "end_airport_name",
+  // "end_airport_latitude",
+  // "end_airport_longitude",
   "end_city_name",
   "end_country_code",
   "marketing_airline",
-  "marketing_airline_code",
+  // "marketing_airline_code",
   "marketing_flight_number",
-  "alternate_flights_url",
+  // "alternate_flights_url",
   "aircraft",
-  "aircraft_display_name",
+  // "aircraft_display_name",
   "distance",
   "duration",
   "service_class",
   "stops",
   "check_in_url",
   "mobile_check_in_url",
-  "refund_info_url",
-  "change_reservation_url",
-  "customer_support_url",
-  "web_home_url",
+  // "refund_info_url",
+  // "change_reservation_url",
+  // "customer_support_url",
+  // "web_home_url",
   "is_eligible_seattracker",
-  "is_hidden",
+  // "is_hidden",
   "uuid",
   "is_international",
-  "does_cross_idl",
+  // "does_cross_idl",
 ] as const;
 export interface ITraveler {
   name: string;
@@ -127,7 +127,7 @@ export interface IDateTime {
   date?: string;
   time?: string;
   timezone?: string;
-  utc_offset?: string;
+  // utc_offset?: string;
   is_timezone_manual?: boolean;
 }
 
@@ -338,7 +338,7 @@ export interface ICreateActivityResponse {
     id: string;
     trip_id: string;
     is_client_traveler: string;
-    relative_url: string;
+    // relative_url: string;
     display_name: string;
     is_display_name_auto_generated: string;
     last_modified: string;

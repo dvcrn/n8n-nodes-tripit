@@ -1,5 +1,5 @@
 import { IDataObject } from "n8n-workflow";
-import { IActivity, IAir, ILodging, ITrip } from "../interfaces";
+import { IActivity, IAir, ILodging, ITransport, ITrip } from "../interfaces";
 
 // TripIt API specific response types
 export interface ITripResponse extends IDataObject {
@@ -19,7 +19,7 @@ export interface IHotelResponse extends IDataObject {
 }
 
 export interface ITransportResponse extends IDataObject {
-  TransportObject: IDataObject;
+  TransportObject: ITransport;
 }
 
 export interface IProfileResponse extends IDataObject {
