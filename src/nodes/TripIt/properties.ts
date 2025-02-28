@@ -1,12 +1,37 @@
 import { INodeProperties } from "n8n-workflow";
-import { LODGING_FIELD_ORDER } from "../../interfaces/TripItInterfaces";
+import {
+  LODGING_FIELD_ORDER,
+  ACTIVITY_FIELD_ORDER,
+  AIR_FIELD_ORDER,
+} from "../../interfaces/TripItInterfaces";
 import { generateProperties } from "./propertyUtils";
-import { ICreateLodgingParams } from "./interfaces";
-import { IUpdateLodgingParams } from "./interfaces";
+import { ICreateLodgingParams, IUpdateLodgingParams } from "./interfaces";
+import {
+  ICreateActivityParams,
+  IUpdateActivityParams,
+} from "./interfaces/activity.interface";
+import {
+  ICreateTransportParams,
+  IUpdateTransportParams,
+} from "./interfaces/transport.interface";
+import { ICreateAirParams, IUpdateAirParams } from "./interfaces/air.interface";
+import {
+  createCreateActivityParams,
+  updateUpdateActivityParams,
+} from "./interfaces/activity.gen";
+import {
+  createCreateTransportParams,
+  updateUpdateTransportParams,
+} from "./interfaces/transport.gen";
+import {
+  createCreateAirParams,
+  updateUpdateAirParams,
+} from "./interfaces/air.gen";
 import {
   createCreateLodgingParams,
   updateUpdateLodgingParams,
 } from "./interfaces/lodging.gen";
+import { TRANSPORT_FIELD_ORDER } from "./handlers/transport.handler";
 
 export const tripProperties: INodeProperties[] = [
   // Create operation properties
@@ -191,1115 +216,198 @@ export const tripProperties: INodeProperties[] = [
   },
 ];
 
+// Generate transport properties for create operation
+const createTransportProperties = generateProperties<ICreateTransportParams>(
+  createCreateTransportParams,
+  TRANSPORT_FIELD_ORDER,
+  "create",
+  "transport"
+);
+
+// Generate transport properties for update operation
+const updateTransportProperties = generateProperties<IUpdateTransportParams>(
+  updateUpdateTransportParams,
+  TRANSPORT_FIELD_ORDER,
+  "update",
+  "transport"
+);
+
 export const transportProperties: INodeProperties[] = [
+  ...createTransportProperties,
+  ...updateTransportProperties,
   {
-    displayName: "Trip ID",
-    name: "tripId",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The ID of the trip to add the transport to",
-  },
-  {
-    displayName: "Is Client Traveler",
-    name: "isClientTraveler",
-    type: "string",
-    required: true,
-    default: "true",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "Whether this is for the client traveler",
-  },
-  {
-    displayName: "Is Purchased",
-    name: "isPurchased",
-    type: "string",
-    required: true,
-    default: "true",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "Whether the transport has been purchased",
-  },
-  {
-    displayName: "Is TripIt Booking",
-    name: "isTripitBooking",
-    type: "string",
-    required: true,
-    default: "false",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "Whether this was booked through TripIt",
-  },
-  {
-    displayName: "Has Possible Cancellation",
-    name: "hasPossibleCancellation",
-    type: "string",
-    required: true,
-    default: "false",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "Whether the transport can be cancelled",
-  },
-  {
-    displayName: "Start Address",
-    name: "startAddress",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The starting address",
-  },
-  {
-    displayName: "Start Date Time",
-    name: "startDateTime",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The start date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
-  },
-  {
-    displayName: "Update Start Date Time",
-    name: "update_startDateTime",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the start date and time",
-  },
-  {
-    displayName: "Start Date Time",
-    name: "startDateTime",
+    displayName: "Document Name",
+    name: "documentName",
     type: "string",
     default: "",
     displayOptions: {
       show: {
         resource: ["transport"],
-        operation: ["update"],
-        update_startDateTime: [true],
+        operation: ["attachDocument"],
       },
     },
-    description:
-      "The new start date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
+    description: "The name of the document to attach",
   },
   {
-    displayName: "End Address",
-    name: "endAddress",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The ending address",
-  },
-  {
-    displayName: "End Date Time",
-    name: "endDateTime",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The end date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
-  },
-  {
-    displayName: "Update End Date Time",
-    name: "update_endDateTime",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the end date and time",
-  },
-  {
-    displayName: "End Date Time",
-    name: "endDateTime",
+    displayName: "Document Content",
+    name: "documentContent",
     type: "string",
     default: "",
     displayOptions: {
       show: {
         resource: ["transport"],
-        operation: ["update"],
-        update_endDateTime: [true],
+        operation: ["attachDocument"],
       },
     },
-    description: "The new end date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
+    description: "The content of the document to attach (base64 encoded)",
   },
   {
-    displayName: "Timezone",
-    name: "timezone",
+    displayName: "Document Type",
+    name: "documentType",
     type: "string",
-    required: true,
-    default: "UTC",
+    default: "application/pdf",
     displayOptions: {
       show: {
         resource: ["transport"],
-        operation: ["addToTrip"],
+        operation: ["attachDocument"],
       },
     },
-    description: "The timezone",
-  },
-  {
-    displayName: "Start Location Name",
-    name: "startLocationName",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "Name of the start location",
-  },
-  {
-    displayName: "End Location Name",
-    name: "endLocationName",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "Name of the end location",
-  },
-  {
-    displayName: "Start Location",
-    name: "startLocation",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The start location",
-  },
-  {
-    displayName: "Update Start Location",
-    name: "update_startLocation",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the start location",
-  },
-  {
-    displayName: "Start Location",
-    name: "startLocation",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["update"],
-        update_startLocation: [true],
-      },
-    },
-    description: "The new start location",
-  },
-  {
-    displayName: "End Location",
-    name: "endLocation",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The end location",
-  },
-  {
-    displayName: "Update End Location",
-    name: "update_endLocation",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the end location",
-  },
-  {
-    displayName: "End Location",
-    name: "endLocation",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["update"],
-        update_endLocation: [true],
-      },
-    },
-    description: "The new end location",
-  },
-  {
-    displayName: "Vehicle Description",
-    name: "vehicleDescription",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "Description of the vehicle",
-  },
-  {
-    displayName: "Update Vehicle Description",
-    name: "update_vehicleDescription",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the vehicle description",
-  },
-  {
-    displayName: "Vehicle Description",
-    name: "vehicleDescription",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["update"],
-        update_vehicleDescription: [true],
-      },
-    },
-    description: "The new vehicle description",
-  },
-  {
-    displayName: "Confirmation Number",
-    name: "confirmationNum",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The confirmation number",
-  },
-  {
-    displayName: "Carrier Name",
-    name: "carrierName",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "Name of the carrier",
-  },
-  {
-    displayName: "Number of Passengers",
-    name: "numberPassengers",
-    type: "string",
-    required: true,
-    default: "1",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "Number of passengers",
+    description: "The MIME type of the document to attach",
   },
 ];
+
+// Generate flight properties for create operation
+const createFlightProperties = generateProperties<ICreateAirParams>(
+  createCreateAirParams,
+  AIR_FIELD_ORDER,
+  "create",
+  "flight"
+);
+
+// Generate flight properties for update operation
+const updateFlightProperties = generateProperties<IUpdateAirParams>(
+  updateUpdateAirParams,
+  AIR_FIELD_ORDER,
+  "update",
+  "flight"
+);
 
 export const flightProperties: INodeProperties[] = [
+  ...createFlightProperties,
+  ...updateFlightProperties,
   {
-    displayName: "Departure Airport",
-    name: "departureAirport",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The departure airport code (e.g., SFO)",
-  },
-  {
-    displayName: "Update Departure Airport",
-    name: "update_departureAirport",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the departure airport",
-  },
-  {
-    displayName: "Departure Airport",
-    name: "departureAirport",
+    displayName: "Document Name",
+    name: "documentName",
     type: "string",
     default: "",
     displayOptions: {
       show: {
         resource: ["flight"],
-        operation: ["update"],
-        update_departureAirport: [true],
+        operation: ["attachDocument"],
       },
     },
-    description: "The new departure airport code (e.g., SFO)",
+    description: "The name of the document to attach",
   },
   {
-    displayName: "Arrival Airport",
-    name: "arrivalAirport",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The arrival airport code (e.g., JFK)",
-  },
-  {
-    displayName: "Update Arrival Airport",
-    name: "update_arrivalAirport",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the arrival airport",
-  },
-  {
-    displayName: "Arrival Airport",
-    name: "arrivalAirport",
+    displayName: "Document Content",
+    name: "documentContent",
     type: "string",
     default: "",
     displayOptions: {
       show: {
         resource: ["flight"],
-        operation: ["update"],
-        update_arrivalAirport: [true],
+        operation: ["attachDocument"],
       },
     },
-    description: "The new arrival airport code (e.g., JFK)",
+    description: "The content of the document to attach (base64 encoded)",
   },
   {
-    displayName: "Departure Date Time",
-    name: "departureDateTime",
+    displayName: "Document Type",
+    name: "documentType",
     type: "string",
-    required: true,
-    default: "",
+    default: "application/pdf",
     displayOptions: {
       show: {
         resource: ["flight"],
-        operation: ["addToTrip"],
+        operation: ["attachDocument"],
       },
     },
-    description:
-      "The departure date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
+    description: "The MIME type of the document to attach",
   },
-  {
-    displayName: "Update Departure Date Time",
-    name: "update_departureDateTime",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the departure date and time",
-  },
-  {
-    displayName: "Departure Date Time",
-    name: "departureDateTime",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["update"],
-        update_departureDateTime: [true],
-      },
-    },
-    description:
-      "The new departure date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
-  },
-  {
-    displayName: "Arrival Date Time",
-    name: "arrivalDateTime",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The arrival date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
-  },
-  {
-    displayName: "Update Arrival Date Time",
-    name: "update_arrivalDateTime",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the arrival date and time",
-  },
-  {
-    displayName: "Arrival Date Time",
-    name: "arrivalDateTime",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["update"],
-        update_arrivalDateTime: [true],
-      },
-    },
-    description:
-      "The new arrival date and time (ISO format: YYYY-MM-DDTHH:MM:SS)",
-  },
-  {
-    displayName: "Flight Number",
-    name: "flightNumber",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["addToTrip", "getInfo"],
-      },
-    },
-    description: "The flight number",
-  },
-  {
-    displayName: "Update Flight Number",
-    name: "update_flightNumber",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the flight number",
-  },
-  {
-    displayName: "Flight Number",
-    name: "flightNumber",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["update"],
-        update_flightNumber: [true],
-      },
-    },
-    description: "The new flight number",
-  },
-  {
-    displayName: "Update Trip ID",
-    name: "update_tripId",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the trip ID",
-  },
-  {
-    displayName: "Trip ID",
-    name: "tripId",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["update"],
-        update_tripId: [true],
-      },
-    },
-    description: "The new trip ID for the flight",
-  },
-  {
-    displayName: "Marketing Airline",
-    name: "marketingAirline",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The marketing airline code",
-  },
-  {
-    displayName: "Update Marketing Airline",
-    name: "update_marketingAirline",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the marketing airline",
-  },
-  {
-    displayName: "Marketing Airline",
-    name: "marketingAirline",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["update"],
-        update_marketingAirline: [true],
-      },
-    },
-    description: "The new marketing airline code",
-  },
-  {
-    displayName: "Operating Airline",
-    name: "operatingAirline",
-    type: "string",
-    required: false,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["addToTrip"],
-      },
-    },
-    description:
-      "The operating airline code (if different from marketing airline)",
-  },
-  {
-    displayName: "Update Operating Airline",
-    name: "update_operatingAirline",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the operating airline",
-  },
-  {
-    displayName: "Operating Airline",
-    name: "operatingAirline",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["update"],
-        update_operatingAirline: [true],
-      },
-    },
-    description: "The new operating airline code",
-  },
-  {
-    displayName: "Seat Assignment",
-    name: "seatAssignment",
-    type: "string",
-    required: false,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The seat assignment",
-  },
-  {
-    displayName: "Aircraft Type",
-    name: "aircraft",
-    type: "string",
-    required: false,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The aircraft type",
-  },
+  // Additional flight-specific properties for getInfo operation
+  // {
+  //   displayName: "Flight Number",
+  //   name: "flightNumber",
+  //   type: "string",
+  //   required: true,
+  //   default: "",
+  //   displayOptions: {
+  //     show: {
+  //       resource: ["flight"],
+  //       operation: ["getInfo"],
+  //     },
+  //   },
+  //   description: "The flight number to get information for",
+  // },
 ];
 
+// Generate activity properties for create operation
+const createActivityProperties = generateProperties<ICreateActivityParams>(
+  createCreateActivityParams,
+  ACTIVITY_FIELD_ORDER,
+  "create",
+  "activity"
+);
+
+// Generate activity properties for update operation
+const updateActivityProperties = generateProperties<IUpdateActivityParams>(
+  updateUpdateActivityParams,
+  ACTIVITY_FIELD_ORDER,
+  "update",
+  "activity"
+);
+
 export const activityProperties: INodeProperties[] = [
+  ...createActivityProperties,
+  ...updateActivityProperties,
   {
-    displayName: "Trip ID",
-    name: "tripId",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The ID of the trip to add the activity to",
-  },
-  {
-    displayName: "Update Trip ID",
-    name: "update_tripId",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the trip ID",
-  },
-  {
-    displayName: "Trip ID",
-    name: "tripId",
+    displayName: "Document Name",
+    name: "documentName",
     type: "string",
     default: "",
     displayOptions: {
       show: {
         resource: ["activity"],
-        operation: ["update"],
-        update_tripId: [true],
+        operation: ["attachDocument"],
       },
     },
-    description: "The new trip ID for the activity",
+    description: "The name of the document to attach",
   },
   {
-    displayName: "Display Name",
-    name: "displayName",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The name of the activity",
-  },
-  {
-    displayName: "Update Display Name",
-    name: "update_displayName",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the display name",
-  },
-  {
-    displayName: "Display Name",
-    name: "displayName",
+    displayName: "Document Content",
+    name: "documentContent",
     type: "string",
     default: "",
     displayOptions: {
       show: {
         resource: ["activity"],
-        operation: ["update"],
-        update_displayName: [true],
+        operation: ["attachDocument"],
       },
     },
-    description: "The new display name for the activity",
+    description: "The content of the document to attach (base64 encoded)",
   },
   {
-    displayName: "Start Date",
-    name: "startDate",
+    displayName: "Document Type",
+    name: "documentType",
     type: "string",
-    required: true,
-    default: "",
+    default: "application/pdf",
     displayOptions: {
       show: {
         resource: ["activity"],
-        operation: ["addToTrip"],
+        operation: ["attachDocument"],
       },
     },
-    description: "The start date of the activity (YYYY-MM-DD)",
-  },
-  {
-    displayName: "Update Start Date",
-    name: "update_startDate",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the start date",
-  },
-  {
-    displayName: "Start Date",
-    name: "startDate",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-        update_startDate: [true],
-      },
-    },
-    description: "The new start date for the activity (YYYY-MM-DD)",
-  },
-  {
-    displayName: "Start Time",
-    name: "startTime",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The start time of the activity (HH:mm:ss)",
-  },
-  {
-    displayName: "Update Start Time",
-    name: "update_startTime",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the start time",
-  },
-  {
-    displayName: "Start Time",
-    name: "startTime",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-        update_startTime: [true],
-      },
-    },
-    description: "The new start time for the activity (HH:mm:ss)",
-  },
-  {
-    displayName: "End Date",
-    name: "endDate",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The end date of the activity (YYYY-MM-DD)",
-  },
-  {
-    displayName: "Update End Date",
-    name: "update_endDate",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the end date",
-  },
-  {
-    displayName: "End Date",
-    name: "endDate",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-        update_endDate: [true],
-      },
-    },
-    description: "The new end date for the activity (YYYY-MM-DD)",
-  },
-  {
-    displayName: "End Time",
-    name: "endTime",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The end time of the activity (HH:mm:ss)",
-  },
-  {
-    displayName: "Update End Time",
-    name: "update_endTime",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the end time",
-  },
-  {
-    displayName: "End Time",
-    name: "endTime",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-        update_endTime: [true],
-      },
-    },
-    description: "The new end time for the activity (HH:mm:ss)",
-  },
-  {
-    displayName: "Timezone",
-    name: "timezone",
-    type: "string",
-    required: true,
-    default: "UTC",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The timezone of the activity",
-  },
-  {
-    displayName: "Update Timezone",
-    name: "update_timezone",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the timezone",
-  },
-  {
-    displayName: "Timezone",
-    name: "timezone",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-        update_timezone: [true],
-      },
-    },
-    description: "The new timezone for the activity",
-  },
-  {
-    displayName: "Location Name",
-    name: "locationName",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The name of the activity location",
-  },
-  {
-    displayName: "Update Location Name",
-    name: "update_locationName",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the location name",
-  },
-  {
-    displayName: "Location Name",
-    name: "locationName",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-        update_locationName: [true],
-      },
-    },
-    description: "The new location name for the activity",
-  },
-  {
-    displayName: "Address",
-    name: "address",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The address of the activity location",
-  },
-  {
-    displayName: "Update Address",
-    name: "update_address",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the address",
-  },
-  {
-    displayName: "Address",
-    name: "address",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["update"],
-        update_address: [true],
-      },
-    },
-    description: "The new address for the activity",
+    description: "The MIME type of the document to attach",
   },
 ];
 
