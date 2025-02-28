@@ -1,7 +1,7 @@
 // Auto-generated sample data - Do not modify manually
 import { IParticipant, IActivity, IActivityResponse, ICreateActivityParams, IUpdateActivityParams } from "./activity.interface";
 
-export const participantSample = {
+export const ParticipantSchema = {
   "first_name": {
     "default": "",
     "required": true
@@ -20,7 +20,7 @@ export const participantSample = {
   }
 };
 
-export const activitySample = {
+export const ActivitySchema = {
   "id": {
     "default": "",
     "required": false
@@ -243,7 +243,7 @@ export const activitySample = {
   }
 };
 
-export const activitySampleResponse = {
+export const ActivityResponseSchema = {
   "timestamp": {
     "default": "",
     "required": false
@@ -476,7 +476,7 @@ export const activitySampleResponse = {
   }
 };
 
-export const createCreateActivityParams = {
+export const CreateActivityParamsSchema = {
   "tripId": {
     "default": "",
     "required": true
@@ -515,7 +515,7 @@ export const createCreateActivityParams = {
   }
 };
 
-export const updateUpdateActivityParams = {
+export const UpdateActivityParamsSchema = {
   "uuid": {
     "default": "",
     "required": true

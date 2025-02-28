@@ -1,7 +1,7 @@
 // Auto-generated sample data - Do not modify manually
 import { ICreateFlightParams, IUpdateFlightParams } from "./flight.interface";
 
-export const createCreateFlightParams = {
+export const CreateFlightParamsSchema = {
   "bookingRate": {
     "default": "",
     "required": false
@@ -108,7 +108,7 @@ export const createCreateFlightParams = {
   }
 };
 
-export const updateUpdateFlightParams = {
+export const UpdateFlightParamsSchema = {
   "uuid": {
     "default": "",
     "required": true

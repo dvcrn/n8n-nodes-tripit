@@ -1,7 +1,7 @@
 // Auto-generated sample data - Do not modify manually
 import { IAirSegment, IAir, IAirResponse, ICreateAirParams, IUpdateAirParams } from "./air.interface";
 
-export const airSegmentSample = {
+export const AirSegmentSchema = {
   "uuid": {
     "default": "",
     "required": false
@@ -80,7 +80,7 @@ export const airSegmentSample = {
   }
 };
 
-export const airSample = {
+export const AirSchema = {
   "id": {
     "default": "",
     "required": false
@@ -195,7 +195,7 @@ export const airSample = {
   }
 };
 
-export const airSampleResponse = {
+export const AirResponseSchema = {
   "timestamp": {
     "default": "",
     "required": false
@@ -334,7 +334,7 @@ export const airSampleResponse = {
   }
 };
 
-export const createCreateAirParams = {
+export const CreateAirParamsSchema = {
   "bookingRate": {
     "default": "",
     "required": false
@@ -441,7 +441,7 @@ export const createCreateAirParams = {
   }
 };
 
-export const updateUpdateAirParams = {
+export const UpdateAirParamsSchema = {
   "uuid": {
     "default": "",
     "required": true

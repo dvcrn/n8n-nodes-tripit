@@ -1,7 +1,7 @@
 // Auto-generated sample data - Do not modify manually
 import { ITrip, ITripResponse, ITripWithObjectsResponse, ICreateTripParams, IListTripsParams } from "./trip.interface";
 
-export const tripSample = {
+export const TripSchema = {
   "id": {
     "default": "",
     "required": false
@@ -106,7 +106,7 @@ export const tripSample = {
   }
 };
 
-export const tripSampleResponse = {
+export const TripResponseSchema = {
   "timestamp": {
     "default": "",
     "required": false
@@ -221,7 +221,7 @@ export const tripSampleResponse = {
   }
 };
 
-export const tripWithObjectsSampleResponse = {
+export const TripWithObjectsResponseSchema = {
   "ActivityObject": {
     "default": [],
     "required": false
@@ -352,7 +352,7 @@ export const tripWithObjectsSampleResponse = {
   }
 };
 
-export const createCreateTripParams = {
+export const CreateTripParamsSchema = {
   "displayName": {
     "default": "",
     "required": true
@@ -371,7 +371,7 @@ export const createCreateTripParams = {
   }
 };
 
-export const listTripsSampleParams = {
+export const ListTripsParamsSchema = {
   "pageSize": {
     "default": 0,
     "required": true

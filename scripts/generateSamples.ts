@@ -310,44 +310,11 @@ function generateSampleFile(interfaceFilePath: string): void {
         interfaceName
       );
 
-      // Convert the first character of the interface name (after the 'I') to lowercase
-      let variableName =
-        interfaceName.charAt(0) === "I"
-          ? interfaceName.charAt(1).toLowerCase() + interfaceName.slice(2)
-          : interfaceName.charAt(0).toLowerCase() + interfaceName.slice(1);
-
-      // Remove "Response", "Params", etc. from the variable name if present
-      let nameSuffix = "";
-      if (interfaceName.includes("Response")) {
-        nameSuffix = "Response";
-      } else if (interfaceName.includes("Params")) {
-        nameSuffix = "Params";
-      }
-
-      variableName = variableName
-        .replace(/Response$/, "")
-        .replace(/Params$/, "")
-        .replace(/Interface$/, "");
-
-      // Add a prefix based on the interface type
-      if (interfaceName.startsWith("ICreate")) {
-        variableName =
-          "create" +
-          variableName.charAt(0).toUpperCase() +
-          variableName.slice(1);
-      } else if (interfaceName.startsWith("IUpdate")) {
-        variableName =
-          "update" +
-          variableName.charAt(0).toUpperCase() +
-          variableName.slice(1);
-      } else {
-        variableName += "Sample";
-      }
-
-      // Add the suffix back if it was present
-      if (nameSuffix) {
-        variableName += nameSuffix;
-      }
+      // Convert interface name to variable name with Schema suffix
+      const variableName =
+        (interfaceName.startsWith("I")
+          ? interfaceName.slice(1)
+          : interfaceName) + "Schema";
 
       // Add to output content
       outputContent += `export const ${variableName} = ${JSON.stringify(

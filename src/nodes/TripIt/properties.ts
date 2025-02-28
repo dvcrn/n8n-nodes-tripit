@@ -23,37 +23,36 @@ import {
 } from "./interfaces/transport.interface";
 import { ICreateAirParams, IUpdateAirParams } from "./interfaces/air.interface";
 import {
-  createCreateActivityParams,
-  updateUpdateActivityParams,
-} from "./interfaces/activity.gen";
+  CreateTripParamsSchema,
+  ListTripsParamsSchema,
+} from "./interfaces/trip.gen";
 import {
-  createCreateTransportParams,
-  updateUpdateTransportParams,
+  CreateTransportParamsSchema,
+  UpdateTransportParamsSchema,
 } from "./interfaces/transport.gen";
+import { TRANSPORT_FIELD_ORDER } from "./handlers/transport.handler";
 import {
-  createCreateAirParams,
-  updateUpdateAirParams,
+  CreateAirParamsSchema,
+  UpdateAirParamsSchema,
 } from "./interfaces/air.gen";
 import {
-  createCreateLodgingParams,
-  updateUpdateLodgingParams,
-} from "./interfaces/lodging.gen";
-import { TRANSPORT_FIELD_ORDER } from "./handlers/transport.handler";
-
+  CreateActivityParamsSchema,
+  UpdateActivityParamsSchema,
+} from "./interfaces/activity.gen";
 import {
-  createCreateTripParams,
-  listTripsSampleParams,
-} from "./interfaces/trip.gen";
+  CreateLodgingParamsSchema,
+  UpdateLodgingParamsSchema,
+} from "./interfaces/lodging.gen";
 
 const createTripProperties = generateProperties<ICreateTripParams>(
-  createCreateTripParams,
+  CreateTripParamsSchema,
   CREATE_TRIP_FIELD_ORDER, // todo update
   "create",
   "trip"
 );
 
 const listTripProperties = generateProperties<IListTripsParams>(
-  listTripsSampleParams,
+  ListTripsParamsSchema,
   LIST_TRIP_FIELD_ORDER, // todo update
   "list",
   "trip"
@@ -112,7 +111,7 @@ export const tripProperties: INodeProperties[] = [
 console.log("tripProperties:", JSON.stringify(tripProperties, null, 2));
 // Generate transport properties for create operation
 const createTransportProperties = generateProperties<ICreateTransportParams>(
-  createCreateTransportParams,
+  CreateTransportParamsSchema,
   TRANSPORT_FIELD_ORDER,
   "addToTrip",
   "transport"
@@ -120,7 +119,7 @@ const createTransportProperties = generateProperties<ICreateTransportParams>(
 
 // Generate transport properties for update operation
 const updateTransportProperties = generateProperties<IUpdateTransportParams>(
-  updateUpdateTransportParams,
+  UpdateTransportParamsSchema,
   TRANSPORT_FIELD_ORDER,
   "update",
   "transport"
@@ -172,7 +171,7 @@ export const transportProperties: INodeProperties[] = [
 
 // Generate flight properties for create operation
 const createFlightProperties = generateProperties<ICreateAirParams>(
-  createCreateAirParams,
+  CreateAirParamsSchema,
   AIR_FIELD_ORDER,
   "addToTrip",
   "flight"
@@ -180,7 +179,7 @@ const createFlightProperties = generateProperties<ICreateAirParams>(
 
 // Generate flight properties for update operation
 const updateFlightProperties = generateProperties<IUpdateAirParams>(
-  updateUpdateAirParams,
+  UpdateAirParamsSchema,
   AIR_FIELD_ORDER,
   "update",
   "flight"
@@ -247,7 +246,7 @@ export const flightProperties: INodeProperties[] = [
 
 // Generate activity properties for create operation
 const createActivityProperties = generateProperties<ICreateActivityParams>(
-  createCreateActivityParams,
+  CreateActivityParamsSchema,
   ACTIVITY_FIELD_ORDER,
   "addToTrip",
   "activity"
@@ -255,7 +254,7 @@ const createActivityProperties = generateProperties<ICreateActivityParams>(
 
 // Generate activity properties for update operation
 const updateActivityProperties = generateProperties<IUpdateActivityParams>(
-  updateUpdateActivityParams,
+  UpdateActivityParamsSchema,
   ACTIVITY_FIELD_ORDER,
   "update",
   "activity"
@@ -307,7 +306,7 @@ export const activityProperties: INodeProperties[] = [
 
 // Generate hotel properties for create operation
 const createHotelProperties = generateProperties<ICreateLodgingParams>(
-  createCreateLodgingParams,
+  CreateLodgingParamsSchema,
   LODGING_FIELD_ORDER,
   "addToTrip",
   "hotel"
@@ -315,7 +314,7 @@ const createHotelProperties = generateProperties<ICreateLodgingParams>(
 
 // Generate hotel properties for update operation
 const updateHotelProperties = generateProperties<IUpdateLodgingParams>(
-  updateUpdateLodgingParams,
+  UpdateLodgingParamsSchema,
   LODGING_FIELD_ORDER,
   "update",
   "hotel"

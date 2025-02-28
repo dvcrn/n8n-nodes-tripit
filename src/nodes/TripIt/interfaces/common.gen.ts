@@ -1,7 +1,7 @@
 // Auto-generated sample data - Do not modify manually
 import { IDateTime, IAddress, IImageData, IImage, IAgency, IWarning, IBaseTravelObject, ITraveler, IBookingDetails, IBaseUpdateParams, IBaseCreateParams, IStatusFields } from "./common.interface";
 
-export const dateTimeSample = {
+export const DateTimeSchema = {
   "date": {
     "default": "",
     "required": true
@@ -24,7 +24,7 @@ export const dateTimeSample = {
   }
 };
 
-export const addressSample = {
+export const AddressSchema = {
   "address": {
     "default": "",
     "required": true
@@ -59,7 +59,7 @@ export const addressSample = {
   }
 };
 
-export const imageDataSample = {
+export const ImageDataSchema = {
   "content": {
     "default": "",
     "required": true
@@ -70,7 +70,7 @@ export const imageDataSample = {
   }
 };
 
-export const imageSample = {
+export const ImageSchema = {
   "url": {
     "default": "",
     "required": false
@@ -107,7 +107,7 @@ export const imageSample = {
   }
 };
 
-export const agencySample = {
+export const AgencySchema = {
   "agency_conf_num": {
     "default": "",
     "required": false
@@ -134,7 +134,7 @@ export const agencySample = {
   }
 };
 
-export const warningSample = {
+export const WarningSchema = {
   "description": {
     "default": "",
     "required": true
@@ -149,7 +149,7 @@ export const warningSample = {
   }
 };
 
-export const travelerSample = {
+export const TravelerSchema = {
   "first_name": {
     "default": "",
     "required": false
@@ -172,7 +172,7 @@ export const travelerSample = {
   }
 };
 
-export const bookingDetailsSample = {
+export const BookingDetailsSchema = {
   "bookingRate": {
     "default": "",
     "required": false
@@ -239,7 +239,7 @@ export const bookingDetailsSample = {
   }
 };
 
-export const statusFieldsSample = {
+export const StatusFieldsSchema = {
   "is_client_traveler": {
     "default": false,
     "required": false

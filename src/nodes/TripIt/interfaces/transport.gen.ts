@@ -1,7 +1,7 @@
 // Auto-generated sample data - Do not modify manually
 import { ITransportLocation, ITransportSegment, ITransport, ITransportResponse, ICreateTransportParams, IUpdateTransportParams } from "./transport.interface";
 
-export const transportLocationSample = {
+export const TransportLocationSchema = {
   "address": {
     "default": "",
     "required": true
@@ -32,7 +32,7 @@ export const transportLocationSample = {
   }
 };
 
-export const transportSegmentSample = {
+export const TransportSegmentSchema = {
   "uuid": {
     "default": "",
     "required": false
@@ -167,7 +167,7 @@ export const transportSegmentSample = {
   }
 };
 
-export const transportSample = {
+export const TransportSchema = {
   "id": {
     "default": "",
     "required": false
@@ -438,7 +438,7 @@ export const transportSample = {
   }
 };
 
-export const transportSampleResponse = {
+export const TransportResponseSchema = {
   "timestamp": {
     "default": "",
     "required": false
@@ -733,7 +733,7 @@ export const transportSampleResponse = {
   }
 };
 
-export const createCreateTransportParams = {
+export const CreateTransportParamsSchema = {
   "tripId": {
     "default": "",
     "required": true
@@ -808,7 +808,7 @@ export const createCreateTransportParams = {
   }
 };
 
-export const updateUpdateTransportParams = {
+export const UpdateTransportParamsSchema = {
   "uuid": {
     "default": "",
     "required": true

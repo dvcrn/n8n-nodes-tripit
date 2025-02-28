@@ -1,7 +1,7 @@
 // Auto-generated sample data - Do not modify manually
 import { ILodging, ILodgingResponse, ICreateLodgingParams, IUpdateLodgingParams } from "./lodging.interface";
 
-export const lodgingSample = {
+export const LodgingSchema = {
   "id": {
     "default": "",
     "required": false
@@ -224,7 +224,7 @@ export const lodgingSample = {
   }
 };
 
-export const lodgingSampleResponse = {
+export const LodgingResponseSchema = {
   "timestamp": {
     "default": "",
     "required": false
@@ -471,7 +471,7 @@ export const lodgingSampleResponse = {
   }
 };
 
-export const createCreateLodgingParams = {
+export const CreateLodgingParamsSchema = {
   "bookingRate": {
     "default": "",
     "required": false
@@ -598,7 +598,7 @@ export const createCreateLodgingParams = {
   }
 };
 
-export const updateUpdateLodgingParams = {
+export const UpdateLodgingParamsSchema = {
   "uuid": {
     "default": "",
     "required": true

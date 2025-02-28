@@ -1,7 +1,7 @@
 // Auto-generated sample data - Do not modify manually
 import { IAddress, ICreateHotelParams, IUpdateHotelParams } from "./hotel.interface";
 
-export const addressSample = {
+export const AddressSchema = {
   "street": {
     "default": "",
     "required": false
@@ -24,7 +24,7 @@ export const addressSample = {
   }
 };
 
-export const createCreateHotelParams = {
+export const CreateHotelParamsSchema = {
   "bookingRate": {
     "default": "",
     "required": false
@@ -131,7 +131,7 @@ export const createCreateHotelParams = {
   }
 };
 
-export const updateUpdateHotelParams = {
+export const UpdateHotelParamsSchema = {
   "uuid": {
     "default": "",
     "required": true
