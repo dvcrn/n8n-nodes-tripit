@@ -1,210 +1,735 @@
 // Auto-generated sample data - Do not modify manually
 import { ILodging, ILodgingResponse, ICreateLodgingParams, IUpdateLodgingParams } from "./lodging.interface";
 
-export const lodgingSample: ILodging = {
-  "id": "",
-  "uuid": "",
-  "trip_id": "",
-  "trip_uuid": "",
-  "is_client_traveler": false,
-  "relative_url": "",
-  "display_name": "",
-  "is_display_name_auto_generated": "",
-  "last_modified": "",
-  "booking_rate": "",
-  "booking_site_conf_num": "",
-  "booking_site_name": "",
-  "booking_site_phone": "",
-  "booking_site_url": "",
-  "supplier_conf_num": "",
-  "supplier_contact": "",
-  "supplier_email_address": "",
-  "supplier_name": "",
-  "supplier_phone": "",
-  "supplier_url": "",
-  "is_purchased": false,
-  "notes": "",
-  "restrictions": "",
-  "total_cost": "",
-  "is_tripit_booking": false,
-  "is_concur_booked": "",
+export const lodgingSample = {
+  "id": {
+    "default": "",
+    "required": false
+  },
+  "uuid": {
+    "default": "",
+    "required": false
+  },
+  "trip_id": {
+    "default": "",
+    "required": false
+  },
+  "trip_uuid": {
+    "default": "",
+    "required": false
+  },
+  "is_client_traveler": {
+    "default": false,
+    "required": false
+  },
+  "relative_url": {
+    "default": "",
+    "required": false
+  },
+  "display_name": {
+    "default": "",
+    "required": true
+  },
+  "is_display_name_auto_generated": {
+    "default": "",
+    "required": false
+  },
+  "last_modified": {
+    "default": "",
+    "required": false
+  },
+  "booking_rate": {
+    "default": "",
+    "required": false
+  },
+  "booking_site_conf_num": {
+    "default": "",
+    "required": false
+  },
+  "booking_site_name": {
+    "default": "",
+    "required": false
+  },
+  "booking_site_phone": {
+    "default": "",
+    "required": false
+  },
+  "booking_site_url": {
+    "default": "",
+    "required": false
+  },
+  "supplier_conf_num": {
+    "default": "",
+    "required": false
+  },
+  "supplier_contact": {
+    "default": "",
+    "required": false
+  },
+  "supplier_email_address": {
+    "default": "",
+    "required": false
+  },
+  "supplier_name": {
+    "default": "",
+    "required": false
+  },
+  "supplier_phone": {
+    "default": "",
+    "required": false
+  },
+  "supplier_url": {
+    "default": "",
+    "required": false
+  },
+  "is_purchased": {
+    "default": false,
+    "required": false
+  },
+  "notes": {
+    "default": "",
+    "required": false
+  },
+  "restrictions": {
+    "default": "",
+    "required": false
+  },
+  "total_cost": {
+    "default": "",
+    "required": false
+  },
+  "is_tripit_booking": {
+    "default": false,
+    "required": false
+  },
+  "is_concur_booked": {
+    "default": "",
+    "required": false
+  },
   "StartDateTime": {
-    "date": "",
-    "time": "",
-    "timezone": "",
-    "utc_offset": "",
-    "is_timezone_manual": ""
+    "date": {
+      "default": "",
+      "required": true
+    },
+    "time": {
+      "default": "",
+      "required": true
+    },
+    "timezone": {
+      "default": "",
+      "required": true
+    },
+    "utc_offset": {
+      "default": "",
+      "required": false
+    },
+    "is_timezone_manual": {
+      "default": "",
+      "required": false
+    }
   },
   "EndDateTime": {
-    "date": "",
-    "time": "",
-    "timezone": "",
-    "utc_offset": "",
-    "is_timezone_manual": ""
+    "date": {
+      "default": "",
+      "required": true
+    },
+    "time": {
+      "default": "",
+      "required": true
+    },
+    "timezone": {
+      "default": "",
+      "required": true
+    },
+    "utc_offset": {
+      "default": "",
+      "required": false
+    },
+    "is_timezone_manual": {
+      "default": "",
+      "required": false
+    }
   },
   "EstimatedStartDateTime": {
-    "date": "",
-    "time": "",
-    "timezone": "",
-    "utc_offset": "",
-    "is_timezone_manual": ""
+    "date": {
+      "default": "",
+      "required": true
+    },
+    "time": {
+      "default": "",
+      "required": true
+    },
+    "timezone": {
+      "default": "",
+      "required": true
+    },
+    "utc_offset": {
+      "default": "",
+      "required": false
+    },
+    "is_timezone_manual": {
+      "default": "",
+      "required": false
+    }
   },
   "Address": {
-    "address": "",
-    "city": "",
-    "state": "",
-    "zip": "",
-    "country": "",
-    "latitude": "",
-    "longitude": "",
-    "risk_level": ""
+    "address": {
+      "default": "",
+      "required": true
+    },
+    "city": {
+      "default": "",
+      "required": false
+    },
+    "state": {
+      "default": "",
+      "required": false
+    },
+    "zip": {
+      "default": "",
+      "required": false
+    },
+    "country": {
+      "default": "",
+      "required": false
+    },
+    "latitude": {
+      "default": "",
+      "required": false
+    },
+    "longitude": {
+      "default": "",
+      "required": false
+    },
+    "risk_level": {
+      "default": "",
+      "required": false
+    }
   },
-  "number_guests": "",
-  "number_rooms": "",
-  "room_type": "",
-  "Image": []
-};
-
-export const lodgingSampleResponse: ILodgingResponse = {
-  "timestamp": "",
-  "num_bytes": "",
-  "Warning": {
-    "description": "",
-    "entity_type": "",
-    "timestamp": ""
+  "number_guests": {
+    "default": "",
+    "required": false
   },
-  "LodgingObject": {
-    "id": "",
-    "uuid": "",
-    "trip_id": "",
-    "trip_uuid": "",
-    "is_client_traveler": false,
-    "relative_url": "",
-    "display_name": "",
-    "is_display_name_auto_generated": "",
-    "last_modified": "",
-    "booking_rate": "",
-    "booking_site_conf_num": "",
-    "booking_site_name": "",
-    "booking_site_phone": "",
-    "booking_site_url": "",
-    "supplier_conf_num": "",
-    "supplier_contact": "",
-    "supplier_email_address": "",
-    "supplier_name": "",
-    "supplier_phone": "",
-    "supplier_url": "",
-    "is_purchased": false,
-    "notes": "",
-    "restrictions": "",
-    "total_cost": "",
-    "is_tripit_booking": false,
-    "is_concur_booked": "",
-    "StartDateTime": {
-      "date": "",
-      "time": "",
-      "timezone": "",
-      "utc_offset": "",
-      "is_timezone_manual": ""
-    },
-    "EndDateTime": {
-      "date": "",
-      "time": "",
-      "timezone": "",
-      "utc_offset": "",
-      "is_timezone_manual": ""
-    },
-    "EstimatedStartDateTime": {
-      "date": "",
-      "time": "",
-      "timezone": "",
-      "utc_offset": "",
-      "is_timezone_manual": ""
-    },
-    "Address": {
-      "address": "",
-      "city": "",
-      "state": "",
-      "zip": "",
-      "country": "",
-      "latitude": "",
-      "longitude": "",
-      "risk_level": ""
-    },
-    "number_guests": "",
-    "number_rooms": "",
-    "room_type": "",
-    "Image": []
+  "number_rooms": {
+    "default": "",
+    "required": false
+  },
+  "room_type": {
+    "default": "",
+    "required": false
+  },
+  "Image": {
+    "default": [],
+    "required": false
   }
 };
 
-export const createCreateLodgingParams: ICreateLodgingParams = {
-  "bookingRate": "",
-  "bookingSiteConfNum": "",
-  "bookingSiteName": "",
-  "bookingSitePhone": "",
-  "bookingSiteUrl": "",
-  "recordLocator": "",
-  "supplierConfNum": "",
-  "supplierContact": "",
-  "supplierEmailAddress": "",
-  "supplierPhone": "",
-  "supplierUrl": "",
-  "notes": "",
-  "restrictions": "",
-  "totalCost": "",
-  "bookingDate": "",
-  "isPurchased": false,
-  "tripId": "",
-  "hotelName": "",
-  "checkInDate": "",
-  "checkOutDate": "",
-  "checkInTime": "",
-  "checkOutTime": "",
-  "timezone": "",
-  "street": "",
-  "city": "",
-  "state": "",
-  "zip": "",
-  "country": "",
-  "numberGuests": 0,
-  "numberRooms": 0,
-  "roomType": ""
+export const lodgingSampleResponse = {
+  "timestamp": {
+    "default": "",
+    "required": false
+  },
+  "num_bytes": {
+    "default": "",
+    "required": false
+  },
+  "Warning": {
+    "description": {
+      "default": "",
+      "required": true
+    },
+    "entity_type": {
+      "default": "",
+      "required": true
+    },
+    "timestamp": {
+      "default": "",
+      "required": true
+    }
+  },
+  "LodgingObject": {
+    "id": {
+      "default": "",
+      "required": false
+    },
+    "uuid": {
+      "default": "",
+      "required": false
+    },
+    "trip_id": {
+      "default": "",
+      "required": false
+    },
+    "trip_uuid": {
+      "default": "",
+      "required": false
+    },
+    "is_client_traveler": {
+      "default": false,
+      "required": false
+    },
+    "relative_url": {
+      "default": "",
+      "required": false
+    },
+    "display_name": {
+      "default": "",
+      "required": true
+    },
+    "is_display_name_auto_generated": {
+      "default": "",
+      "required": false
+    },
+    "last_modified": {
+      "default": "",
+      "required": false
+    },
+    "booking_rate": {
+      "default": "",
+      "required": false
+    },
+    "booking_site_conf_num": {
+      "default": "",
+      "required": false
+    },
+    "booking_site_name": {
+      "default": "",
+      "required": false
+    },
+    "booking_site_phone": {
+      "default": "",
+      "required": false
+    },
+    "booking_site_url": {
+      "default": "",
+      "required": false
+    },
+    "supplier_conf_num": {
+      "default": "",
+      "required": false
+    },
+    "supplier_contact": {
+      "default": "",
+      "required": false
+    },
+    "supplier_email_address": {
+      "default": "",
+      "required": false
+    },
+    "supplier_name": {
+      "default": "",
+      "required": false
+    },
+    "supplier_phone": {
+      "default": "",
+      "required": false
+    },
+    "supplier_url": {
+      "default": "",
+      "required": false
+    },
+    "is_purchased": {
+      "default": false,
+      "required": false
+    },
+    "notes": {
+      "default": "",
+      "required": false
+    },
+    "restrictions": {
+      "default": "",
+      "required": false
+    },
+    "total_cost": {
+      "default": "",
+      "required": false
+    },
+    "is_tripit_booking": {
+      "default": false,
+      "required": false
+    },
+    "is_concur_booked": {
+      "default": "",
+      "required": false
+    },
+    "StartDateTime": {
+      "date": {
+        "default": "",
+        "required": true
+      },
+      "time": {
+        "default": "",
+        "required": true
+      },
+      "timezone": {
+        "default": "",
+        "required": true
+      },
+      "utc_offset": {
+        "default": "",
+        "required": false
+      },
+      "is_timezone_manual": {
+        "default": "",
+        "required": false
+      }
+    },
+    "EndDateTime": {
+      "date": {
+        "default": "",
+        "required": true
+      },
+      "time": {
+        "default": "",
+        "required": true
+      },
+      "timezone": {
+        "default": "",
+        "required": true
+      },
+      "utc_offset": {
+        "default": "",
+        "required": false
+      },
+      "is_timezone_manual": {
+        "default": "",
+        "required": false
+      }
+    },
+    "EstimatedStartDateTime": {
+      "date": {
+        "default": "",
+        "required": true
+      },
+      "time": {
+        "default": "",
+        "required": true
+      },
+      "timezone": {
+        "default": "",
+        "required": true
+      },
+      "utc_offset": {
+        "default": "",
+        "required": false
+      },
+      "is_timezone_manual": {
+        "default": "",
+        "required": false
+      }
+    },
+    "Address": {
+      "address": {
+        "default": "",
+        "required": true
+      },
+      "city": {
+        "default": "",
+        "required": false
+      },
+      "state": {
+        "default": "",
+        "required": false
+      },
+      "zip": {
+        "default": "",
+        "required": false
+      },
+      "country": {
+        "default": "",
+        "required": false
+      },
+      "latitude": {
+        "default": "",
+        "required": false
+      },
+      "longitude": {
+        "default": "",
+        "required": false
+      },
+      "risk_level": {
+        "default": "",
+        "required": false
+      }
+    },
+    "number_guests": {
+      "default": "",
+      "required": false
+    },
+    "number_rooms": {
+      "default": "",
+      "required": false
+    },
+    "room_type": {
+      "default": "",
+      "required": false
+    },
+    "Image": {
+      "default": [],
+      "required": false
+    }
+  }
 };
 
-export const updateUpdateLodgingParams: IUpdateLodgingParams = {
-  "uuid": "",
-  "tripId": "",
-  "isPurchased": false,
-  "Image": [],
-  "bookingRate": "",
-  "bookingSiteConfNum": "",
-  "bookingSiteName": "",
-  "bookingSitePhone": "",
-  "bookingSiteUrl": "",
-  "recordLocator": "",
-  "supplierConfNum": "",
-  "supplierContact": "",
-  "supplierEmailAddress": "",
-  "supplierPhone": "",
-  "supplierUrl": "",
-  "notes": "",
-  "restrictions": "",
-  "totalCost": "",
-  "bookingDate": "",
-  "hotelName": "",
-  "checkInDate": "",
-  "checkOutDate": "",
-  "checkInTime": "",
-  "checkOutTime": "",
-  "timezone": "",
-  "street": "",
-  "city": "",
-  "state": "",
-  "zip": "",
-  "country": "",
-  "numberGuests": 0,
-  "numberRooms": 0,
-  "roomType": ""
+export const createCreateLodgingParams = {
+  "bookingRate": {
+    "default": "",
+    "required": false
+  },
+  "bookingSiteConfNum": {
+    "default": "",
+    "required": false
+  },
+  "bookingSiteName": {
+    "default": "",
+    "required": false
+  },
+  "bookingSitePhone": {
+    "default": "",
+    "required": false
+  },
+  "bookingSiteUrl": {
+    "default": "",
+    "required": false
+  },
+  "recordLocator": {
+    "default": "",
+    "required": false
+  },
+  "supplierConfNum": {
+    "default": "",
+    "required": false
+  },
+  "supplierContact": {
+    "default": "",
+    "required": false
+  },
+  "supplierEmailAddress": {
+    "default": "",
+    "required": false
+  },
+  "supplierPhone": {
+    "default": "",
+    "required": false
+  },
+  "supplierUrl": {
+    "default": "",
+    "required": false
+  },
+  "notes": {
+    "default": "",
+    "required": false
+  },
+  "restrictions": {
+    "default": "",
+    "required": false
+  },
+  "totalCost": {
+    "default": "",
+    "required": false
+  },
+  "bookingDate": {
+    "default": "",
+    "required": false
+  },
+  "isPurchased": {
+    "default": false,
+    "required": false
+  },
+  "tripId": {
+    "default": "",
+    "required": true
+  },
+  "hotelName": {
+    "default": "",
+    "required": true
+  },
+  "checkInDate": {
+    "default": "",
+    "required": true
+  },
+  "checkOutDate": {
+    "default": "",
+    "required": true
+  },
+  "checkInTime": {
+    "default": "",
+    "required": true
+  },
+  "checkOutTime": {
+    "default": "",
+    "required": true
+  },
+  "timezone": {
+    "default": "",
+    "required": true
+  },
+  "street": {
+    "default": "",
+    "required": true
+  },
+  "city": {
+    "default": "",
+    "required": true
+  },
+  "state": {
+    "default": "",
+    "required": true
+  },
+  "zip": {
+    "default": "",
+    "required": true
+  },
+  "country": {
+    "default": "",
+    "required": true
+  },
+  "numberGuests": {
+    "default": 0,
+    "required": false
+  },
+  "numberRooms": {
+    "default": 0,
+    "required": false
+  },
+  "roomType": {
+    "default": "",
+    "required": false
+  }
+};
+
+export const updateUpdateLodgingParams = {
+  "uuid": {
+    "default": "",
+    "required": true
+  },
+  "tripId": {
+    "default": "",
+    "required": false
+  },
+  "isPurchased": {
+    "default": false,
+    "required": false
+  },
+  "Image": {
+    "default": [],
+    "required": false
+  },
+  "bookingRate": {
+    "default": "",
+    "required": false
+  },
+  "bookingSiteConfNum": {
+    "default": "",
+    "required": false
+  },
+  "bookingSiteName": {
+    "default": "",
+    "required": false
+  },
+  "bookingSitePhone": {
+    "default": "",
+    "required": false
+  },
+  "bookingSiteUrl": {
+    "default": "",
+    "required": false
+  },
+  "recordLocator": {
+    "default": "",
+    "required": false
+  },
+  "supplierConfNum": {
+    "default": "",
+    "required": false
+  },
+  "supplierContact": {
+    "default": "",
+    "required": false
+  },
+  "supplierEmailAddress": {
+    "default": "",
+    "required": false
+  },
+  "supplierPhone": {
+    "default": "",
+    "required": false
+  },
+  "supplierUrl": {
+    "default": "",
+    "required": false
+  },
+  "notes": {
+    "default": "",
+    "required": false
+  },
+  "restrictions": {
+    "default": "",
+    "required": false
+  },
+  "totalCost": {
+    "default": "",
+    "required": false
+  },
+  "bookingDate": {
+    "default": "",
+    "required": false
+  },
+  "hotelName": {
+    "default": "",
+    "required": false
+  },
+  "checkInDate": {
+    "default": "",
+    "required": false
+  },
+  "checkOutDate": {
+    "default": "",
+    "required": false
+  },
+  "checkInTime": {
+    "default": "",
+    "required": false
+  },
+  "checkOutTime": {
+    "default": "",
+    "required": false
+  },
+  "timezone": {
+    "default": "",
+    "required": false
+  },
+  "street": {
+    "default": "",
+    "required": false
+  },
+  "city": {
+    "default": "",
+    "required": false
+  },
+  "state": {
+    "default": "",
+    "required": false
+  },
+  "zip": {
+    "default": "",
+    "required": false
+  },
+  "country": {
+    "default": "",
+    "required": false
+  },
+  "numberGuests": {
+    "default": 0,
+    "required": false
+  },
+  "numberRooms": {
+    "default": 0,
+    "required": false
+  },
+  "roomType": {
+    "default": "",
+    "required": false
+  }
 };
 

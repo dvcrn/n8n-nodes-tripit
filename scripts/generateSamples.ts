@@ -172,17 +172,18 @@ function generateEmptyObjectFromInterface(
               const typeText = member.type.getText(sourceFile);
 
               if (typeText.includes("string")) {
-                defaultValue = "";
+                defaultValue = { default: "", required: !member.questionToken };
               } else if (typeText.includes("number")) {
-                defaultValue = 0;
+                defaultValue = { default: 0, required: !member.questionToken };
               } else if (typeText.includes("boolean")) {
-                defaultValue = false;
-                //   } else if (typeText.includes("Date")) {
-                //     defaultValue = new Date().toISOString();
+                defaultValue = {
+                  default: false,
+                  required: !member.questionToken,
+                };
               } else if (typeText.includes("[]")) {
-                defaultValue = [];
+                defaultValue = { default: [], required: !member.questionToken };
               } else if (typeText.includes("{")) {
-                defaultValue = {};
+                defaultValue = { default: {}, required: !member.questionToken };
               } else if (/I[A-Z]/.test(typeText)) {
                 // Try to resolve the interface
                 const referencedType = typeText.split("|")[0].trim();
@@ -235,7 +236,14 @@ function generateEmptyObjectFromInterface(
             }
 
             // Assign the default value to the property
-            result[propertyName] = defaultValue;
+            if (typeof defaultValue !== "object") {
+              result[propertyName] = {
+                default: defaultValue,
+                required: !member.questionToken,
+              };
+            } else {
+              result[propertyName] = defaultValue;
+            }
           }
         }
       });
@@ -342,7 +350,7 @@ function generateSampleFile(interfaceFilePath: string): void {
       }
 
       // Add to output content
-      outputContent += `export const ${variableName}: ${interfaceName} = ${JSON.stringify(
+      outputContent += `export const ${variableName} = ${JSON.stringify(
         sampleObject,
         null,
         2

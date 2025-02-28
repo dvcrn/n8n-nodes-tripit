@@ -3,6 +3,7 @@ import {
   NodeParameterValue,
   NodePropertyTypes,
 } from "n8n-workflow";
+import { SchemaDefinition } from "./interfaces";
 
 /**
  * Converts a camelCase property name to display name format
@@ -56,13 +57,15 @@ export function orderProperties(
  * Generates n8n properties from TypeScript interfaces
  */
 export function generateProperties<T>(
-  params: T,
+  params: SchemaDefinition<T>,
   fieldOrder: readonly string[],
   operation: "create" | "update" | "list" | "addToTrip",
   resource: string
 ): INodeProperties[] {
   const props: INodeProperties[] = [];
-  const paramEntries = Object.entries(params as Record<string, unknown>);
+  const paramEntries = Object.entries(
+    params as Record<string, { required: boolean; default?: unknown }>
+  );
 
   for (const [field, value] of paramEntries) {
     // Skip tripId for update operations as it's handled separately
@@ -78,25 +81,17 @@ export function generateProperties<T>(
       displayName,
       name: field,
       type: propType,
-      default: value as NodeParameterValue,
-      required:
-        operation === "create" &&
-        !field.endsWith("?") &&
-        field !== "isPurchased" &&
-        field !== "notes" &&
-        field !== "totalCost" &&
-        field !== "bookingRate" &&
-        field !== "restrictions" &&
-        field !== "numberGuests" &&
-        field !== "numberRooms" &&
-        field !== "roomType",
+      default: value.default as NodeParameterValue,
+      required: value.required as boolean,
       displayOptions: {
         show: {
           resource: [resource],
           operation: [operation],
         },
       },
-      description: `The ${displayName.toLowerCase()}`,
+      description: `The ${displayName.toLowerCase()}${
+        value.required ? " (Required Field)" : ""
+      }`,
     };
 
     props.push(prop);

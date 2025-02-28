@@ -1,122 +1,404 @@
 // Auto-generated sample data - Do not modify manually
 import { ITrip, ITripResponse, ITripWithObjectsResponse, ICreateTripParams, IListTripsParams } from "./trip.interface";
 
-export const tripSample: ITrip = {
-  "id": "",
-  "uuid": "",
-  "display_name": "",
-  "start_date": "",
-  "end_date": "",
-  "primary_location": "",
-  "is_private": "",
-  "trip_name": "",
-  "image_url": "",
-  "relative_url": "",
-  "start_date_display": "",
-  "end_date_display": "",
-  "PrimaryLocationAddress": {
-    "address": "",
-    "city": "",
-    "state": "",
-    "zip": "",
-    "country": "",
-    "latitude": "",
-    "longitude": "",
-    "risk_level": ""
+export const tripSample = {
+  "id": {
+    "default": "",
+    "required": false
   },
-  "is_pro_enabled": "",
-  "last_modified": "",
-  "is_concur_linked": "",
-  "public_guid": "",
-  "is_trip_owner_inner_circle_sharer": ""
-};
-
-export const tripSampleResponse: ITripResponse = {
-  "timestamp": "",
-  "num_bytes": "",
-  "Trip": {
-    "id": "",
-    "uuid": "",
-    "display_name": "",
-    "start_date": "",
-    "end_date": "",
-    "primary_location": "",
-    "is_private": "",
-    "trip_name": "",
-    "image_url": "",
-    "relative_url": "",
-    "start_date_display": "",
-    "end_date_display": "",
-    "PrimaryLocationAddress": {
-      "address": "",
-      "city": "",
-      "state": "",
-      "zip": "",
-      "country": "",
-      "latitude": "",
-      "longitude": "",
-      "risk_level": ""
+  "uuid": {
+    "default": "",
+    "required": false
+  },
+  "display_name": {
+    "default": "",
+    "required": true
+  },
+  "start_date": {
+    "default": "",
+    "required": true
+  },
+  "end_date": {
+    "default": "",
+    "required": true
+  },
+  "primary_location": {
+    "default": "",
+    "required": false
+  },
+  "is_private": {
+    "default": "",
+    "required": false
+  },
+  "trip_name": {
+    "default": "",
+    "required": false
+  },
+  "image_url": {
+    "default": "",
+    "required": false
+  },
+  "relative_url": {
+    "default": "",
+    "required": false
+  },
+  "start_date_display": {
+    "default": "",
+    "required": false
+  },
+  "end_date_display": {
+    "default": "",
+    "required": false
+  },
+  "PrimaryLocationAddress": {
+    "address": {
+      "default": "",
+      "required": true
     },
-    "is_pro_enabled": "",
-    "last_modified": "",
-    "is_concur_linked": "",
-    "public_guid": "",
-    "is_trip_owner_inner_circle_sharer": ""
+    "city": {
+      "default": "",
+      "required": false
+    },
+    "state": {
+      "default": "",
+      "required": false
+    },
+    "zip": {
+      "default": "",
+      "required": false
+    },
+    "country": {
+      "default": "",
+      "required": false
+    },
+    "latitude": {
+      "default": "",
+      "required": false
+    },
+    "longitude": {
+      "default": "",
+      "required": false
+    },
+    "risk_level": {
+      "default": "",
+      "required": false
+    }
+  },
+  "is_pro_enabled": {
+    "default": "",
+    "required": false
+  },
+  "last_modified": {
+    "default": "",
+    "required": false
+  },
+  "is_concur_linked": {
+    "default": "",
+    "required": false
+  },
+  "public_guid": {
+    "default": "",
+    "required": false
+  },
+  "is_trip_owner_inner_circle_sharer": {
+    "default": "",
+    "required": false
   }
 };
 
-export const tripWithObjectsSampleResponse: ITripWithObjectsResponse = {
-  "ActivityObject": [],
-  "LodgingObject": [],
-  "TransportObject": [],
-  "AirObject": [],
-  "timestamp": "",
-  "num_bytes": "",
+export const tripSampleResponse = {
+  "timestamp": {
+    "default": "",
+    "required": false
+  },
+  "num_bytes": {
+    "default": "",
+    "required": false
+  },
   "Trip": {
-    "id": "",
-    "uuid": "",
-    "display_name": "",
-    "start_date": "",
-    "end_date": "",
-    "primary_location": "",
-    "is_private": "",
-    "trip_name": "",
-    "image_url": "",
-    "relative_url": "",
-    "start_date_display": "",
-    "end_date_display": "",
-    "PrimaryLocationAddress": {
-      "address": "",
-      "city": "",
-      "state": "",
-      "zip": "",
-      "country": "",
-      "latitude": "",
-      "longitude": "",
-      "risk_level": ""
+    "id": {
+      "default": "",
+      "required": false
     },
-    "is_pro_enabled": "",
-    "last_modified": "",
-    "is_concur_linked": "",
-    "public_guid": "",
-    "is_trip_owner_inner_circle_sharer": ""
+    "uuid": {
+      "default": "",
+      "required": false
+    },
+    "display_name": {
+      "default": "",
+      "required": true
+    },
+    "start_date": {
+      "default": "",
+      "required": true
+    },
+    "end_date": {
+      "default": "",
+      "required": true
+    },
+    "primary_location": {
+      "default": "",
+      "required": false
+    },
+    "is_private": {
+      "default": "",
+      "required": false
+    },
+    "trip_name": {
+      "default": "",
+      "required": false
+    },
+    "image_url": {
+      "default": "",
+      "required": false
+    },
+    "relative_url": {
+      "default": "",
+      "required": false
+    },
+    "start_date_display": {
+      "default": "",
+      "required": false
+    },
+    "end_date_display": {
+      "default": "",
+      "required": false
+    },
+    "PrimaryLocationAddress": {
+      "address": {
+        "default": "",
+        "required": true
+      },
+      "city": {
+        "default": "",
+        "required": false
+      },
+      "state": {
+        "default": "",
+        "required": false
+      },
+      "zip": {
+        "default": "",
+        "required": false
+      },
+      "country": {
+        "default": "",
+        "required": false
+      },
+      "latitude": {
+        "default": "",
+        "required": false
+      },
+      "longitude": {
+        "default": "",
+        "required": false
+      },
+      "risk_level": {
+        "default": "",
+        "required": false
+      }
+    },
+    "is_pro_enabled": {
+      "default": "",
+      "required": false
+    },
+    "last_modified": {
+      "default": "",
+      "required": false
+    },
+    "is_concur_linked": {
+      "default": "",
+      "required": false
+    },
+    "public_guid": {
+      "default": "",
+      "required": false
+    },
+    "is_trip_owner_inner_circle_sharer": {
+      "default": "",
+      "required": false
+    }
   }
 };
 
-export const createCreateTripParams: ICreateTripParams = {
-  "displayName": "",
-  "startDate": "",
-  "endDate": "",
-  "primaryLocation": ""
+export const tripWithObjectsSampleResponse = {
+  "ActivityObject": {
+    "default": [],
+    "required": false
+  },
+  "LodgingObject": {
+    "default": [],
+    "required": false
+  },
+  "TransportObject": {
+    "default": [],
+    "required": false
+  },
+  "AirObject": {
+    "default": [],
+    "required": false
+  },
+  "timestamp": {
+    "default": "",
+    "required": false
+  },
+  "num_bytes": {
+    "default": "",
+    "required": false
+  },
+  "Trip": {
+    "id": {
+      "default": "",
+      "required": false
+    },
+    "uuid": {
+      "default": "",
+      "required": false
+    },
+    "display_name": {
+      "default": "",
+      "required": true
+    },
+    "start_date": {
+      "default": "",
+      "required": true
+    },
+    "end_date": {
+      "default": "",
+      "required": true
+    },
+    "primary_location": {
+      "default": "",
+      "required": false
+    },
+    "is_private": {
+      "default": "",
+      "required": false
+    },
+    "trip_name": {
+      "default": "",
+      "required": false
+    },
+    "image_url": {
+      "default": "",
+      "required": false
+    },
+    "relative_url": {
+      "default": "",
+      "required": false
+    },
+    "start_date_display": {
+      "default": "",
+      "required": false
+    },
+    "end_date_display": {
+      "default": "",
+      "required": false
+    },
+    "PrimaryLocationAddress": {
+      "address": {
+        "default": "",
+        "required": true
+      },
+      "city": {
+        "default": "",
+        "required": false
+      },
+      "state": {
+        "default": "",
+        "required": false
+      },
+      "zip": {
+        "default": "",
+        "required": false
+      },
+      "country": {
+        "default": "",
+        "required": false
+      },
+      "latitude": {
+        "default": "",
+        "required": false
+      },
+      "longitude": {
+        "default": "",
+        "required": false
+      },
+      "risk_level": {
+        "default": "",
+        "required": false
+      }
+    },
+    "is_pro_enabled": {
+      "default": "",
+      "required": false
+    },
+    "last_modified": {
+      "default": "",
+      "required": false
+    },
+    "is_concur_linked": {
+      "default": "",
+      "required": false
+    },
+    "public_guid": {
+      "default": "",
+      "required": false
+    },
+    "is_trip_owner_inner_circle_sharer": {
+      "default": "",
+      "required": false
+    }
+  }
 };
 
-export const listTripsSampleParams: IListTripsParams = {
-  "pageSize": 0,
-  "pageNum": 0,
-  "past": false,
-  "modifiedSince": 0,
-  "includeObjects": false,
-  "excludeTypes": "",
-  "traveler": ""
+export const createCreateTripParams = {
+  "displayName": {
+    "default": "",
+    "required": true
+  },
+  "startDate": {
+    "default": "",
+    "required": true
+  },
+  "endDate": {
+    "default": "",
+    "required": true
+  },
+  "primaryLocation": {
+    "default": "",
+    "required": false
+  }
+};
+
+export const listTripsSampleParams = {
+  "pageSize": {
+    "default": 0,
+    "required": true
+  },
+  "pageNum": {
+    "default": 0,
+    "required": true
+  },
+  "past": {
+    "default": false,
+    "required": true
+  },
+  "modifiedSince": {
+    "default": 0,
+    "required": true
+  },
+  "includeObjects": {
+    "default": false,
+    "required": true
+  },
+  "excludeTypes": {
+    "default": "",
+    "required": true
+  },
+  "traveler": {
+    "default": "",
+    "required": true
+  }
 };
 
