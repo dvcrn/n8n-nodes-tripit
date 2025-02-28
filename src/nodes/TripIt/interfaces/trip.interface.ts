@@ -1,3 +1,4 @@
+import { IDataObject } from "n8n-workflow";
 import { IActivity } from "./activity.interface";
 import { IAir } from "./air.interface";
 import { ILodging } from "./lodging.interface";
@@ -6,7 +7,7 @@ import { ITransport } from "./transport.interface";
 /**
  * Interface representing a trip in TripIt
  */
-export interface ITrip {
+export interface ITrip extends IDataObject {
   id?: string;
   uuid?: string;
   display_name: string;

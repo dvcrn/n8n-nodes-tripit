@@ -52,23 +52,23 @@ export async function handleFlightOperation(
     returnData.push({ json: response });
   }
 
-  if (operation === "getInfo") {
-    const flightNumber = this.getNodeParameter("flightNumber", 0) as string;
-    const endpoint = "/v2/flightInfo";
-    const params = {
-      format: "json",
-      flight_num: flightNumber,
-    };
+  // if (operation === "getInfo") {
+  //   const flightNumber = this.getNodeParameter("flightNumber", 0) as string;
+  //   const endpoint = "/v2/flightInfo";
+  //   const params = {
+  //     format: "json",
+  //     flight_num: flightNumber,
+  //   };
 
-    const response = await tripIt.makeApiRequest(
-      "GET",
-      endpoint,
-      credentials,
-      undefined,
-      params
-    );
-    returnData.push({ json: response.data });
-  }
+  //   const response = await tripIt.makeApiRequest(
+  //     "GET",
+  //     endpoint,
+  //     credentials,
+  //     undefined,
+  //     params
+  //   );
+  //   returnData.push({ json: response.data });
+  // }
 
   if (operation === "update") {
     const params: IUpdateFlightParams = {

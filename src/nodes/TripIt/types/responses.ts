@@ -6,6 +6,13 @@ export interface ITripResponse extends IDataObject {
   Trip: ITrip;
 }
 
+export interface IListTripsResponse extends IDataObject {
+  Trip: ITrip[];
+  page_num: string;
+  page_size: string;
+  max_page: string;
+}
+
 export interface IActivityResponse extends IDataObject {
   ActivityObject: IActivity;
 }

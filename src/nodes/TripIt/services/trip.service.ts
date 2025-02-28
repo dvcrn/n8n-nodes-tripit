@@ -6,7 +6,10 @@ import {
   ITrip,
   ITripResponse,
 } from "../interfaces";
-import { ITripWithObjectsResponse } from "../types/responses";
+import {
+  IListTripsResponse,
+  ITripWithObjectsResponse,
+} from "../types/responses";
 
 export class TripService extends BaseService {
   /**
@@ -32,7 +35,7 @@ export class TripService extends BaseService {
    * Lists trips based on provided parameters
    */
   async listTrips(credentials: ITripItCredentials, params: IListTripsParams) {
-    const endpoint = "/v1/list/trip";
+    const endpoint = "/v2/list/trip";
     const queryParams = {
       format: "json",
       page_size: params.pageSize.toString(),
@@ -44,7 +47,7 @@ export class TripService extends BaseService {
       traveler: params.traveler,
     };
 
-    return this.makeRequest<{ Trip: Array<{ id: string }> }>(
+    return this.makeRequest<IListTripsResponse>(
       "GET",
       endpoint,
       credentials,
