@@ -3,6 +3,7 @@ import { IActivity } from "./activity.interface";
 import { IAir } from "./air.interface";
 import { ILodging } from "./lodging.interface";
 import { ITransport } from "./transport.interface";
+import { IAddress } from "./common.interface";
 
 /**
  * Interface representing a trip in TripIt
@@ -20,29 +21,22 @@ export interface ITrip extends IDataObject {
   relative_url?: string;
   start_date_display?: string;
   end_date_display?: string;
-  TripInvitees?: {
-    Invitee: {
-      "@attributes": {
-        profile_ref: string;
-      };
-      is_read_only: string;
-      is_traveler: string;
-      is_owner: string;
-    };
-  };
-  PrimaryLocationAddress?: {
-    address: string;
-    city: string;
-    state: string;
-    country: string;
-    latitude: string;
-    longitude: string;
-  };
+  // TripInvitees?: {
+  //   Invitee: {
+  //     "@attributes": {
+  //       profile_ref: string;
+  //     };
+  //     is_read_only: string;
+  //     is_traveler: string;
+  //     is_owner: string;
+  //   };
+  // };
+  PrimaryLocationAddress?: IAddress;
   is_pro_enabled?: string;
-  TripPurposes?: {
-    purpose_type_code: string;
-    is_auto_generated: string;
-  };
+  // TripPurposes?: {
+  //   purpose_type_code: string;
+  //   is_auto_generated: string;
+  // };
   last_modified?: string;
   is_concur_linked?: string;
   public_guid?: string;
@@ -61,11 +55,14 @@ export interface ITripResponse {
 /**
  * Interface for trip response with all objects
  */
-export interface ITripWithObjectsResponse extends ITripResponse {
+export interface ITripWithObjectsResponse {
   ActivityObject?: IActivity[];
   LodgingObject?: ILodging[];
   TransportObject?: ITransport[];
   AirObject?: IAir[];
+  timestamp?: string;
+  num_bytes?: string;
+  Trip: ITrip;
 }
 
 /**
@@ -87,6 +84,6 @@ export interface IListTripsParams {
   past: boolean;
   modifiedSince: number;
   includeObjects: boolean;
-  excludeTypes?: string;
-  traveler?: string;
+  excludeTypes: string;
+  traveler: string;
 }

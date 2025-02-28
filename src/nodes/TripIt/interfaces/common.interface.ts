@@ -23,6 +23,11 @@ export interface IAddress {
   risk_level?: string;
 }
 
+export interface IImageData {
+  content: string;
+  mime_type: string;
+}
+
 /**
  * Common interface for image attachments
  */
@@ -32,10 +37,7 @@ export interface IImage {
   id?: string;
   uuid?: string;
   thumbnail_url?: string;
-  ImageData?: {
-    content: string;
-    mime_type: string;
-  };
+  ImageData?: IImageData;
   segment_uuid?: string; // Used in flight segments
 }
 
@@ -49,6 +51,15 @@ export interface IAgency {
   agency_email_address?: string;
   agency_url?: string;
   agency_contact?: string;
+}
+
+/**
+ * Common interface for warning information
+ */
+export interface IWarning {
+  description: string;
+  entity_type: string;
+  timestamp: string;
 }
 
 /**

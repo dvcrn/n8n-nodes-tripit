@@ -4,6 +4,7 @@ import {
   IImage,
   IBookingDetails,
   IBaseUpdateParams,
+  IWarning,
 } from "./common.interface";
 
 /**
@@ -36,11 +37,7 @@ export interface IAir extends IBaseTravelObject {
 export interface IAirResponse {
   timestamp?: string;
   num_bytes?: string;
-  Warning?: {
-    description: string;
-    entity_type: string;
-    timestamp: string;
-  };
+  Warning?: IWarning;
   AirObject: IAir;
 }
 

@@ -5,6 +5,7 @@ import {
   IImage,
   IBookingDetails,
   IBaseUpdateParams,
+  IWarning,
 } from "./common.interface";
 
 /**
@@ -27,11 +28,7 @@ export interface ILodging extends IBaseTravelObject {
 export interface ILodgingResponse {
   timestamp?: string;
   num_bytes?: string;
-  Warning?: {
-    description: string;
-    entity_type: string;
-    timestamp: string;
-  };
+  Warning?: IWarning;
   LodgingObject: ILodging;
 }
 
@@ -39,8 +36,7 @@ export interface ILodgingResponse {
  * Interface for creating a new lodging booking
  * Note: number and boolean fields are converted to strings by the service
  */
-export interface ICreateLodgingParams
-  extends Omit<IBookingDetails, "isPurchased"> {
+export interface ICreateLodgingParams extends IBookingDetails {
   tripId: string;
   hotelName: string;
   checkInDate: string;
@@ -68,7 +64,8 @@ export interface ICreateLodgingParams
  * Note: number and boolean fields are converted to strings by the service
  */
 export interface IUpdateLodgingParams
-  extends Omit<IBaseUpdateParams & Partial<IBookingDetails>, "isPurchased"> {
+  extends IBaseUpdateParams,
+    IBookingDetails {
   hotelName?: string;
   checkInDate?: string;
   checkOutDate?: string;

@@ -1,7 +1,7 @@
 import { IBaseUpdateParams, IBookingDetails, IImage } from "./common.interface";
 
 // Common address fields that could be moved to common.interface.ts if needed by other types
-interface IAddress {
+export interface IAddress {
   street?: string;
   city?: string;
   state?: string;

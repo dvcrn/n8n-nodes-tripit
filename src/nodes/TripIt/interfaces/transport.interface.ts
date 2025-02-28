@@ -4,6 +4,7 @@ import {
   IAddress,
   IImage,
   ITraveler,
+  IWarning,
 } from "./common.interface";
 
 /**
@@ -55,11 +56,7 @@ export interface ITransport extends IBaseTravelObject {
 export interface ITransportResponse {
   timestamp?: string;
   num_bytes?: string;
-  Warning?: {
-    description: string;
-    entity_type: string;
-    timestamp: string;
-  };
+  Warning?: IWarning;
   TransportObject: ITransport;
 }
 

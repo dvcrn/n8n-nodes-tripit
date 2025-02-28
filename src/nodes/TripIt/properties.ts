@@ -1,4 +1,12 @@
 import { INodeProperties } from "n8n-workflow";
+import { LODGING_FIELD_ORDER } from "../../interfaces/TripItInterfaces";
+import { generateProperties } from "./propertyUtils";
+import { ICreateLodgingParams } from "./interfaces";
+import { IUpdateLodgingParams } from "./interfaces";
+import {
+  createCreateLodgingParams,
+  updateUpdateLodgingParams,
+} from "./interfaces/lodging.gen";
 
 export const tripProperties: INodeProperties[] = [
   // Create operation properties
@@ -1295,331 +1303,71 @@ export const activityProperties: INodeProperties[] = [
   },
 ];
 
+// Generate hotel properties for create operation
+const createHotelProperties = generateProperties<ICreateLodgingParams>(
+  createCreateLodgingParams,
+  LODGING_FIELD_ORDER,
+  "create",
+  "hotel"
+);
+
+// Generate hotel properties for update operation
+const updateHotelProperties = generateProperties<IUpdateLodgingParams>(
+  updateUpdateLodgingParams,
+  LODGING_FIELD_ORDER,
+  "update",
+  "hotel"
+);
+
+console.log("createHotelProperties", createHotelProperties);
+console.log("updateHotelProperties", updateHotelProperties);
+
 export const hotelProperties: INodeProperties[] = [
-  {
-    displayName: "Hotel Name",
-    name: "hotelName",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The name of the hotel",
-  },
-  {
-    displayName: "Update Hotel Name",
-    name: "update_hotelName",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the hotel name",
-  },
-  {
-    displayName: "Hotel Name",
-    name: "hotelName",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["update"],
-        update_hotelName: [true],
-      },
-    },
-    description: "The new name of the hotel",
-  },
-  {
-    displayName: "Check-in Date",
-    name: "checkInDate",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The check-in date (YYYY-MM-DD)",
-  },
-  {
-    displayName: "Update Check-in Date",
-    name: "update_checkInDate",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the check-in date",
-  },
-  {
-    displayName: "Check-in Date",
-    name: "checkInDate",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["update"],
-        update_checkInDate: [true],
-      },
-    },
-    description: "The new check-in date (YYYY-MM-DD)",
-  },
-  {
-    displayName: "Check-out Date",
-    name: "checkOutDate",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The check-out date (YYYY-MM-DD)",
-  },
-  {
-    displayName: "Update Check-out Date",
-    name: "update_checkOutDate",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the check-out date",
-  },
-  {
-    displayName: "Check-out Date",
-    name: "checkOutDate",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["update"],
-        update_checkOutDate: [true],
-      },
-    },
-    description: "The new check-out date (YYYY-MM-DD)",
-  },
-  {
-    displayName: "Check-in Time",
-    name: "checkInTime",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The check-in time (HH:MM)",
-  },
-  {
-    displayName: "Update Check-in Time",
-    name: "update_checkInTime",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the check-in time",
-  },
-  {
-    displayName: "Check-in Time",
-    name: "checkInTime",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["update"],
-        update_checkInTime: [true],
-      },
-    },
-    description: "The new check-in time (HH:MM)",
-  },
-  {
-    displayName: "Check-out Time",
-    name: "checkOutTime",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The check-out time (HH:MM)",
-  },
-  {
-    displayName: "Update Check-out Time",
-    name: "update_checkOutTime",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["update"],
-      },
-    },
-    description: "Whether to update the check-out time",
-  },
-  {
-    displayName: "Check-out Time",
-    name: "checkOutTime",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["update"],
-        update_checkOutTime: [true],
-      },
-    },
-    description: "The new check-out time (HH:MM)",
-  },
-  {
-    displayName: "Timezone",
-    name: "timezone",
-    type: "string",
-    default: "UTC",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The timezone of the hotel",
-  },
-  {
-    displayName: "Number of Guests",
-    name: "numberGuests",
-    type: "number",
-    default: 1,
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The number of guests",
-  },
-  {
-    displayName: "Number of Rooms",
-    name: "numberRooms",
-    type: "number",
-    default: 1,
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The number of rooms",
-  },
-  {
-    displayName: "Room Type",
-    name: "roomType",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The room type",
-  },
+  ...createHotelProperties,
+  ...updateHotelProperties,
   // Hotel Address Fields
   {
-    displayName: "Street",
-    name: "street",
+    displayName: "Document Name",
+    name: "documentName",
     type: "string",
     default: "",
     displayOptions: {
       show: {
         resource: ["hotel"],
-        operation: ["addToTrip"],
+        operation: ["attachDocument"],
       },
     },
-    description: "The street address of the hotel",
+    description: "The name of the document to attach",
   },
   {
-    displayName: "City",
-    name: "city",
+    displayName: "Document Content",
+    name: "documentContent",
     type: "string",
     default: "",
     displayOptions: {
       show: {
         resource: ["hotel"],
-        operation: ["addToTrip"],
+        operation: ["attachDocument"],
       },
     },
-    description: "The city where the hotel is located",
+    description: "The content of the document to attach (base64 encoded)",
   },
   {
-    displayName: "State",
-    name: "state",
+    displayName: "Document Type",
+    name: "documentType",
     type: "string",
-    default: "",
+    default: "application/pdf",
     displayOptions: {
       show: {
         resource: ["hotel"],
-        operation: ["addToTrip"],
+        operation: ["attachDocument"],
       },
     },
-    description: "The state where the hotel is located",
-  },
-  {
-    displayName: "ZIP Code",
-    name: "zip",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The ZIP code of the hotel",
-  },
-  {
-    displayName: "Country",
-    name: "country",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The country where the hotel is located",
+    description: "The MIME type of the document to attach",
   },
 ];
+
+console.log("hotelProperties", hotelProperties);
 
 export const commonReservationProperties: INodeProperties[] = [
   {
