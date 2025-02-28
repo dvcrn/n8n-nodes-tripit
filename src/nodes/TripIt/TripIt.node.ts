@@ -55,7 +55,6 @@ export class TripIt implements INodeType {
       ...flightProperties,
       ...hotelProperties,
       ...activityProperties,
-      ...commonReservationProperties,
       ...transportProperties,
     ],
   };

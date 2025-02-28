@@ -109,6 +109,25 @@ export const AIR_SEGMENT_FIELD_ORDER = [
   "is_international",
   // "does_cross_idl",
 ] as const;
+
+export const CREATE_TRIP_FIELD_ORDER = [
+  "display_name",
+  "start_date",
+  "end_date",
+  "primary_location",
+] as const;
+
+export const LIST_TRIP_FIELD_ORDER = [
+  "format",
+  "page_size",
+  "page_num",
+  "past",
+  "modified_since",
+  "include_objects",
+  "exclude_types",
+  "traveler",
+] as const;
+
 export interface ITraveler {
   name: string;
   email?: string;

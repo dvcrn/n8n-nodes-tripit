@@ -58,7 +58,7 @@ export function orderProperties(
 export function generateProperties<T>(
   params: T,
   fieldOrder: readonly string[],
-  operation: "create" | "update",
+  operation: "create" | "update" | "list" | "addToTrip",
   resource: string
 ): INodeProperties[] {
   const props: INodeProperties[] = [];
@@ -68,10 +68,9 @@ export function generateProperties<T>(
     // Skip tripId for update operations as it's handled separately
     if (operation === "update" && field === "tripId") continue;
     // Skip uuid for create operations as it's not needed
-    if (operation === "create" && field === "uuid") continue;
+    if (operation === "addToTrip" && field === "uuid") continue;
 
     const displayName = toDisplayName(field);
-    const operationValue = operation === "create" ? "addToTrip" : "update";
 
     // Determine the property type
     const propType = getPropertyType(value);
@@ -94,7 +93,7 @@ export function generateProperties<T>(
       displayOptions: {
         show: {
           resource: [resource],
-          operation: [operationValue],
+          operation: [operation],
         },
       },
       description: `The ${displayName.toLowerCase()}`,

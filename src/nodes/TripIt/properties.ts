@@ -3,9 +3,16 @@ import {
   LODGING_FIELD_ORDER,
   ACTIVITY_FIELD_ORDER,
   AIR_FIELD_ORDER,
+  CREATE_TRIP_FIELD_ORDER,
+  LIST_TRIP_FIELD_ORDER,
 } from "../../interfaces/TripItInterfaces";
 import { generateProperties } from "./propertyUtils";
-import { ICreateLodgingParams, IUpdateLodgingParams } from "./interfaces";
+import {
+  ICreateLodgingParams,
+  ICreateTripParams,
+  IListTripsParams,
+  IUpdateLodgingParams,
+} from "./interfaces";
 import {
   ICreateActivityParams,
   IUpdateActivityParams,
@@ -33,64 +40,28 @@ import {
 } from "./interfaces/lodging.gen";
 import { TRANSPORT_FIELD_ORDER } from "./handlers/transport.handler";
 
+import {
+  createCreateTripParams,
+  listTripsSampleParams,
+} from "./interfaces/trip.gen";
+
+const createTripProperties = generateProperties<ICreateTripParams>(
+  createCreateTripParams,
+  CREATE_TRIP_FIELD_ORDER, // todo update
+  "create",
+  "trip"
+);
+
+const listTripProperties = generateProperties<IListTripsParams>(
+  listTripsSampleParams,
+  LIST_TRIP_FIELD_ORDER, // todo update
+  "list",
+  "trip"
+);
+
 export const tripProperties: INodeProperties[] = [
-  // Create operation properties
-  {
-    displayName: "Display Name",
-    name: "displayName",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["trip"],
-        operation: ["create"],
-      },
-    },
-    description: "Trip Name",
-  },
-  {
-    displayName: "Start Date",
-    name: "startDate",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["trip"],
-        operation: ["create"],
-      },
-    },
-    description: "The Start Date of the trip",
-  },
-  {
-    displayName: "End Date",
-    name: "endDate",
-    type: "string",
-    required: true,
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["trip"],
-        operation: ["create"],
-      },
-    },
-    description: "The End Date of the trip",
-  },
-  {
-    displayName: "Primary Location",
-    name: "primaryLocation",
-    type: "string",
-    required: true,
-    default: "Tokyo, Japan",
-    displayOptions: {
-      show: {
-        resource: ["trip"],
-        operation: ["create"],
-      },
-    },
-    description: "Primary Location of the trip",
-  },
+  ...createTripProperties,
+  ...listTripProperties,
 
   // getWithObjects operation properties
   {
@@ -109,118 +80,41 @@ export const tripProperties: INodeProperties[] = [
   },
 
   // list operation properties
-  {
-    displayName: "Include Past Trips",
-    name: "past",
-    type: "boolean",
-    default: true,
-    displayOptions: {
-      show: {
-        resource: ["trip"],
-        operation: ["list"],
-      },
-    },
-    description: "Whether to include past trips in the results",
-  },
-  {
-    displayName: "Page Size",
-    name: "pageSize",
-    type: "number",
-    default: 50,
-    displayOptions: {
-      show: {
-        resource: ["trip"],
-        operation: ["list"],
-      },
-    },
-    description: "Number of trips to return per page",
-  },
-  {
-    displayName: "Page Number",
-    name: "pageNum",
-    type: "number",
-    default: 1,
-    displayOptions: {
-      show: {
-        resource: ["trip"],
-        operation: ["list"],
-      },
-    },
-    description: "Page number to return",
-  },
-  {
-    displayName: "Modified Since",
-    name: "modifiedSince",
-    type: "number",
-    default: 0,
-    displayOptions: {
-      show: {
-        resource: ["trip"],
-        operation: ["list"],
-      },
-    },
-    description: "Only return trips modified since this Unix timestamp",
-  },
-  {
-    displayName: "Include Objects",
-    name: "includeObjects",
-    type: "boolean",
-    default: false,
-    displayOptions: {
-      show: {
-        resource: ["trip"],
-        operation: ["list"],
-      },
-    },
-    description: "Whether to include detailed objects in the response",
-  },
-  {
-    displayName: "Traveler Filter",
-    name: "traveler",
-    type: "options",
-    default: "all",
-    options: [
-      {
-        name: "All",
-        value: "all",
-      },
-      {
-        name: "Only True",
-        value: "true",
-      },
-      {
-        name: "Only False",
-        value: "false",
-      },
-    ],
-    displayOptions: {
-      show: {
-        resource: ["trip"],
-        operation: ["list"],
-      },
-    },
-    description: "Filter trips by traveler status",
-  },
-  {
-    displayName: "Exclude Types",
-    name: "excludeTypes",
-    type: "string",
-    default: "weather",
-    displayOptions: {
-      show: {
-        resource: ["trip"],
-        operation: ["list"],
-      },
-    },
-    description: "Comma-separated list of object types to exclude",
-  },
+  // {
+  //   displayName: "Traveler Filter",
+  //   name: "traveler",
+  //   type: "options",
+  //   default: "all",
+  //   options: [
+  //     {
+  //       name: "All",
+  //       value: "all",
+  //     },
+  //     {
+  //       name: "Only True",
+  //       value: "true",
+  //     },
+  //     {
+  //       name: "Only False",
+  //       value: "false",
+  //     },
+  //   ],
+  //   displayOptions: {
+  //     show: {
+  //       resource: ["trip"],
+  //       operation: ["list"],
+  //     },
+  //   },
+  //   description: "Filter trips by traveler status",
+  // },
 ];
 
+console.log("tripProperties:", JSON.stringify(tripProperties, null, 2));
 // Generate transport properties for create operation
 const createTransportProperties = generateProperties<ICreateTransportParams>(
   createCreateTransportParams,
   TRANSPORT_FIELD_ORDER,
-  "create",
+  "addToTrip",
   "transport"
 );
 
@@ -280,7 +174,7 @@ export const transportProperties: INodeProperties[] = [
 const createFlightProperties = generateProperties<ICreateAirParams>(
   createCreateAirParams,
   AIR_FIELD_ORDER,
-  "create",
+  "addToTrip",
   "flight"
 );
 
@@ -355,7 +249,7 @@ export const flightProperties: INodeProperties[] = [
 const createActivityProperties = generateProperties<ICreateActivityParams>(
   createCreateActivityParams,
   ACTIVITY_FIELD_ORDER,
-  "create",
+  "addToTrip",
   "activity"
 );
 
@@ -415,7 +309,7 @@ export const activityProperties: INodeProperties[] = [
 const createHotelProperties = generateProperties<ICreateLodgingParams>(
   createCreateLodgingParams,
   LODGING_FIELD_ORDER,
-  "create",
+  "addToTrip",
   "hotel"
 );
 
@@ -426,9 +320,6 @@ const updateHotelProperties = generateProperties<IUpdateLodgingParams>(
   "update",
   "hotel"
 );
-
-console.log("createHotelProperties", createHotelProperties);
-console.log("updateHotelProperties", updateHotelProperties);
 
 export const hotelProperties: INodeProperties[] = [
   ...createHotelProperties,
@@ -474,8 +365,6 @@ export const hotelProperties: INodeProperties[] = [
     description: "The MIME type of the document to attach",
   },
 ];
-
-console.log("hotelProperties", hotelProperties);
 
 export const commonReservationProperties: INodeProperties[] = [
   {
@@ -804,18 +693,6 @@ export const operationOptions: INodeProperties[] = [
         description: "Get a trip with all its objects",
         action: "Get a trip with all its objects",
       },
-      {
-        name: "Update",
-        value: "update",
-        description: "Update a trip",
-        action: "Update a trip",
-      },
-      {
-        name: "Attach Document",
-        value: "attachDocument",
-        description: "Attach a document to a trip",
-        action: "Attach a document to a trip",
-      },
     ],
     default: "create",
   },
@@ -836,12 +713,12 @@ export const operationOptions: INodeProperties[] = [
         description: "Add a flight to an existing trip",
         action: "Add a flight to a trip",
       },
-      {
-        name: "Get Flight Info",
-        value: "getInfo",
-        description: "Get flight information",
-        action: "Get flight information",
-      },
+      // {
+      //   name: "Get Flight Info",
+      //   value: "getInfo",
+      //   description: "Get flight information",
+      //   action: "Get flight information",
+      // },
       {
         name: "Update",
         value: "update",
