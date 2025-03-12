@@ -50,6 +50,7 @@ export class TripIt implements INodeType {
     ],
     properties: [
       resourceOptions,
+      ...commonReservationProperties,
       ...operationOptions,
       ...tripProperties,
       ...flightProperties,

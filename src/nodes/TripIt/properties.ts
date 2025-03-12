@@ -128,45 +128,6 @@ const updateTransportProperties = generateProperties<IUpdateTransportParams>(
 export const transportProperties: INodeProperties[] = [
   ...createTransportProperties,
   ...updateTransportProperties,
-  {
-    displayName: "Document Name",
-    name: "documentName",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["attachDocument"],
-      },
-    },
-    description: "The name of the document to attach",
-  },
-  {
-    displayName: "Document Content",
-    name: "documentContent",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["attachDocument"],
-      },
-    },
-    description: "The content of the document to attach (base64 encoded)",
-  },
-  {
-    displayName: "Document Type",
-    name: "documentType",
-    type: "string",
-    default: "application/pdf",
-    displayOptions: {
-      show: {
-        resource: ["transport"],
-        operation: ["attachDocument"],
-      },
-    },
-    description: "The MIME type of the document to attach",
-  },
 ];
 
 // Generate flight properties for create operation
@@ -188,45 +149,6 @@ const updateFlightProperties = generateProperties<IUpdateAirParams>(
 export const flightProperties: INodeProperties[] = [
   ...createFlightProperties,
   ...updateFlightProperties,
-  {
-    displayName: "Document Name",
-    name: "documentName",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["attachDocument"],
-      },
-    },
-    description: "The name of the document to attach",
-  },
-  {
-    displayName: "Document Content",
-    name: "documentContent",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["attachDocument"],
-      },
-    },
-    description: "The content of the document to attach (base64 encoded)",
-  },
-  {
-    displayName: "Document Type",
-    name: "documentType",
-    type: "string",
-    default: "application/pdf",
-    displayOptions: {
-      show: {
-        resource: ["flight"],
-        operation: ["attachDocument"],
-      },
-    },
-    description: "The MIME type of the document to attach",
-  },
   // Additional flight-specific properties for getInfo operation
   // {
   //   displayName: "Flight Number",
@@ -263,45 +185,6 @@ const updateActivityProperties = generateProperties<IUpdateActivityParams>(
 export const activityProperties: INodeProperties[] = [
   ...createActivityProperties,
   ...updateActivityProperties,
-  {
-    displayName: "Document Name",
-    name: "documentName",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["attachDocument"],
-      },
-    },
-    description: "The name of the document to attach",
-  },
-  {
-    displayName: "Document Content",
-    name: "documentContent",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["attachDocument"],
-      },
-    },
-    description: "The content of the document to attach (base64 encoded)",
-  },
-  {
-    displayName: "Document Type",
-    name: "documentType",
-    type: "string",
-    default: "application/pdf",
-    displayOptions: {
-      show: {
-        resource: ["activity"],
-        operation: ["attachDocument"],
-      },
-    },
-    description: "The MIME type of the document to attach",
-  },
 ];
 
 // Generate hotel properties for create operation
@@ -324,68 +207,18 @@ export const hotelProperties: INodeProperties[] = [
   ...createHotelProperties,
   ...updateHotelProperties,
   // Hotel Address Fields
-  {
-    displayName: "Document Name",
-    name: "documentName",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["attachDocument"],
-      },
-    },
-    description: "The name of the document to attach",
-  },
-  {
-    displayName: "Document Content",
-    name: "documentContent",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["attachDocument"],
-      },
-    },
-    description: "The content of the document to attach (base64 encoded)",
-  },
-  {
-    displayName: "Document Type",
-    name: "documentType",
-    type: "string",
-    default: "application/pdf",
-    displayOptions: {
-      show: {
-        resource: ["hotel"],
-        operation: ["attachDocument"],
-      },
-    },
-    description: "The MIME type of the document to attach",
-  },
 ];
 
 export const commonReservationProperties: INodeProperties[] = [
   {
-    displayName: "Trip ID",
-    name: "tripId",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The ID of the trip to add the reservation to",
-  },
-  {
-    displayName: "UUID",
+    displayName: "Object UUID",
     name: "uuid",
     type: "string",
     default: "",
     displayOptions: {
       show: {
-        operation: ["update", "attachDocument"],
+        resource: ["hotel", "flight", "activity", "transport"],
+        operation: ["attachDocument"],
       },
     },
     description: "The UUID of the object to update or attach document to",
@@ -397,6 +230,7 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
+        resource: ["hotel", "flight", "activity", "transport"],
         operation: ["attachDocument"],
       },
     },
@@ -409,6 +243,7 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "",
     displayOptions: {
       show: {
+        resource: ["hotel", "flight", "activity", "transport"],
         operation: ["attachDocument"],
       },
     },
@@ -421,214 +256,11 @@ export const commonReservationProperties: INodeProperties[] = [
     default: "application/pdf",
     displayOptions: {
       show: {
+        resource: ["hotel", "flight", "activity", "transport"],
         operation: ["attachDocument"],
       },
     },
     description: "The MIME type of the document to attach",
-  },
-  {
-    displayName: "Booking Rate",
-    name: "bookingRate",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The booking rate",
-  },
-  {
-    displayName: "Booking Site Confirmation Number",
-    name: "bookingSiteConfNum",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The confirmation number from the booking site",
-  },
-  {
-    displayName: "Booking Site Name",
-    name: "bookingSiteName",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The name of the booking site",
-  },
-  {
-    displayName: "Booking Site Phone",
-    name: "bookingSitePhone",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The phone number of the booking site",
-  },
-  {
-    displayName: "Booking Site URL",
-    name: "bookingSiteUrl",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The URL of the booking site",
-  },
-  {
-    displayName: "Record Locator",
-    name: "recordLocator",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The record locator number",
-  },
-  {
-    displayName: "Supplier Confirmation Number",
-    name: "supplierConfNum",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The confirmation number from the supplier",
-  },
-  {
-    displayName: "Supplier Contact",
-    name: "supplierContact",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The contact information for the supplier",
-  },
-  {
-    displayName: "Supplier Email",
-    name: "supplierEmailAddress",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The email address of the supplier",
-  },
-  {
-    displayName: "Supplier Phone",
-    name: "supplierPhone",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The phone number of the supplier",
-  },
-  {
-    displayName: "Supplier URL",
-    name: "supplierUrl",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The URL of the supplier",
-  },
-  {
-    displayName: "Notes",
-    name: "notes",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "Additional notes about the reservation",
-  },
-  {
-    displayName: "Restrictions",
-    name: "restrictions",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "Any restrictions on the reservation",
-  },
-  {
-    displayName: "Total Cost",
-    name: "totalCost",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The total cost of the reservation",
-  },
-  {
-    displayName: "Cancellation Date/Time",
-    name: "cancellationDateTime",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The cancellation deadline (YYYY-MM-DDTHH:mm:ss)",
-  },
-  {
-    displayName: "Booking Date",
-    name: "bookingDate",
-    type: "string",
-    default: "",
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "The date the reservation was booked (YYYY-MM-DD)",
-  },
-  {
-    displayName: "Is Purchased",
-    name: "isPurchased",
-    type: "boolean",
-    default: true,
-    displayOptions: {
-      show: {
-        operation: ["addToTrip"],
-      },
-    },
-    description: "Whether the reservation has been purchased",
   },
 ];
 
