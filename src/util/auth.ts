@@ -4,6 +4,9 @@ import { CookieJar as NodeFetchCookieJar } from "tough-cookie";
 import * as crypto from "crypto";
 import * as cheerio from "cheerio";
 
+// TripIt mobile app client ID (public, extracted from iOS/Android app)
+const TRIPIT_CLIENT_ID = "e400234a-f684-11e7-9d05-9cb654932688";
+
 interface TokenResponse {
   access_token: string;
   refresh_token?: string; // Optional since we don't always get it
@@ -26,7 +29,6 @@ interface LoginFormResponse {
 }
 
 interface TripItAuthConfig {
-  clientId: string;
   username: string;
   password: string;
 }
@@ -100,7 +102,7 @@ export class TripItAuth {
 
     const authUrl =
       `${this.baseUrl}/auth/oauth2/authorize?` +
-      `client_id=${encodeURIComponent(this.config.clientId)}` +
+      `client_id=${encodeURIComponent(TRIPIT_CLIENT_ID)}` +
       `&response_type=code` +
       `&redirect_uri=${encodeURIComponent(this.redirectUri)}` +
       `&scope=${encodeURIComponent(this.scopes)}` +
@@ -317,7 +319,7 @@ export class TripItAuth {
     tokenParams.append("grant_type", "authorization_code");
     tokenParams.append("code", code);
     tokenParams.append("redirect_uri", this.redirectUri);
-    tokenParams.append("client_id", this.config.clientId);
+    tokenParams.append("client_id", TRIPIT_CLIENT_ID);
     tokenParams.append("code_verifier", codeVerifier);
 
     this.log("Exchanging authorization code for tokens...");
@@ -339,7 +341,7 @@ export class TripItAuth {
   }
 
   private getCacheKey(): string {
-    return `${this.config.clientId}:${this.config.username}`;
+    return `${TRIPIT_CLIENT_ID}:${this.config.username}`;
   }
 
   private getCachedToken(): TokenCache | undefined {
@@ -365,7 +367,7 @@ export class TripItAuth {
     const refreshParams = new URLSearchParams();
     refreshParams.append("grant_type", "refresh_token");
     refreshParams.append("refresh_token", refreshToken);
-    refreshParams.append("client_id", this.config.clientId);
+    refreshParams.append("client_id", TRIPIT_CLIENT_ID);
     // NO client_secret needed for PKCE
 
     const res = await fetch(`${this.apiBaseUrl}/oauth2/token`, {

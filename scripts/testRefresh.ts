@@ -6,7 +6,6 @@ dotenv.config();
 
 async function testRefreshFlow() {
   const credentials: ITripItCredentials = {
-    clientId: process.env.TRIPIT_CLIENT_ID!,
     username: process.env.TRIPIT_USERNAME!,
     password: process.env.TRIPIT_PASSWORD!,
   };
@@ -32,7 +31,7 @@ async function testRefreshFlow() {
   console.log("3. Forcing cache expiration to test refresh flow...");
   // Access the private static tokenCache via reflection
   const TripItAuthClass = auth1.constructor as any;
-  const cacheKey = `${credentials.clientId}:${credentials.username}`;
+  const cacheKey = `e400234a-f684-11e7-9d05-9cb654932688:${credentials.username}`;
   const cache = TripItAuthClass.tokenCache.get(cacheKey);
 
   if (cache && cache.refreshToken) {

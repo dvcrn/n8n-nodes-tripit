@@ -8,7 +8,6 @@ dotenv.config();
 async function main() {
   // Verify required environment variables
   const requiredEnvVars = [
-    "TRIPIT_CLIENT_ID",
     "TRIPIT_USERNAME",
     "TRIPIT_PASSWORD",
   ];
@@ -22,7 +21,6 @@ async function main() {
   }
 
   const credentials: ITripItCredentials = {
-    clientId: process.env.TRIPIT_CLIENT_ID!,
     username: process.env.TRIPIT_USERNAME!,
     password: process.env.TRIPIT_PASSWORD!,
   };

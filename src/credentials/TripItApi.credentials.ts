@@ -12,12 +12,6 @@ export class TripItApi implements ICredentialType {
   documentationUrl = "https://www.tripit.com/developer";
   properties: INodeProperties[] = [
     {
-      displayName: "Client ID",
-      name: "clientId",
-      type: "string",
-      default: "",
-    },
-    {
       displayName: "Username",
       name: "username",
       type: "string",
@@ -39,7 +33,6 @@ export class TripItApi implements ICredentialType {
     requestOptions: IHttpRequestOptions
   ): Promise<IHttpRequestOptions> {
     const auth = new TripItAuth({
-      clientId: credentials.clientId as string,
       username: credentials.username as string,
       password: credentials.password as string,
     });
