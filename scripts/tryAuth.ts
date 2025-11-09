@@ -39,7 +39,6 @@ const state = generateRandomString(16);
 
 // --- OAuth configuration ---
 const clientId = "";
-const clientSecret = "";
 const redirectUri = "com.tripit://completeAuthorize";
 const scopes = "offline_access email";
 
@@ -248,7 +247,7 @@ async function refreshAccessToken(
   refreshParams.append("grant_type", "refresh_token");
   refreshParams.append("refresh_token", refreshToken);
   refreshParams.append("client_id", clientId);
-  refreshParams.append("client_secret", clientSecret);
+  // NO client_secret needed for PKCE
 
   const res = await fetch(tokenEndpoint, {
     method: "POST",

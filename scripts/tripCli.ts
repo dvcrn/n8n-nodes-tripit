@@ -9,7 +9,6 @@ async function main() {
   // Verify required environment variables
   const requiredEnvVars = [
     "TRIPIT_CLIENT_ID",
-    "TRIPIT_CLIENT_SECRET",
     "TRIPIT_USERNAME",
     "TRIPIT_PASSWORD",
   ];
@@ -24,7 +23,6 @@ async function main() {
 
   const credentials: ITripItCredentials = {
     clientId: process.env.TRIPIT_CLIENT_ID!,
-    clientSecret: process.env.TRIPIT_CLIENT_SECRET!,
     username: process.env.TRIPIT_USERNAME!,
     password: process.env.TRIPIT_PASSWORD!,
   };
@@ -124,17 +122,25 @@ async function main() {
       traveler: "all",
     });
     console.log("Trips:", JSON.stringify(tripsResponse, null, 2));
-    console.log("Getting detail from trip...");
-    const trip = tripsResponse.Trip[0];
-    console.log(JSON.stringify(trip, null, 2));
-    const tripId = trip.id;
-    console.log("trip id -- ", tripId);
-    const tripDetailResponse = await service.getTripWithObjects(
-      credentials,
-      tripId
-    );
 
-    console.log(tripDetailResponse);
+    if (tripsResponse.Trip && tripsResponse.Trip.length > 0) {
+      console.log("Getting detail from trip...");
+      const trip = tripsResponse.Trip[0];
+      console.log(JSON.stringify(trip, null, 2));
+      const tripId = trip.id;
+      if (tripId) {
+        console.log("trip id -- ", tripId);
+        const tripDetailResponse = await service.getTripWithObjects(
+          credentials,
+          tripId
+        );
+        console.log(tripDetailResponse);
+      } else {
+        console.log("Trip has no ID.");
+      }
+    } else {
+      console.log("No trips found.");
+    }
     // console.log("Trip detail:", JSON.stringify(tripDetailResponse, null, 2));
   } catch (error) {
     console.error("Error:", error);

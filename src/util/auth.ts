@@ -14,6 +14,7 @@ interface TokenResponse {
 
 interface TokenCache {
   accessToken: string;
+  refreshToken?: string;
   expiresAt: number;
 }
 
@@ -26,7 +27,6 @@ interface LoginFormResponse {
 
 interface TripItAuthConfig {
   clientId: string;
-  clientSecret: string;
   username: string;
   password: string;
 }
@@ -45,7 +45,7 @@ export class TripItAuth {
     this.fetchWithCookie = fetchCookie(fetch as any, new NodeFetchCookieJar());
   }
   private redirectUri = "com.tripit://completeAuthorize";
-  private scopes = "offline_access email";
+  private scopes = "openid offline_access email";
   private static tokenCache: Map<string, TokenCache> = new Map();
 
   private log(...args: any[]) {
@@ -108,6 +108,7 @@ export class TripItAuth {
       `&code_challenge=${encodeURIComponent(codeChallenge)}` +
       `&code_challenge_method=S256` +
       `&response_mode=query` +
+      `&prompt=consent` +
       `&action=sign_in`;
 
     this.log("Auth URL:", authUrl);
@@ -319,6 +320,7 @@ export class TripItAuth {
     tokenParams.append("client_id", this.config.clientId);
     tokenParams.append("code_verifier", codeVerifier);
 
+    this.log("Exchanging authorization code for tokens...");
     const res = await fetch(`${this.apiBaseUrl}/oauth2/token`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -331,7 +333,9 @@ export class TripItAuth {
       );
     }
 
-    return (await res.json()) as TokenResponse;
+    const tokenResponse = (await res.json()) as TokenResponse;
+    this.log("Token response:", JSON.stringify(tokenResponse, null, 2));
+    return tokenResponse;
   }
 
   private getCacheKey(): string {
@@ -350,11 +354,39 @@ export class TripItAuth {
     const expiresAt = Date.now() + tokenResponse.expires_in * 1000;
     TripItAuth.tokenCache.set(this.getCacheKey(), {
       accessToken: tokenResponse.access_token,
+      refreshToken: tokenResponse.refresh_token,
       expiresAt,
     });
   }
 
+  private async refreshAccessToken(refreshToken: string): Promise<TokenResponse> {
+    this.log("Attempting to refresh access token...");
+
+    const refreshParams = new URLSearchParams();
+    refreshParams.append("grant_type", "refresh_token");
+    refreshParams.append("refresh_token", refreshToken);
+    refreshParams.append("client_id", this.config.clientId);
+    // NO client_secret needed for PKCE
+
+    const res = await fetch(`${this.apiBaseUrl}/oauth2/token`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: refreshParams.toString(),
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      this.log("Token refresh failed:", res.status, errorText);
+      throw new Error(`Token refresh failed: ${res.status} ${errorText}`);
+    }
+
+    const tokenResponse = (await res.json()) as TokenResponse;
+    this.log("Token refreshed successfully");
+    return tokenResponse;
+  }
+
   async getAccessToken(): Promise<TokenResponse> {
+    // Check if we have a valid cached token
     const cached = this.getCachedToken();
     if (cached) {
       return {
@@ -362,9 +394,26 @@ export class TripItAuth {
         token_type: "Bearer",
         expires_in: Math.floor((cached.expiresAt - Date.now()) / 1000),
         scope: this.scopes,
+        refresh_token: cached.refreshToken,
       };
     }
 
+    // Check if we have an expired token with a refresh token
+    const expiredCache = TripItAuth.tokenCache.get(this.getCacheKey());
+    if (expiredCache?.refreshToken) {
+      try {
+        this.log("Access token expired, attempting refresh...");
+        const tokenResponse = await this.refreshAccessToken(expiredCache.refreshToken);
+        this.cacheToken(tokenResponse);
+        return tokenResponse;
+      } catch (error) {
+        this.log("Token refresh failed, falling back to full authentication:", error);
+        // Continue to full authentication flow below
+      }
+    }
+
+    // Full authentication flow (no cached token or refresh failed)
+    this.log("Performing full authentication flow...");
     const { html, formAction, codeVerifier, state } = await this.getLoginForm();
     const redirectUrl = await this.submitLoginForm(html, formAction);
 

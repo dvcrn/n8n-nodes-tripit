@@ -18,15 +18,6 @@ export class TripItApi implements ICredentialType {
       default: "",
     },
     {
-      displayName: "Client Secret",
-      name: "clientSecret",
-      type: "string",
-      typeOptions: {
-        password: true,
-      },
-      default: "",
-    },
-    {
       displayName: "Username",
       name: "username",
       type: "string",
@@ -49,7 +40,6 @@ export class TripItApi implements ICredentialType {
   ): Promise<IHttpRequestOptions> {
     const auth = new TripItAuth({
       clientId: credentials.clientId as string,
-      clientSecret: credentials.clientSecret as string,
       username: credentials.username as string,
       password: credentials.password as string,
     });
